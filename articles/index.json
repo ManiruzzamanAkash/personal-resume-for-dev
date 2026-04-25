@@ -1,7 +1,29 @@
 {
+  "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
-    "welcome-to-my-blog.md",
-    "scaling-surecart-from-1k-to-100k.md",
-    "solid-principles-for-wordpress-plugins.md"
+    {
+      "file":     "welcome-to-my-blog.md",
+      "slug":     "welcome-to-my-blog",
+      "title":    "Welcome to my blog",
+      "date":     "2026-04-25",
+      "category": "Meta",
+      "excerpt":  "A short note on why I'm starting to write here, what to expect, and how this little site is built."
+    },
+    {
+      "file":     "scaling-surecart-from-1k-to-100k.md",
+      "slug":     "scaling-surecart-from-1k-to-100k",
+      "title":    "From 1K to 100K installs: lessons from scaling SureCart",
+      "date":     "2026-04-18",
+      "category": "Engineering",
+      "excerpt":  "What actually changes when a WordPress plugin goes from a few thousand installs to six figures — and what I'd do differently if I started over."
+    },
+    {
+      "file":     "solid-principles-for-wordpress-plugins.md",
+      "slug":     "solid-principles-for-wordpress-plugins",
+      "title":    "SOLID principles for WordPress plugins (without the dogma)",
+      "date":     "2026-04-10",
+      "category": "Architecture",
+      "excerpt":  "A practical, opinionated take on applying SOLID to real WordPress codebases — where it helps, where it hurts, and where it's just CS-class noise."
+    }
   ]
 }

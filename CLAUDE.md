@@ -1,8 +1,9 @@
 # CLAUDE.md — Project guide
 
-A static personal portfolio for **Maniruzzaman Akash**. No build step, no
-framework runtime — just React + Babel-standalone in the browser, with a
-file-based blog backed by Markdown.
+A static personal portfolio for **Md. Maniruzzaman Akash**, built with
+**Next.js 14 (App Router) + TypeScript** and statically exported. Deploy
+target is **Vercel** (auto-detected) but the `out/` directory works on
+any static host — Cloudflare Pages, Netlify, GitHub Pages, S3 + CloudFront.
 
 This file is the canonical map of the project. Read it before editing.
 
@@ -10,18 +11,21 @@ This file is the canonical map of the project. Read it before editing.
 
 ## Run it locally
 
-The site reads `articles/*.md` via `fetch()`, which won't work from `file://`.
-Serve the directory over HTTP:
-
 ```bash
-# Python (built-in, no install needed)
-python3 -m http.server 8000
-
-# or Node
-npx serve .
+npm install
+npm run dev          # → http://localhost:3000
 ```
 
-Then open http://localhost:8000.
+Build + verify the static export:
+
+```bash
+npm run build        # writes out/
+npx serve out        # smoke-test the export locally
+```
+
+The `dev` server hot-reloads. The `build` step pre-renders every public
+route — including each article — into static HTML, so the deployed site
+is indexable without ever executing JavaScript.
 
 ---
 
@@ -30,335 +34,271 @@ Then open http://localhost:8000.
 ```
 portfolio-main/
 ├── CLAUDE.md                 ← you are here
-├── index.html                ← entry. loads scripts in dependency order
-├── styles.css                ← root stylesheet — only @imports the files in styles/
-├── tweaks-panel.jsx          ← prebuilt host-aware tweaks UI (don't edit, has postMessage protocol)
-├── articles/                 ← blog content
-│   ├── index.json            ← list of article filenames (browsers can't list dirs)
-│   └── *.md                  ← one file per post, YAML frontmatter inside
-├── src/
-│   ├── App.jsx               ← root component + routing
-│   ├── lib.jsx               ← routing, theme, motion primitives, icons (I)
-│   ├── data.js               ← SITE, PROJECTS, EXPERIENCE, SKILLS, etc.
-│   ├── markdown.js           ← frontmatter parser + article loader
-│   ├── components.jsx        ← Nav, Footer, ContactCTA, ContribGrid, ...
-│   └── pages/
-│       ├── Home.jsx
-│       ├── Resume.jsx
-│       ├── Blog.jsx
-│       ├── Article.jsx
-│       └── Contact.jsx
-└── styles/                   ← per-section CSS, all imported by styles.css
-    ├── tokens.css            ← design tokens, fonts, reset, base primitives
-    ├── nav.css
-    ├── hero.css
-    ├── about.css
-    ├── projects.css
-    ├── skills.css
-    ├── testimonials.css
-    ├── contrib.css
-    ├── blog.css
-    ├── article.css
-    ├── resume.css
-    ├── contact.css
-    └── footer.css
+├── README.md
+├── package.json              ← Next.js + React + remark + gray-matter
+├── tsconfig.json
+├── next.config.mjs           ← static export, trailingSlash, etc.
+├── next-env.d.ts
+├── articles/                 ← markdown blog content
+│   ├── index.json            ← list of articles + metadata
+│   └── *.md                  ← one file per post
+├── public/                   ← served from / (favicon, og image, manifest)
+│   ├── assets/
+│   │   ├── favicon.svg
+│   │   └── og-default.svg
+│   └── manifest.json
+├── styles/                   ← per-section CSS, imported via app/globals.css
+│   ├── tokens.css
+│   ├── nav.css
+│   └── …
+├── lib/                      ← server-safe helpers + data
+│   ├── content.ts            ← CONTENT (typed) — single source of truth
+│   ├── seo.ts                ← buildMetadata + JSON-LD generators
+│   ├── markdown.ts           ← server-only article reader (gray-matter + remark)
+│   ├── tmpl.ts               ← {token} substitution
+│   ├── routing.ts            ← pathFor()
+│   ├── actions.ts            ← server-safe link resolver
+│   ├── calendly.ts           ← client-only openCalendly()
+│   └── theme.ts              ← client useTheme() hook
+├── components/               ← shared components (server + client)
+│   ├── Nav.tsx               (client — needs router state)
+│   ├── Footer.tsx
+│   ├── ContactCTA.tsx        (client)
+│   ├── ContactClient.tsx     (client form)
+│   ├── HomeHero.tsx          (client — magnetic + calendly)
+│   ├── HomeProjects.tsx      (client — hover preview)
+│   ├── HomeSections.tsx      (client — Marquee/Stats/About/Skills/Testimonials/Contributions)
+│   ├── TestimonialCarousel.tsx (client)
+│   ├── ContribGrid.tsx       (client)
+│   ├── Cursor.tsx            (client)
+│   ├── Magnetic.tsx          (client)
+│   ├── Reveal.tsx            (client)
+│   ├── Counter.tsx           (client)
+│   ├── Rich.tsx              (server-safe renderer)
+│   ├── icons.tsx             (server-safe icons)
+│   └── JsonLd.tsx            (server emits <script type="application/ld+json">)
+└── app/                      ← App Router routes
+    ├── layout.tsx            ← root <html>, global CSS, baseline JSON-LD
+    ├── globals.css           ← imports styles/*.css
+    ├── page.tsx              ← /
+    ├── resume/page.tsx       ← /resume
+    ├── blog/page.tsx         ← /blog
+    ├── contact/page.tsx      ← /contact
+    ├── article/[slug]/page.tsx ← /article/<slug>
+    ├── sitemap.ts            ← /sitemap.xml (auto from articles)
+    ├── robots.ts             ← /robots.txt
+    └── not-found.tsx         ← 404 page
 ```
 
 ---
 
-## How the runtime works (no build step)
+## How it works
 
-`index.html` loads each `<script type="text/babel">` in order. Babel-standalone
-compiles JSX in the browser at startup. Every file shares one global scope —
-top-level `const Foo = ...` declarations are visible to later scripts.
-
-**Implication:** load order in `index.html` matters. Dependencies must load
-before consumers. The current order is:
-
-```
-1. tweaks-panel.jsx     → useTweaks, TweaksPanel, TweakRadio, ...
-2. src/lib.jsx          → useHashRoute, navTo, useTheme, Cursor, Magnetic,
-                          Reveal, Counter, I (icons)
-3. src/data.js          → SITE, NAV_LINKS, PROJECTS, EXPERIENCE, SKILLS,
-                          TESTIMONIALS, STATS, OPEN_SOURCE, MARQUEE_WORDS
-4. src/markdown.js      → parseFrontmatter, fetchArticleIndex, fetchArticle,
-                          fetchAllArticles, renderMarkdown
-5. src/components.jsx   → Nav, Footer, ContactCTA, TestimonialCarousel,
-                          ContribGrid, buildContribGrid
-6. src/pages/*.jsx      → Home, ResumePage, BlogPage, ArticlePage, ContactPage
-7. src/App.jsx          → mounts <App /> to #app
-```
-
-If you add a new file, slot it into `index.html` after its dependencies.
-
----
-
-## Responsive behavior
-
-Single breakpoint: **`max-width: 900px`**. Above that = desktop layout, below =
-mobile. Per-section CSS files (`styles/*.css`) all use `@media (max-width:
-900px)` to switch grid columns to 1, drop side padding, etc.
-
-The nav has a real mobile menu: hamburger button (`.nav-toggle`) becomes
-visible on mobile and toggles the `.nav-links` panel as a slide-down
-dropdown. State is owned by the `Nav` component in `src/components.jsx`:
-
-- `menuOpen` toggles on hamburger click
-- Closes automatically when route changes (`useEffect` on `route`)
-- Locks `body.style.overflow` while open
-
-If you add a new top-level route, just append to `CONTENT.navigation` —
-it'll show up in both desktop pill row and mobile menu.
+- **Static export.** `next.config.mjs` sets `output: 'export'`. `npm run build`
+  writes a fully pre-rendered `out/` directory. No Node runtime is needed
+  to serve it.
+- **App Router.** Every page is a server component by default. Components
+  marked `'use client'` are bundled separately and hydrate on the client.
+- **Articles** live in `/articles/<slug>.md` with YAML frontmatter. The
+  build reads them via `lib/markdown.ts` (uses `gray-matter` + `remark`)
+  and emits one static `index.html` per slug under
+  `out/article/<slug>/`. `generateStaticParams` enumerates them.
+- **Content + SEO.** `lib/content.ts` holds the typed `CONTENT` object —
+  one source of truth for site identity, route metadata, FAQ, projects,
+  experience, skills, testimonials, page copy. `lib/seo.ts` reads from
+  it to produce per-route Next.js `Metadata` and JSON-LD payloads.
+- **Trailing slashes.** `trailingSlash: true` makes every public URL end
+  with `/` — `/blog/`, `/article/welcome-to-my-blog/`. Mirror this when
+  hand-writing links so canonical URLs match.
 
 ---
 
 ## Routing
 
-Hash-based, two segments: `#/route/param`.
+| URL                              | File                          |
+| -------------------------------- | ----------------------------- |
+| `/`                              | `app/page.tsx`                |
+| `/resume/`                       | `app/resume/page.tsx`         |
+| `/blog/`                         | `app/blog/page.tsx`           |
+| `/contact/`                      | `app/contact/page.tsx`        |
+| `/article/<slug>/`               | `app/article/[slug]/page.tsx` |
 
-| URL                          | Page                 |
-| ---------------------------- | -------------------- |
-| `#/` or `#/home`             | Home                 |
-| `#/resume`                   | Resume               |
-| `#/blog`                     | Blog list            |
-| `#/article/<slug>`           | Single article       |
-| `#/contact`                  | Contact              |
-
-Navigate programmatically via `navTo('blog')` or `navTo('article', 'my-slug')`.
-
-Add a route by:
-1. Creating the page component in `src/pages/`.
-2. Listing the file in `index.html`.
-3. Adding the conditional render in `src/App.jsx`.
-4. (Optional) Adding it to `NAV_LINKS` in `src/data.js`.
+Add a route by creating its page file under `app/` and adding the entry
+to `CONTENT.navigation` in `lib/content.ts`. The sitemap, breadcrumbs, and
+nav pick it up automatically.
 
 ---
 
 ## Adding a new article
 
-This is the workflow you'll use most. Three steps:
+1. **Create `articles/<slug>.md`** with frontmatter:
 
-### 1. Create the markdown file
+   ```markdown
+   ---
+   title: My new article
+   slug: my-new-article
+   date: 2026-04-30
+   category: Engineering
+   excerpt: One-sentence summary that shows up in the blog list.
+   readTime: 5 min
+   tags: [wordpress, php]
+   ---
 
-Path: `articles/<slug>.md`. The filename should match the slug.
+   # My new article
 
-```markdown
----
-title: My new article
-slug: my-new-article
-date: 2026-04-30
-category: Engineering
-excerpt: One-sentence summary that shows up in the blog list.
-readTime: 5 min
-tags: [wordpress, php]
----
+   Body in plain markdown — GFM works, code blocks get syntax-highlighted
+   via rehype-prism-plus.
+   ```
 
-# My new article
+2. **Register it in `articles/index.json`**:
 
-Body in plain markdown. All standard GFM works:
+   ```json
+   {
+     "articles": [
+       { "file": "my-new-article.md", "slug": "my-new-article", "title": "My new article", "date": "2026-04-30", "category": "Engineering", "excerpt": "..." }
+     ]
+   }
+   ```
 
-- Lists
-- **Bold** and *italic*
-- [Links](https://example.com)
-- `inline code` and fenced code blocks
-- > blockquotes
-
-Three dashes (`---`) for a horizontal rule.
-```
-
-**Frontmatter fields** (parsed by `src/markdown.js`):
-
-| Field     | Required | Notes                                                  |
-| --------- | -------- | ------------------------------------------------------ |
-| title     | yes      | Article title.                                         |
-| slug      | rec.     | URL slug. Defaults to filename without `.md`.          |
-| date      | yes      | ISO date `YYYY-MM-DD`. Used for sort + display.        |
-| category  | no       | Shown in list and on the article page header.          |
-| excerpt   | no       | One-sentence preview shown in the list and lede.       |
-| readTime  | no       | Free-form, e.g. `"8 min"`. Shown next to date.         |
-| tags      | no       | Inline YAML array, e.g. `[wordpress, scaling]`.        |
-
-The frontmatter parser is intentionally minimal — strings, quoted strings,
-and inline arrays only. No nested objects, no multi-line values.
-
-### 2. Register it in the index
-
-Add the filename to `articles/index.json`:
-
-```json
-{
-  "articles": [
-    "my-new-article.md",
-    "welcome-to-my-blog.md",
-    ...
-  ]
-}
-```
-
-The order in `index.json` doesn't matter — articles are sorted by `date` desc
-on render.
-
-(Why an index file? Browsers can't list directory contents over HTTP. The
-index is the only way to know which markdown files exist.)
-
-### 3. That's it
-
-Reload. Article appears on `/#/blog` and is reachable at `#/article/<slug>`.
+3. Run `npm run build`. The new article gets:
+   - A static page at `/article/<slug>/`
+   - An entry in `/sitemap.xml`
+   - An entry on the `/blog/` listing
+   - Per-page metadata + Article JSON-LD with `datePublished`, `articleSection`, `keywords`
 
 ---
 
-## Make this site yours (rebrand workflow)
+## Editing content
 
-If a developer or designer wants to use this template for their own
-portfolio, the contract is:
+**All visible copy lives in `lib/content.ts`** under the `CONTENT` object.
 
-1. **Edit `src/data.js` → `CONTENT.site`** with name, email, socials,
-   Calendly URL. Tokens like `{fullName}`, `{email}`, `{socials.linkedin}`
-   automatically substitute throughout page copy.
-2. **Replace the lists**: `projects`, `experience`, `skills`,
-   `testimonials`, `openSource`, `stats`, `marqueeWords`. Empty an array to
-   hide its section.
-3. **Rewrite prose blocks** under `CONTENT.home`, `.resume`, `.blog`,
-   `.article`, `.contact`, `.footer`. Use `*italic*` for accent and
-   `**bold**` for emphasis.
-4. **Swap colors / fonts** in `styles/tokens.css` (or live via the Tweaks
-   panel).
-5. **Replace `articles/*.md`** with their own posts; update
-   `articles/index.json`.
+- Site identity (name, email, socials, Calendly URL): `CONTENT.site`
+- Per-route SEO (title, description, keywords, type): `CONTENT.seo.routes`
+- Lists: `CONTENT.projects`, `.experience`, `.skills`, `.testimonials`, `.openSource`
+- Prose: `CONTENT.home`, `.resume`, `.blog`, `.contact`, `.footer`
 
-The full README has a step-by-step version for non-developers — see
-[`README.md` § Make this site yours](./README.md#make-this-site-yours-rebrand-in-5-minutes).
+Strings flow through `<Rich />` which parses a tiny markdown-lite format:
 
----
-
-## Editing the site content
-
-**Everything visible on the site lives in one place: `src/data.js`** —
-under a single `CONTENT` object. That includes:
-
-- Site identity (name, email, socials, Calendly URL)
-- All structured data (projects, experience, skills, testimonials, OSS)
-- All prose (hero copy, page intros, section headings, form labels, footer)
-
-To rebrand the site for a different person, replace `CONTENT.site` and
-swap out the page-copy blocks (`CONTENT.home`, `.resume`, `.blog`, `.contact`).
-No JSX edits required for content changes.
-
-### Inline emphasis convention
-
-Strings in `CONTENT.*` flow through a `<Rich />` helper that parses a tiny
-markdown-lite format:
-
-| Marker      | Renders as            | Example use            |
-| ----------- | --------------------- | ---------------------- |
-| `*italic*`  | `<em>italic</em>`     | accent words in titles |
-| `**bold**`  | `<b>bold</b>`         | emphasis in body text  |
-| `\n`        | `<br />`              | hard line break        |
+| Marker      | Renders as            |
+| ----------- | --------------------- |
+| `*italic*`  | `<em>italic</em>`     |
+| `**bold**`  | `<b>bold</b>`         |
+| `\n`        | `<br />`              |
 
 Plus a `{key}` placeholder syntax that substitutes against `CONTENT.site`:
 
-```js
-"I'm **{fullName}** — 7+ years…"            // → "I'm Md. Maniruzzaman Akash — …"
-"linkedin.com/in/maniruzzamanakash"         // unchanged
-"{email}"                                   // → "manirujjamanakash@gmail.com"
+```ts
+"I'm **{fullName}** — 7+ years…"   // → "I'm Md. Maniruzzaman Akash — …"
+"{email}"                          // → "manirujjamanakash@gmail.com"
 ```
-
-This keeps copy synced when you change `site.fullName` or `site.email` once.
 
 ### Action helper
 
 Link items in `CONTENT.*` use `action: '<name>'` instead of hardcoded URLs.
-Supported actions (resolve via `resolveAction()` in `src/lib.jsx`):
+`lib/actions.ts` maps them to `{ href, target, rel }`. For Calendly's
+popup behavior, client components attach `openCalendly` from
+`lib/calendly.ts` as the `onClick`.
 
-| action            | Renders link to                       |
-| ----------------- | ------------------------------------- |
-| `mail`            | `mailto:{email}`                      |
-| `calendly`        | Opens Calendly popup modal            |
-| `github`          | `site.socials.github`                 |
-| `linkedin`        | `site.socials.linkedin`               |
-| `youtube`         | `site.socials.youtube`                |
-| `stackoverflow`   | `site.socials.stackoverflow`          |
+| action            | href                            |
+| ----------------- | ------------------------------- |
+| `mail`            | `mailto:{email}`                |
+| `calendly`        | Calendly URL (popup on click)   |
+| `github`          | `site.socials.github`           |
+| `linkedin`        | `site.socials.linkedin`         |
+| `youtube`         | `site.socials.youtube`          |
+| `stackoverflow`   | `site.socials.stackoverflow`    |
 
 ---
 
-## Adding a new section to the home page
+## SEO surface
 
-1. Add a new `Home<Section>` component at the bottom of `src/pages/Home.jsx`.
-2. Slot it into the `<Home>` component's render order.
-3. If it needs its own styling, create `styles/<section>.css` and import it
-   from the root `styles.css`.
+Every page produces:
+
+- `<title>` + `<meta description>` from `CONTENT.seo.routes[<route>]`
+- `<link rel="canonical">` (with trailing slash)
+- Open Graph + Twitter Card tags including image, locale, type
+- For `/article/<slug>/`: `og:type=article`, `article:published_time`,
+  `article:section`, `article:tag`
+- JSON-LD: Person + WebSite (always, from `app/layout.tsx`), plus
+  per-route schemas:
+  - `/`: ProfilePage, FAQPage, BreadcrumbList
+  - `/resume/`: ProfilePage, BreadcrumbList
+  - `/blog/`: Blog (with all posts), BreadcrumbList
+  - `/article/<slug>/`: BlogPosting, BreadcrumbList
+  - `/contact/`: FAQPage, BreadcrumbList
+- `/robots.txt` (allows all major crawlers including AI bots)
+- `/sitemap.xml` (auto-generated from articles + routes)
+
+To verify: `npm run build` then open any HTML file in `out/` and search
+for `og:`, `application/ld+json`, `<title>`, etc.
 
 ---
 
 ## Design tokens
 
-All colors, spacing, fonts, radii, and shadows are CSS variables defined in
-`styles/tokens.css`. Light + dark themes both live there. Don't hardcode
-colors in component styles — use `var(--ink)`, `var(--paper)`, etc.
+All colors, spacing, fonts, radii, shadows live in `styles/tokens.css`
+as CSS variables. Don't hardcode colors in component styles — use
+`var(--ink)`, `var(--paper)`, etc.
 
 Fonts:
 
 | Variable        | Family                    | Use                              |
 | --------------- | ------------------------- | -------------------------------- |
 | `--font-sans`   | Inter                     | Body, UI, buttons                |
-| `--font-serif`  | Instrument Serif (italic) | Display headings, decorative     |
+| `--font-serif`  | Instrument Serif (italic) | Display headings                 |
 | `--font-mono`   | JetBrains Mono            | Code, eyebrows, dates, metadata  |
-
-Inter is the default sans for readability. The display serif can be swapped at
-runtime via the Tweaks panel (Instrument Serif, Playfair, Fraunces, Lora).
-
----
-
-## Tweaks panel (host integration)
-
-`tweaks-panel.jsx` is a prebuilt component that talks to a parent host iframe
-via `postMessage` (events: `__activate_edit_mode`, `__edit_mode_set_keys`,
-etc.). **Don't edit it** unless you understand the host protocol.
-
-`useTweaks(defaults)` returns `[values, setTweak]`. Call as
-`setTweak('accent', '#ff0000')` — **not** `setTweak({ accent: '#ff0000' })`.
-The defaults are wrapped in `EDITMODE-BEGIN`/`EDITMODE-END` markers in
-`src/App.jsx` so the host can rewrite them on disk.
 
 ---
 
 ## Conventions
 
-- **No build, no bundler.** Keep dependencies to globals via CDN or local files.
-- **Small files over big ones.** When a file passes ~300 lines, split it.
-- **Data lives in `src/data.js`,** not in components. Components consume it.
+- **TypeScript everywhere** — strict mode, no `any` unless commented why.
+- **Server components by default.** Add `'use client'` only when the
+  component needs hooks, browser APIs, or event handlers.
+- **Data lives in `lib/content.ts`,** not in components. Components consume it.
 - **Styles split by concern.** One CSS file per section in `styles/`.
-- **CSS variables, not hardcoded colors.** Always go through tokens.
-- **Hash routes, two segments max.** `#/route/param` — that's the contract.
-- **No comments unless the *why* is non-obvious.** Names should explain *what*.
+- **CSS variables, not hardcoded colors.**
+- **Real URLs.** No hash routing. Use `<Link href="/blog/">` or pathFor().
 
 ---
 
 ## Common changes — where to look
 
-| What you want to do                    | File(s) to edit                                                 |
-| -------------------------------------- | --------------------------------------------------------------- |
-| Update name/email/socials              | `src/data.js` → `CONTENT.site`                                  |
-| Add/remove a project                   | `src/data.js` → `CONTENT.projects`                              |
-| Update job history                     | `src/data.js` → `CONTENT.experience`                            |
-| Tweak skills list                      | `src/data.js` → `CONTENT.skills`                                |
-| Change testimonials                    | `src/data.js` → `CONTENT.testimonials`                          |
-| Change nav links                       | `src/data.js` → `CONTENT.navigation` + `src/App.jsx` route      |
-| Edit hero / about / section copy       | `src/data.js` → `CONTENT.home` / `.resume` / `.blog` / `.contact` |
-| Edit footer                            | `src/data.js` → `CONTENT.footer`                                |
-| Add a new article                      | `articles/<slug>.md` + `articles/index.json`                    |
-| Change article typography              | `styles/article.css`                                            |
-| Change colors / accent                 | `styles/tokens.css` (or live via Tweaks panel)                  |
-| Change fonts                           | `styles/tokens.css` → `--font-sans` / `--font-serif`            |
-| Add a new icon                         | `src/lib.jsx` → `I`                                             |
-| Add a new page                         | `src/pages/`, register in `index.html` + `App.jsx`              |
+| Task                                   | File                                  |
+| -------------------------------------- | ------------------------------------- |
+| Update name/email/socials              | `lib/content.ts` → `CONTENT.site`     |
+| Add/remove a project                   | `lib/content.ts` → `CONTENT.projects` |
+| Update job history                     | `lib/content.ts` → `CONTENT.experience` |
+| Tweak skills list                      | `lib/content.ts` → `CONTENT.skills`   |
+| Change testimonials                    | `lib/content.ts` → `CONTENT.testimonials` |
+| Change nav links                       | `lib/content.ts` → `CONTENT.navigation` + add `app/<route>/page.tsx` |
+| Edit hero / about / section copy       | `lib/content.ts` → `CONTENT.home` / `.resume` / `.blog` / `.contact` |
+| Edit footer                            | `lib/content.ts` → `CONTENT.footer`   |
+| Add a new article                      | `articles/<slug>.md` + `articles/index.json` |
+| Change colors / accent                 | `styles/tokens.css`                   |
+| Add a new icon                         | `components/icons.tsx`                |
+| Add a new page                         | `app/<route>/page.tsx`                |
+| Update per-route SEO                   | `lib/content.ts` → `CONTENT.seo.routes` |
+
+---
+
+## Deploy
+
+**Vercel** — push to GitHub, import the repo on Vercel, done. No config
+needed; Vercel auto-detects Next.js + the static export config.
+
+**Anywhere else** — run `npm run build` and deploy the `out/` directory.
+- Cloudflare Pages: build command `npm run build`, output dir `out`
+- Netlify: same
+- GitHub Pages: push the `out/` directory contents to a `gh-pages` branch
+- S3 + CloudFront: upload `out/` to the bucket
 
 ---
 
 ## Known limitations
 
-- `fetch()` of articles needs HTTP (won't work via `file://`).
-- Markdown frontmatter parser is minimal — no nested objects, no multi-line
-  strings. If you need richer metadata, swap in a real YAML parser.
-- No syntax highlighting for code blocks. Add Prism or Shiki via CDN if needed.
-- No RSS feed. Generate one from `articles/index.json` if you want one.
+- The contact form is UI-only — wire it up to Formspree, Resend, or a
+  Vercel function in `app/api/` when you need backend handling.
+- The contributions grid uses `Math.random()` so the displayed activity
+  doesn't reflect real GitHub data. Replace with the GitHub GraphQL API
+  if you want live data.

@@ -48,6 +48,26 @@
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 20%, transparent);
   animation: pulse 2.4s ease-in-out infinite;
 }
+/* Circular avatar variant of the logo dot — keeps the pulse-ring aura
+   so the brand still feels alive while showing a real face. */
+.nav-logo-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--primary) 15%, var(--paper));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 25%, transparent);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+.nav-logo-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+}
 @keyframes pulse {
   0%,
   100% {

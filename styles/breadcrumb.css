@@ -1,0 +1,74 @@
+/* ============================================================
+   Breadcrumb trail — used at the top of article pages and any
+   nested route. Compact, readable, never wraps awkwardly.
+   ============================================================ */
+
+.breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  margin: 0 0 24px;
+}
+
+.breadcrumb ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+
+.breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.breadcrumb a {
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+.breadcrumb a:hover {
+  color: var(--primary);
+  border-bottom-color: currentColor;
+}
+
+.breadcrumb li.is-current span {
+  color: var(--ink);
+  font-weight: 500;
+  /* Truncate long article titles in the trail without wrapping the
+     whole breadcrumb. Each crumb is its own flex item, so this only
+     clips the current-page label. */
+  max-width: 38ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.breadcrumb .sep {
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+  opacity: 0.5;
+}
+.breadcrumb .sep svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 600px) {
+  .breadcrumb {
+    font-size: 11px;
+  }
+  .breadcrumb li.is-current span {
+    max-width: 22ch;
+  }
+}

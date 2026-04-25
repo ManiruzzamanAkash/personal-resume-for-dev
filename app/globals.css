@@ -1,0 +1,24 @@
+/* ============================================================
+   app/globals.css — Root stylesheet, imported by app/layout.tsx.
+
+   Concerns split per file under /styles. Edit those, not this
+   index. The previous static-shell version of this site loaded
+   them via @import in styles.css; Next.js bundles them through
+   the import chain instead.
+   ============================================================ */
+
+@import "../styles/tokens.css";
+@import "../styles/nav.css";
+@import "../styles/hero.css";
+@import "../styles/about.css";
+@import "../styles/projects.css";
+@import "../styles/skills.css";
+@import "../styles/testimonials.css";
+@import "../styles/contrib.css";
+@import "../styles/blog.css";
+@import "../styles/article.css";
+@import "../styles/resume.css";
+@import "../styles/contact.css";
+@import "../styles/footer.css";
+@import "../styles/route-progress.css";
+@import "../styles/breadcrumb.css";

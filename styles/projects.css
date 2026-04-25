@@ -3,7 +3,9 @@
    ============================================================ */
 
 .projects-section {
-  padding: 120px 0;
+  /* padding-block only — keeps the horizontal padding from .page so the
+     section doesn't bleed to the viewport edge on mobile. */
+  padding-block: 120px;
 }
 
 .section-head {
@@ -133,7 +135,7 @@
 
 @media (max-width: 900px) {
   .projects-section {
-    padding: 60px 0;
+    padding-block: 60px;
   }
   .section-head {
     margin-bottom: 32px;

@@ -89,6 +89,68 @@
   letter-spacing: 0.1em;
 }
 
+/* Category chips at the top of /blog/ — gives readers an at-a-glance
+   topical map of what's been written. Each chip links to a static
+   /blog/category/<slug>/ page. */
+.blog-categories {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.blog-categories-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.blog-categories ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.blog-cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--ink);
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+  text-decoration: none;
+}
+.blog-cat-chip:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.blog-cat-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  background: var(--muted);
+  padding: 1px 6px;
+  border-radius: 999px;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+.blog-cat-chip:hover .blog-cat-count {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
 @media (max-width: 900px) {
   .blog-row {
     grid-template-columns: 1fr 40px;

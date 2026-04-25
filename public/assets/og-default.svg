@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Default Open Graph card. 1200x630 — Twitter / Facebook / LinkedIn standard. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a0b"/>
+      <stop offset="100%" stop-color="#1a1029"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="80%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#8345dd" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#8345dd" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="10%" cy="90%" r="50%">
+      <stop offset="0%" stop-color="#ff5b04" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ff5b04" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- subtle grid -->
+  <g stroke="#ffffff" stroke-opacity="0.04">
+    <path d="M0 158 L1200 158 M0 316 L1200 316 M0 474 L1200 474"/>
+    <path d="M300 0 L300 630 M600 0 L600 630 M900 0 L900 630"/>
+  </g>
+
+  <!-- monogram -->
+  <g transform="translate(80,80)">
+    <circle cx="34" cy="34" r="34" fill="#8345dd"/>
+    <text x="34" y="50" font-family="Georgia,serif" font-style="italic" font-size="44" text-anchor="middle" fill="#ffffff">A</text>
+  </g>
+
+  <!-- title -->
+  <text x="80" y="340" font-family="Georgia,serif" font-style="italic" font-size="92" fill="#ffffff" font-weight="400">Md. Maniruzzaman Akash</text>
+
+  <!-- subtitle -->
+  <text x="80" y="410" font-family="ui-sans-serif,system-ui,sans-serif" font-size="34" fill="#a78bfa" font-weight="500">Senior WordPress Plugin Developer · Software Architect</text>
+
+  <!-- meta line -->
+  <text x="80" y="488" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#a1a1aa" letter-spacing="2">7+ YEARS · WORDPRESS · LARAVEL · REACT · TYPESCRIPT</text>
+
+  <!-- footer band -->
+  <rect x="0" y="560" width="1200" height="70" fill="#000000" fill-opacity="0.35"/>
+  <text x="80" y="606" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#ffffff">maniruzzaman.me</text>
+  <text x="1120" y="606" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#ffffff" text-anchor="end">Dhaka · Bangladesh</text>
+</svg>

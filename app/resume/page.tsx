@@ -1,54 +1,28 @@
-/* ============================================================
-   pages/Resume.jsx — long-form CV.
-   All copy comes from CONTENT.resume in src/data.js.
-   ============================================================ */
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { CONTENT } from '@/lib/content';
+import { tmpl } from '@/lib/tmpl';
+import { pathFor } from '@/lib/routing';
+import { buildMetadata, collectStructuredData } from '@/lib/seo';
+import { JsonLd } from '@/components/JsonLd';
+import { Nav } from '@/components/Nav';
+import { Footer } from '@/components/Footer';
+import { Rich } from '@/components/Rich';
+import { Reveal } from '@/components/Reveal';
+import { Magnetic } from '@/components/Magnetic';
+import { I } from '@/components/icons';
 
-const ResumePage = () => {
-  const c = CONTENT.resume.hero;
-  return (
-    <>
-      <section className="subhero">
-        <span className="eyebrow">{c.eyebrow}</span>
-        <Rich as="h1" text={c.heading} />
-        <Rich as="p" className="lede" text={c.lede} />
-        <div style={{ marginTop: 28, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <Magnetic>
-            <a className="btn btn-primary"
-               href={`#/${c.cta.route}`}
-               onClick={(e) => { e.preventDefault(); navTo(c.cta.route); }}
-               data-cursor="hover">
-              {c.cta.label} <span className="arrow"><I.arrow /></span>
-            </a>
-          </Magnetic>
-        </div>
-      </section>
-
-      <section className="page" style={{ paddingTop: 60 }}>
-        <Reveal>
-          <div className="resume-grid">
-            <ResumeAside />
-            <div>
-              <ResumeExperience />
-              <ResumeSkills />
-              <ResumeOpenSource />
-            </div>
-          </div>
-        </Reveal>
-      </section>
-      <Footer />
-    </>
-  );
-};
+export const metadata: Metadata = buildMetadata({ route: 'resume' });
 
 const ResumeAside = () => (
   <aside className="resume-aside">
     {CONTENT.resume.aside.map((section) => (
-      <React.Fragment key={section.title}>
+      <div key={section.title}>
         <h4>{section.title}</h4>
         <ul>
           {section.items.map((item, i) => <li key={i}>{tmpl(item)}</li>)}
         </ul>
-      </React.Fragment>
+      </div>
     ))}
   </aside>
 );
@@ -69,7 +43,7 @@ const ResumeExperience = () => {
                 <h3 className="tl-role">{e.role}</h3>
                 <div className="tl-company">{e.company}</div>
                 <p className="tl-desc">{e.desc}</p>
-                <div className="tl-tags">{e.tags.map(t => <span key={t}>{t}</span>)}</div>
+                <div className="tl-tags">{e.tags.map((t) => <span key={t}>{t}</span>)}</div>
               </div>
             </div>
           </Reveal>
@@ -87,10 +61,12 @@ const ResumeSkills = () => {
       <Rich as="h2" text={c.heading} />
       <p className="lead">{c.lead}</p>
       <div className="skills-grid">
-        {CONTENT.skills.map(s => (
+        {CONTENT.skills.map((s) => (
           <div key={s.num} className="skill-cell">
             <h3><span className="num">{s.num}</span>{s.title}</h3>
-            <div className="skills">{s.skills.map(sk => <span key={sk}>{sk}</span>)}</div>
+            <div className="skills">
+              {s.skills.map((sk) => <span key={sk}>{sk}</span>)}
+            </div>
           </div>
         ))}
       </div>
@@ -108,13 +84,10 @@ const ResumeOpenSource = () => {
       <ul className="oss-list">
         {CONTENT.openSource.map((item) => {
           const primaryHref = item.live || item.github;
+          if (!primaryHref) return null;
           return (
             <li key={item.name} className="oss-item">
-              <a className="oss-row"
-                 href={primaryHref}
-                 target="_blank"
-                 rel="noreferrer"
-                 data-cursor="hover">
+              <a className="oss-row" href={primaryHref} target="_blank" rel="noreferrer" data-cursor="hover">
                 <div>
                   <div className="oss-name">{item.name}</div>
                   <div className="oss-desc">{item.desc}</div>
@@ -141,4 +114,48 @@ const ResumeOpenSource = () => {
   );
 };
 
-window.ResumePage = ResumePage;
+export default function ResumePage() {
+  const c = CONTENT.resume.hero;
+  return (
+    <>
+      <JsonLd graph={collectStructuredData('resume')} />
+      <Nav />
+      <main id="main">
+        <section className="subhero">
+          <span className="eyebrow">{c.eyebrow}</span>
+          <Rich as="h1" text={c.heading} />
+          <Rich as="p" className="lede" text={c.lede} />
+          <div style={{ marginTop: 28, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <Magnetic>
+              <Link
+                className="btn btn-primary"
+                href={pathFor(c.cta.route!)}
+                data-cursor="hover"
+              >
+                {c.cta.label} <span className="arrow"><I.arrow /></span>
+              </Link>
+            </Magnetic>
+          </div>
+        </section>
+
+        <section className="page" style={{ paddingTop: 60 }}>
+          {/* No outer <Reveal> here. Wrapping a 3000+ px column in one
+              Reveal means the IntersectionObserver threshold isn't met
+              until the user has scrolled past a wall of opacity-0 space
+              — they end up seeing only the hero. The inner timeline
+              already Reveals each item on scroll, which gives the
+              stagger effect without the visibility black hole. */}
+          <div className="resume-grid">
+            <ResumeAside />
+            <div>
+              <ResumeExperience />
+              <ResumeSkills />
+              <ResumeOpenSource />
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}

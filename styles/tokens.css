@@ -115,6 +115,26 @@ button {
   color: white;
 }
 
+/* Skip-link for keyboard users — invisible until focused.
+   A11y win + signals well-structured navigation to crawlers. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10000;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus {
+  left: 0;
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 /* Layout primitives */
 .page {
   padding: 120px 40px 80px;
@@ -232,6 +252,11 @@ button {
   transition: all 0.25s;
   position: relative;
   overflow: hidden;
+  /* Pill buttons should never break their label across two lines —
+     "All articles" or "Reply by email" must read as a single word
+     even in cramped flex containers (e.g. the article footer on mobile). */
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .btn-primary {
   background: var(--ink);

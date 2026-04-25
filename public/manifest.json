@@ -1,0 +1,27 @@
+{
+  "name": "Md. Maniruzzaman Akash — Senior WordPress Plugin Developer & Software Architect",
+  "short_name": "Maniruzzaman Akash",
+  "description": "Portfolio of Md. Maniruzzaman Akash — Senior Software Engineer & Senior WordPress Plugin Developer. 7+ years engineering scalable WordPress plugins, eCommerce systems, and developer tools used by 100K+ users worldwide.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#8345dd",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["portfolio", "developer", "personal", "business"],
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Resume",  "url": "/resume",  "description": "View CV" },
+    { "name": "Writing", "url": "/blog",    "description": "Articles & essays" },
+    { "name": "Contact", "url": "/contact", "description": "Get in touch" }
+  ]
+}

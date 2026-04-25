@@ -1,0 +1,40 @@
+/* ============================================================
+   Top-of-page route loader. Shown briefly during client-side
+   navigations between Next.js App Router segments.
+   ============================================================ */
+
+.route-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 100000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 240ms ease-out;
+}
+
+.route-progress.is-active {
+  opacity: 1;
+}
+
+.route-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--primary, #8345dd),
+    color-mix(in srgb, var(--primary, #8345dd) 50%, #fff)
+  );
+  box-shadow: 0 0 10px
+    color-mix(in srgb, var(--primary, #8345dd) 70%, transparent);
+  /* `width` is driven by React state; keep the transition tight so the
+     trickle feels responsive but not jittery. */
+  transition: width 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-progress,
+  .route-progress-bar {
+    transition: none;
+  }
+}

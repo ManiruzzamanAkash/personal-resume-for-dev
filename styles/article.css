@@ -29,6 +29,17 @@
 .article-meta .cat {
   color: var(--primary);
   font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    border-color 0.2s,
+    opacity 0.2s;
+}
+/* When the category is rendered as an <a> (clickable → category page),
+   show a hover affordance. Plain <span> falls through unchanged. */
+.article-meta a.cat:hover {
+  border-bottom-color: currentColor;
+  opacity: 0.85;
 }
 
 .article h1.article-title {
