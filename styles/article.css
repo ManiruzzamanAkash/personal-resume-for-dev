@@ -1,0 +1,425 @@
+/* ============================================================
+   Article (single post) view — long-form prose styling.
+   ============================================================ */
+
+.article {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 140px 24px 80px;
+}
+
+.article-meta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+.article-meta .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ink-2);
+}
+.article-meta .cat {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.article h1.article-title {
+  font-family: var(--font-serif);
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  margin: 0 0 24px;
+  color: var(--ink);
+}
+
+.article-excerpt {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0 0 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Long-form prose — applied to rendered markdown body */
+.prose {
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--ink);
+}
+.prose > * + * {
+  margin-top: 1.4em;
+}
+.prose p {
+  margin: 0;
+  color: var(--ink);
+}
+.prose strong {
+  font-weight: 600;
+}
+.prose em {
+  font-style: italic;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 1.8em 0 0.6em;
+  line-height: 1.15;
+}
+.prose h1 {
+  font-size: 40px;
+}
+.prose h2 {
+  font-size: 34px;
+}
+.prose h3 {
+  font-size: 26px;
+}
+.prose h4 {
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.prose a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+.prose a:hover {
+  color: var(--primary-hover);
+}
+
+.prose ul,
+.prose ol {
+  margin: 0;
+  padding-left: 1.4em;
+}
+.prose li {
+  margin: 0.4em 0;
+}
+.prose li::marker {
+  color: var(--primary);
+}
+
+.prose blockquote {
+  margin: 0;
+  padding: 4px 0 4px 24px;
+  border-left: 3px solid var(--primary);
+  color: var(--ink-2);
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--muted);
+  border: 1px solid var(--line);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+/* Wrapper added by Article.jsx::enhanceCodeBlocks */
+.prose .code-block {
+  position: relative;
+  margin: 1.6em 0;
+}
+.prose .code-block + * {
+  margin-top: 1.4em;
+}
+
+.prose .code-block pre {
+  background: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  padding-top: 44px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+.prose .code-block pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+
+.prose .code-lang {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+  pointer-events: none;
+  user-select: none;
+}
+
+.prose .code-copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s,
+    transform 0.2s;
+}
+.prose .code-block:hover .code-copy,
+.prose .code-copy:focus {
+  opacity: 1;
+}
+.prose .code-copy:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.prose .code-copy.is-copied {
+  opacity: 1;
+  color: var(--success);
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 8%, var(--paper));
+}
+
+/* Fallback for legacy <pre> with no language (not wrapped) — keep original look. */
+.prose > pre {
+  background: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.prose > pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* ---------- Prism token theme — uses our design tokens ----------
+   Maps Prism's class names to our color palette. Works in both light
+   and dark themes since we go through CSS vars.
+*/
+.prose code[class*="language-"],
+.prose pre[class*="language-"] {
+  color: var(--ink);
+  text-shadow: none;
+  background: transparent;
+}
+
+.prose .token.comment,
+.prose .token.prolog,
+.prose .token.doctype,
+.prose .token.cdata {
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+.prose .token.punctuation {
+  color: var(--ink-2);
+}
+
+.prose .token.namespace {
+  opacity: 0.7;
+}
+
+.prose .token.property,
+.prose .token.tag,
+.prose .token.constant,
+.prose .token.symbol,
+.prose .token.deleted {
+  color: #d11d50;
+}
+
+.prose .token.boolean,
+.prose .token.number {
+  color: #b35400;
+}
+
+.prose .token.selector,
+.prose .token.attr-name,
+.prose .token.string,
+.prose .token.char,
+.prose .token.builtin,
+.prose .token.inserted {
+  color: #0a8f3d;
+}
+
+.prose .token.operator,
+.prose .token.entity,
+.prose .token.url,
+.prose .language-css .token.string,
+.prose .style .token.string,
+.prose .token.variable {
+  color: #b06400;
+}
+
+.prose .token.atrule,
+.prose .token.attr-value,
+.prose .token.function,
+.prose .token.class-name {
+  color: var(--primary);
+}
+
+.prose .token.keyword {
+  color: #0050b3;
+  font-weight: 500;
+}
+
+.prose .token.regex,
+.prose .token.important {
+  color: #c91a47;
+}
+
+.prose .token.important,
+.prose .token.bold {
+  font-weight: 700;
+}
+.prose .token.italic {
+  font-style: italic;
+}
+
+/* Dark theme overrides — softer, higher contrast. */
+[data-theme="dark"] .prose .token.property,
+[data-theme="dark"] .prose .token.tag,
+[data-theme="dark"] .prose .token.constant,
+[data-theme="dark"] .prose .token.symbol,
+[data-theme="dark"] .prose .token.deleted {
+  color: #ff7b8a;
+}
+
+[data-theme="dark"] .prose .token.boolean,
+[data-theme="dark"] .prose .token.number {
+  color: #ffb86c;
+}
+
+[data-theme="dark"] .prose .token.selector,
+[data-theme="dark"] .prose .token.attr-name,
+[data-theme="dark"] .prose .token.string,
+[data-theme="dark"] .prose .token.char,
+[data-theme="dark"] .prose .token.builtin,
+[data-theme="dark"] .prose .token.inserted {
+  color: #7ee2a6;
+}
+
+[data-theme="dark"] .prose .token.operator,
+[data-theme="dark"] .prose .token.entity,
+[data-theme="dark"] .prose .token.url,
+[data-theme="dark"] .prose .token.variable {
+  color: #f1c27d;
+}
+
+[data-theme="dark"] .prose .token.atrule,
+[data-theme="dark"] .prose .token.attr-value,
+[data-theme="dark"] .prose .token.function,
+[data-theme="dark"] .prose .token.class-name {
+  color: var(--primary);
+}
+
+[data-theme="dark"] .prose .token.keyword {
+  color: #8fb8ff;
+}
+[data-theme="dark"] .prose .token.regex,
+[data-theme="dark"] .prose .token.important {
+  color: #ff8aa8;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 3em 0;
+}
+
+.prose img {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  margin: 2em 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.prose th {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+
+/* Article footer (back link + share) */
+.article-footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.article-error {
+  text-align: center;
+  padding: 100px 24px;
+  color: var(--ink-2);
+}
+.article-error h2 {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  margin: 0 0 16px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .article {
+    padding: 100px 20px 60px;
+  }
+}

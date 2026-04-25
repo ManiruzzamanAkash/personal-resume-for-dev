@@ -1,0 +1,32 @@
+/* ============================================================
+   Site footer.
+   ============================================================ */
+
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 32px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+.footer-links a {
+  transition: color 0.2s;
+}
+.footer-links a:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .footer {
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 20px;
+  }
+}

@@ -1,0 +1,141 @@
+/* ============================================================
+   Projects list + floating preview, section headings.
+   ============================================================ */
+
+.projects-section {
+  padding: 120px 0;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 24px;
+  margin-bottom: 60px;
+}
+.section-head h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  margin: 12px 0 0;
+}
+.section-head h2 em {
+  color: var(--primary);
+  font-style: italic;
+}
+.section-head .count {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.project-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 1.4fr 60px;
+  gap: 32px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: padding 0.4s ease;
+}
+.project-row:hover {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.project-row .index {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.project-row .name {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  transition:
+    color 0.3s,
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.project-row:hover .name {
+  color: var(--primary);
+}
+.project-row .meta {
+  font-size: 14px;
+  color: var(--ink-2);
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.project-row .meta .tag {
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+}
+.project-row .arrow-go {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.project-row:hover .arrow-go {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: rotate(-45deg);
+}
+
+.project-preview {
+  position: fixed;
+  pointer-events: none;
+  width: 320px;
+  height: 220px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--muted);
+  box-shadow: var(--shadow-lg);
+  z-index: 50;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  transition:
+    opacity 0.25s,
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.project-preview.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.preview-canvas {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 56px;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 900px) {
+  .project-row {
+    grid-template-columns: 40px 1fr 60px;
+  }
+  .project-row .meta {
+    display: none;
+  }
+}

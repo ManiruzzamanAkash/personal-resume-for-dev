@@ -1,0 +1,137 @@
+/* ============================================================
+   About section + "Currently" widget.
+   ============================================================ */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-photo {
+  position: sticky;
+  top: 120px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--muted);
+  aspect-ratio: 4 / 5;
+}
+.about-photo .photo-placeholder {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      color-mix(in srgb, var(--primary) 35%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      color-mix(in srgb, var(--secondary) 30%, transparent),
+      transparent 60%
+    ),
+    var(--muted);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-serif);
+  font-size: 200px;
+  font-style: italic;
+  color: color-mix(in srgb, var(--ink) 80%, transparent);
+}
+
+.about-text h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  margin: 16px 0 32px;
+}
+.about-text h2 em {
+  color: var(--primary);
+  font-style: italic;
+}
+.about-text p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin: 0 0 22px;
+}
+.about-text p b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Now widget */
+.now-widget {
+  margin-top: 32px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  background: var(--paper-2);
+}
+.now-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.now-head .title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-2);
+}
+.now-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.now-list li {
+  display: flex;
+  gap: 12px;
+  font-size: 15px;
+  color: var(--ink);
+  padding: 12px 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.now-list li .ico {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary);
+}
+.now-list li .ico svg {
+  width: 16px;
+  height: 16px;
+}
+.now-list li small {
+  display: block;
+  color: var(--ink-2);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .about-photo {
+    position: relative;
+    top: 0;
+    max-width: 360px;
+  }
+}

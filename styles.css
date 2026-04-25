@@ -1,0 +1,19 @@
+/* ============================================================
+   Portfolio — Maniruzzaman Akash
+   This is the root stylesheet. Each concern lives in its own
+   file under styles/ — edit those, not this index.
+   ============================================================ */
+
+@import url("./styles/tokens.css");
+@import url("./styles/nav.css");
+@import url("./styles/hero.css");
+@import url("./styles/about.css");
+@import url("./styles/projects.css");
+@import url("./styles/skills.css");
+@import url("./styles/testimonials.css");
+@import url("./styles/contrib.css");
+@import url("./styles/blog.css");
+@import url("./styles/article.css");
+@import url("./styles/resume.css");
+@import url("./styles/contact.css");
+@import url("./styles/footer.css");
