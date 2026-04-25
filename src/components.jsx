@@ -8,6 +8,7 @@
 
 const Nav = ({ route, theme, setTheme }) => {
   const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -15,19 +16,35 @@ const Nav = ({ route, theme, setTheme }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Close mobile menu when the route changes.
+  React.useEffect(() => { setMenuOpen(false); }, [route]);
+
+  // Lock body scroll while menu is open (mobile only).
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [menuOpen]);
+
+  const goTo = (id) => (e) => {
+    e.preventDefault();
+    navTo(id);
+  };
+
   return (
-    <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
-      <a className="nav-logo" href="#/home" onClick={(e) => { e.preventDefault(); navTo('home'); }}>
+    <nav className={`nav ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
+      <a className="nav-logo" href="#/home" onClick={goTo('home')}>
         <span className="dot"></span>
         {SITE.short}
       </a>
 
-      <div className="nav-links">
-        {NAV_LINKS.map(l => (
+      <div className={`nav-links ${menuOpen ? 'is-open' : ''}`}>
+        {CONTENT.navigation.map(l => (
           <a key={l.id}
              href={`#/${l.id}`}
              className={`nav-link ${route === l.id ? 'active' : ''} ${theme === 'dark' ? 'is-dark' : ''}`}
-             onClick={(e) => { e.preventDefault(); navTo(l.id); }}>
+             onClick={goTo(l.id)}>
             {route === l.id && (
               <span className="pill" style={{ background: theme === 'dark' ? '#fafafa' : '#0a0a0a' }} />
             )}
@@ -42,6 +59,12 @@ const Nav = ({ route, theme, setTheme }) => {
                 aria-label="Toggle theme">
           {theme === 'dark' ? <I.sun /> : <I.moon />}
         </button>
+        <button className="icon-btn nav-toggle"
+                onClick={() => setMenuOpen(o => !o)}
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={menuOpen}>
+          {menuOpen ? <I.close /> : <I.menu />}
+        </button>
       </div>
     </nav>
   );
@@ -49,51 +72,49 @@ const Nav = ({ route, theme, setTheme }) => {
 
 /* ---------- Footer ---------- */
 
-const Footer = () => (
-  <footer className="footer">
-    <div>{SITE.copyright}</div>
-    <div className="footer-links">
-      <a href={SITE.socials.github} target="_blank" rel="noreferrer">GitHub</a>
-      <a href={SITE.socials.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-      <a href={SITE.socials.youtube} target="_blank" rel="noreferrer">YouTube</a>
-      <a href={SITE.socials.stackoverflow} target="_blank" rel="noreferrer">SO</a>
-    </div>
-  </footer>
-);
+const Footer = () => {
+  const c = CONTENT.footer;
+  return (
+    <footer className="footer">
+      <div>{c.copyright}</div>
+      <div className="footer-links">
+        {c.links.map((link) => {
+          const a = resolveAction(link.action);
+          return <a key={link.label} {...a}>{link.label}</a>;
+        })}
+      </div>
+    </footer>
+  );
+};
 
 /* ---------- Contact CTA (used at bottom of Home) ---------- */
 
-const ContactCTA = () => (
-  <section className="contact-block">
-    <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '0 40px' }}>
-      <Reveal>
-        <span className="eyebrow contact-eyebrow">Let's talk</span>
-        <h2 className="contact-headline">Got a <em>plugin</em> idea?<br />Let's build it.</h2>
-        <div className="contact-channels">
-          <Magnetic>
-            <a className="contact-chip" href={`mailto:${SITE.email}`} data-cursor="hover">
-              <I.mail />{SITE.email}
-            </a>
-          </Magnetic>
-          <Magnetic>
-            <a className="contact-chip"
-               href={SITE.calendly}
-               target="_blank" rel="noreferrer"
-               onClick={openCalendly}
-               data-cursor="hover">
-              <I.cal />Book a 30-min call
-            </a>
-          </Magnetic>
-          <Magnetic>
-            <a className="contact-chip" href={SITE.socials.github} target="_blank" rel="noreferrer" data-cursor="hover">
-              <I.github />GitHub
-            </a>
-          </Magnetic>
-        </div>
-      </Reveal>
-    </div>
-  </section>
-);
+const ContactCTA = () => {
+  const c = CONTENT.home.contactCta;
+  return (
+    <section className="contact-block">
+      <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '0 40px' }}>
+        <Reveal>
+          <span className="eyebrow contact-eyebrow">{c.eyebrow}</span>
+          <Rich as="h2" className="contact-headline" text={c.heading} />
+          <div className="contact-channels">
+            {c.chips.map((chip, i) => {
+              const Icon = (I[chip.icon] || I.mail);
+              const a = resolveAction(chip.action);
+              return (
+                <Magnetic key={i}>
+                  <a className="contact-chip" {...a} onClick={a.onClick} data-cursor="hover">
+                    <Icon />{tmpl(chip.label)}
+                  </a>
+                </Magnetic>
+              );
+            })}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
 
 /* ---------- Testimonial carousel ---------- */
 

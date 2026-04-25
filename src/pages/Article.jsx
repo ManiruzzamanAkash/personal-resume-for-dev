@@ -41,7 +41,7 @@ const ArticlePage = ({ slug }) => {
     return (
       <>
         <article className="article">
-          <div className="blog-loading">LOADING…</div>
+          <div className="blog-loading">{CONTENT.blog.loading}</div>
         </article>
         <Footer />
       </>
@@ -52,13 +52,13 @@ const ArticlePage = ({ slug }) => {
     return (
       <>
         <div className="article-error">
-          <h2>Article not found</h2>
+          <h2>{CONTENT.article.notFoundHead}</h2>
           <p>{state.message}</p>
           <a className="btn btn-ghost"
              href="#/blog"
              onClick={(e) => { e.preventDefault(); navTo('blog'); }}
              data-cursor="hover">
-            <I.arrowLeft /> Back to writing
+            <I.arrowLeft /> {CONTENT.article.backLabel}
           </a>
         </div>
         <Footer />
@@ -90,12 +90,12 @@ const ArticlePage = ({ slug }) => {
              href="#/blog"
              onClick={(e) => { e.preventDefault(); navTo('blog'); }}
              data-cursor="hover">
-            <I.arrowLeft /> All articles
+            <I.arrowLeft /> {CONTENT.article.backLabel}
           </a>
           <a className="btn btn-primary"
              href={`mailto:${SITE.email}?subject=${encodeURIComponent('Re: ' + meta.title)}`}
              data-cursor="hover">
-            Reply by email <span className="arrow"><I.arrow /></span>
+            {CONTENT.article.replyLabel} <span className="arrow"><I.arrow /></span>
           </a>
         </div>
       </article>

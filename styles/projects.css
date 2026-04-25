@@ -132,10 +132,60 @@
 }
 
 @media (max-width: 900px) {
+  .projects-section {
+    padding: 60px 0;
+  }
+  .section-head {
+    margin-bottom: 32px;
+  }
+
+  /* Reflow: name + desc stack on the left, arrow stays right.
+     Index becomes a small label above the name. Meta hidden. */
   .project-row {
-    grid-template-columns: 40px 1fr 60px;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "index arrow"
+      "name  arrow"
+      "desc  arrow";
+    column-gap: 16px;
+    row-gap: 4px;
+    padding: 22px 0;
+    align-items: center;
+  }
+  .project-row:hover {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .project-row .index {
+    grid-area: index;
+    align-self: end;
+    padding-bottom: 2px;
+  }
+  .project-row .name {
+    grid-area: name;
+    font-size: 28px;
+    line-height: 1.1;
+  }
+  .project-row > div {
+    grid-area: desc;
+  }
+  .project-row > div > div:first-child {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .project-row .arrow-go {
+    grid-area: arrow;
+    align-self: center;
+    width: 40px;
+    height: 40px;
   }
   .project-row .meta {
+    display: none;
+  }
+
+  /* No floating preview on touch devices — distracting + no cursor to follow. */
+  .project-preview {
     display: none;
   }
 }

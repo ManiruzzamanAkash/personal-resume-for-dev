@@ -89,6 +89,111 @@ the article workflow), read [CLAUDE.md](./CLAUDE.md).
 
 ---
 
+## Make this site yours (rebrand in 5 minutes)
+
+This template is set up so a non-developer can swap out the entire portfolio
+by editing one file. Here's the canonical workflow:
+
+### 1. Edit `src/data.js` → `CONTENT.site`
+
+```js
+site: {
+  name:     'Jane Doe',
+  fullName: 'Jane M. Doe',
+  short:    'Jane',                  // shown in nav logo
+  title:    'Senior Backend Engineer & Systems Designer',
+  location: 'Berlin, Germany',
+  timezone: 'CET',
+  email:    'jane@example.com',
+  status:   'Open to chat',          // status pill on hero
+  calendly: 'https://calendly.com/jane/chat',
+  socials: {
+    github:        'https://github.com/janedoe',
+    linkedin:      'https://linkedin.com/in/janedoe',
+    youtube:       'https://www.youtube.com/@janedoe',
+    stackoverflow: 'https://stackoverflow.com/users/123456/jane-doe',
+  },
+  contributionsLastYear: 1234,
+},
+```
+
+That single change cascades everywhere: nav logo, footer, mailto links,
+GitHub buttons, the hero subtext (uses `{fullName}` token), `{email}` in
+contact links — all auto-update.
+
+### 2. Replace structured data
+
+Each list is an array of plain objects. Empty an array to hide its section.
+
+```js
+projects:    [...]   // replace with your work
+experience:  [...]   // your job history
+skills:      [...]   // your tech clusters
+testimonials:[...]   // your LinkedIn recommendations
+openSource:  [...]   // your repos / contributions
+stats:       [...]   // your headline numbers
+marqueeWords:[...]   // tags scrolling across the hero
+```
+
+Field shapes are documented in [CLAUDE.md](./CLAUDE.md#editing-the-site-content).
+
+### 3. Rewrite the prose
+
+Five blocks under `CONTENT.*` hold every word of editable copy:
+
+```js
+home:    { hero, about, sections, contactCta }
+resume:  { hero, aside, sections }
+blog:    { hero, loading, feedEnd, empty, error }
+article: { backLabel, replyLabel, notFoundHead }
+contact: { hero, summary, links, form }
+footer:  { copyright, links }
+```
+
+Use `*italic*` for accent words and `**bold**` for emphasis. The hero title
+splits on `\n` for line breaks and animates each word in sequence.
+
+### 4. Swap the colors / fonts (optional)
+
+Open [`styles/tokens.css`](./styles/tokens.css):
+
+```css
+:root {
+  --primary: #8345dd;     /* accent color (italic words, links, CTAs) */
+  --secondary: #ff5b04;   /* secondary blob in hero */
+  --font-sans:  "Inter",            ...;
+  --font-serif: "Instrument Serif", ...;
+  --font-mono:  "JetBrains Mono",   ...;
+}
+
+[data-theme="dark"] { ... }
+```
+
+Or use the live Tweaks panel (handed to a host iframe) to adjust accent and
+display serif at runtime — no edit required.
+
+### 5. Replace the articles
+
+Delete the markdown files in `articles/` and write your own. Update
+`articles/index.json` with the new filenames. The blog list and article
+view auto-render from there.
+
+### Hide a section entirely
+
+Easiest: empty the array.
+
+```js
+testimonials: [],   // testimonials carousel hides itself
+projects: [],       // projects list shows nothing
+```
+
+For full removal of a section, comment out its component call in the
+relevant page file under `src/pages/`. The site is built so each section is
+a small named component (`<HomeAbout />`, `<HomeProjects />`, etc.) — rip
+out the line and rebuild your home page in any order you like.
+
+---
+
 ## Adding a new article
 
 Three steps, no rebuild:
@@ -126,27 +231,63 @@ Frontmatter fields and how each is used are documented in
 
 ## Editing site content
 
-Most copy lives in **`src/data.js`** as plain JS objects:
+**Everything visible on the site lives in one file: [`src/data.js`](./src/data.js)**.
+There's a single `CONTENT` object that holds every piece of editable text,
+every URL, every list. To rebrand for someone else, you only edit this
+file — no JSX, no CSS, no component changes.
 
-| Want to update              | Edit                              |
-| --------------------------- | --------------------------------- |
-| Name, email, socials        | `SITE`                            |
-| Projects                    | `PROJECTS`                        |
-| Job history                 | `EXPERIENCE`                      |
-| Skills clusters             | `SKILLS`                          |
-| Testimonials                | `TESTIMONIALS`                    |
-| Stats (years, users, etc.)  | `STATS`                           |
-| Open source items           | `OPEN_SOURCE`                     |
-| Marquee strip words         | `MARQUEE_WORDS`                   |
-| Nav link labels             | `NAV_LINKS`                       |
-| Calendly booking URL        | `SITE.calendly`                   |
+```js
+const CONTENT = {
+  site:        { name, email, socials, calendly, … },
+  navigation:  [...],
+  projects:    [...],
+  experience:  [...],
+  skills:      [...],
+  testimonials:[...],
+  openSource:  [...],
+  stats:       [...],
+  marqueeWords:[...],
 
-Free-form prose (hero copy, about paragraphs) lives in the relevant page
-component under `src/pages/`.
+  // All page prose — strings flow through the <Rich /> helper:
+  home:        { hero, about, sections, contactCta },
+  resume:      { hero, aside, sections },
+  blog:        { hero, loading, feedEnd, empty, error },
+  article:     { backLabel, replyLabel, notFoundHead },
+  contact:     { hero, summary, links, form },
+  footer:      { copyright, links },
+};
+```
 
-Design tokens (colors, spacing, fonts, both light + dark themes) live in
-`styles/tokens.css`. Always go through CSS variables — don't hardcode
-colors in component styles.
+### Inline formatting cheat sheet
+
+Strings in `CONTENT.*` are passed through a tiny markdown-lite parser:
+
+| You write                         | Renders as            | Used for         |
+| --------------------------------- | --------------------- | ---------------- |
+| `*plugin*`                        | `<em>plugin</em>`     | accent words     |
+| `**Md. Maniruzzaman Akash**`      | `<b>…</b>`            | bold emphasis    |
+| `Got a *plugin* idea?\nLet's…`    | line break before "Let's" | hard newline |
+| `I'm **{fullName}** — 7+ years…`  | substitutes `{fullName}` from `CONTENT.site` | keeps copy in sync |
+
+### Action helper
+
+Link items use `action: '<name>'` instead of hardcoded URLs. The
+[`resolveAction()`](./src/lib.jsx) helper centralizes the contract.
+
+| `action`         | Resolves to                          |
+| ---------------- | ------------------------------------ |
+| `mail`           | `mailto:{email}`                     |
+| `calendly`       | Opens Calendly popup modal           |
+| `github`         | `site.socials.github`                |
+| `linkedin`       | `site.socials.linkedin`              |
+| `youtube`        | `site.socials.youtube`               |
+| `stackoverflow`  | `site.socials.stackoverflow`         |
+
+### Design tokens
+
+Colors, spacing, fonts, and both light + dark themes live in
+[`styles/tokens.css`](./styles/tokens.css). Always go through CSS variables
+— don't hardcode colors in component styles.
 
 ---
 

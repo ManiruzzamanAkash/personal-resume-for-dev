@@ -1,9 +1,11 @@
 /* ============================================================
    pages/Blog.jsx — list of articles loaded from /articles/*.md.
    Reads articles via fetchAllArticles() (markdown.js).
+   Copy comes from CONTENT.blog in src/data.js.
    ============================================================ */
 
 const BlogPage = () => {
+  const c = CONTENT.blog.hero;
   const [articles, setArticles] = React.useState(null);
   const [error, setError] = React.useState(null);
 
@@ -16,12 +18,9 @@ const BlogPage = () => {
   return (
     <>
       <section className="subhero">
-        <span className="eyebrow">Writing</span>
-        <h1>Notes on <em>building</em> for the long haul.</h1>
-        <p className="lede">
-          Essays, deep-dives, and the occasional rant — across WordPress, Laravel,
-          React, AI, software architecture, and whatever I'm learning lately.
-        </p>
+        <span className="eyebrow">{c.eyebrow}</span>
+        <Rich as="h1" text={c.heading} />
+        <Rich as="p" className="lede" text={c.lede} />
       </section>
 
       <section className="page" style={{ paddingTop: 40 }}>
@@ -35,24 +34,18 @@ const BlogPage = () => {
 };
 
 const BlogList = ({ articles, error }) => {
+  const c = CONTENT.blog;
+
   if (error) {
-    return (
-      <div className="blog-empty">
-        Couldn't load articles. {error}
-      </div>
-    );
+    return <div className="blog-empty">{c.error} {error}</div>;
   }
 
   if (articles === null) {
-    return <div className="blog-loading">LOADING…</div>;
+    return <div className="blog-loading">{c.loading}</div>;
   }
 
   if (articles.length === 0) {
-    return (
-      <div className="blog-empty">
-        No articles yet. Add one in <code>articles/</code> and list it in <code>articles/index.json</code>.
-      </div>
-    );
+    return <div className="blog-empty">{c.empty}</div>;
   }
 
   return (
@@ -75,7 +68,7 @@ const BlogList = ({ articles, error }) => {
         ))}
       </div>
       <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--ink-2)', fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.1em' }}>
-        END OF FEED
+        {c.feedEnd}
       </div>
     </>
   );

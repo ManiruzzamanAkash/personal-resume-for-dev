@@ -244,10 +244,106 @@ const I = {
   book:     () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>,
   chevronLeft:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>,
   chevronRight: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>,
+  menu:         () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" /></svg>,
+  close:        () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="6" y1="6" x2="18" y2="18" /><line x1="6" y1="18" x2="18" y2="6" /></svg>,
 };
 
 /* `useTweaks` is provided by tweaks-panel.jsx (loaded before this file).
    It owns the host postMessage protocol — don't re-implement here. */
+
+/* ---------- Rich text + templating helpers ----------
+   Page copy in src/data.js uses a tiny markdown-lite format:
+     *italic*   → <em>          (accent color via CSS)
+     **bold**   → <b>            (emphasis in body text)
+     \n         → <br />          (line break)
+
+   tmpl(str) substitutes {key} placeholders against SITE values:
+     "{email}"           → "manirujjamanakash@gmail.com"
+     "{socials.linkedin}" → the LinkedIn URL
+     "{location}"        → "Dhaka, Bangladesh"
+*/
+
+const _RICH_RE = /(\*\*[^*\n]+\*\*|\*[^*\n]+\*|\n)/g;
+
+const Rich = ({ text, as: Tag = 'span', ...rest }) => {
+  if (text == null) return null;
+  const filled = tmpl(String(text));
+  const parts = filled.split(_RICH_RE).filter(p => p !== '');
+  return (
+    <Tag {...rest}>
+      {parts.map((p, i) => {
+        if (p.startsWith('**') && p.endsWith('**')) return <b key={i}>{p.slice(2, -2)}</b>;
+        if (p.startsWith('*')  && p.endsWith('*'))  return <em key={i}>{p.slice(1, -1)}</em>;
+        if (p === '\n') return <br key={i} />;
+        return <React.Fragment key={i}>{p}</React.Fragment>;
+      })}
+    </Tag>
+  );
+};
+
+/**
+ * Like <Rich> but renders the title word-by-word, each wrapped in the
+ * .word/.word>span structure the CSS animates. Used for the home hero.
+ */
+const RichTitle = ({ text, className = '' }) => {
+  if (text == null) return null;
+  const lines = tmpl(String(text)).split('\n');
+  let wordIdx = 0;
+  return (
+    <h1 className={className}>
+      {lines.map((line, li) => (
+        <React.Fragment key={li}>
+          {li > 0 && <br />}
+          {line.split(/(\s+)/).map((tok, ti) => {
+            if (/^\s*$/.test(tok)) return tok || ' ';
+            const isItalic = tok.startsWith('*') && tok.endsWith('*');
+            const inner = isItalic ? tok.slice(1, -1) : tok;
+            const delay = `${0.05 + (wordIdx++) * 0.1}s`;
+            return (
+              <span key={ti} className="word">
+                <span style={{ animationDelay: delay }}>
+                  {isItalic ? <em>{inner}</em> : inner}
+                </span>
+              </span>
+            );
+          })}
+        </React.Fragment>
+      ))}
+    </h1>
+  );
+};
+
+/** Substitute {key} and {nested.key} placeholders against window.SITE. */
+const tmpl = (str) => {
+  if (!str || typeof str !== 'string') return str;
+  const site = window.SITE || {};
+  return str.replace(/\{([^}]+)\}/g, (m, path) => {
+    const segs = path.split('.');
+    let v = site;
+    for (const s of segs) {
+      if (v == null) return m;
+      v = v[s];
+    }
+    return v == null ? m : String(v);
+  });
+};
+
+/**
+ * Resolve an "action" name (used in CONTENT.* link items) to an href + onClick.
+ * Centralizes the contract between content config and components.
+ */
+const resolveAction = (action) => {
+  const site = window.SITE || {};
+  switch (action) {
+    case 'calendly':       return { href: site.calendly, onClick: openCalendly, target: '_blank', rel: 'noreferrer' };
+    case 'mail':           return { href: `mailto:${site.email}` };
+    case 'github':         return { href: site.socials?.github,        target: '_blank', rel: 'noreferrer' };
+    case 'linkedin':       return { href: site.socials?.linkedin,      target: '_blank', rel: 'noreferrer' };
+    case 'youtube':        return { href: site.socials?.youtube,       target: '_blank', rel: 'noreferrer' };
+    case 'stackoverflow':  return { href: site.socials?.stackoverflow, target: '_blank', rel: 'noreferrer' };
+    default:               return {};
+  }
+};
 
 /* ---------- Expose to global scope ----------
    Babel-standalone wraps each <script type="text/babel"> in its own scope,
@@ -260,4 +356,5 @@ Object.assign(window, {
   useTheme,
   Cursor, Magnetic, Reveal, Counter,
   I,
+  Rich, RichTitle, tmpl, resolveAction,
 });

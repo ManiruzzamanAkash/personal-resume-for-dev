@@ -93,6 +93,25 @@ If you add a new file, slot it into `index.html` after its dependencies.
 
 ---
 
+## Responsive behavior
+
+Single breakpoint: **`max-width: 900px`**. Above that = desktop layout, below =
+mobile. Per-section CSS files (`styles/*.css`) all use `@media (max-width:
+900px)` to switch grid columns to 1, drop side padding, etc.
+
+The nav has a real mobile menu: hamburger button (`.nav-toggle`) becomes
+visible on mobile and toggles the `.nav-links` panel as a slide-down
+dropdown. State is owned by the `Nav` component in `src/components.jsx`:
+
+- `menuOpen` toggles on hamburger click
+- Closes automatically when route changes (`useEffect` on `route`)
+- Locks `body.style.overflow` while open
+
+If you add a new top-level route, just append to `CONTENT.navigation` —
+it'll show up in both desktop pill row and mobile menu.
+
+---
+
 ## Routing
 
 Hash-based, two segments: `#/route/param`.
@@ -188,14 +207,77 @@ Reload. Article appears on `/#/blog` and is reachable at `#/article/<slug>`.
 
 ---
 
+## Make this site yours (rebrand workflow)
+
+If a developer or designer wants to use this template for their own
+portfolio, the contract is:
+
+1. **Edit `src/data.js` → `CONTENT.site`** with name, email, socials,
+   Calendly URL. Tokens like `{fullName}`, `{email}`, `{socials.linkedin}`
+   automatically substitute throughout page copy.
+2. **Replace the lists**: `projects`, `experience`, `skills`,
+   `testimonials`, `openSource`, `stats`, `marqueeWords`. Empty an array to
+   hide its section.
+3. **Rewrite prose blocks** under `CONTENT.home`, `.resume`, `.blog`,
+   `.article`, `.contact`, `.footer`. Use `*italic*` for accent and
+   `**bold**` for emphasis.
+4. **Swap colors / fonts** in `styles/tokens.css` (or live via the Tweaks
+   panel).
+5. **Replace `articles/*.md`** with their own posts; update
+   `articles/index.json`.
+
+The full README has a step-by-step version for non-developers — see
+[`README.md` § Make this site yours](./README.md#make-this-site-yours-rebrand-in-5-minutes).
+
+---
+
 ## Editing the site content
 
-Most copy lives in **`src/data.js`** — projects, experience, skills,
-testimonials, nav links, social URLs, site name. Edit values there; pages will
-re-read on next load.
+**Everything visible on the site lives in one place: `src/data.js`** —
+under a single `CONTENT` object. That includes:
 
-Free-form prose (hero copy, About paragraphs, page headings) lives in the
-relevant page component under `src/pages/`.
+- Site identity (name, email, socials, Calendly URL)
+- All structured data (projects, experience, skills, testimonials, OSS)
+- All prose (hero copy, page intros, section headings, form labels, footer)
+
+To rebrand the site for a different person, replace `CONTENT.site` and
+swap out the page-copy blocks (`CONTENT.home`, `.resume`, `.blog`, `.contact`).
+No JSX edits required for content changes.
+
+### Inline emphasis convention
+
+Strings in `CONTENT.*` flow through a `<Rich />` helper that parses a tiny
+markdown-lite format:
+
+| Marker      | Renders as            | Example use            |
+| ----------- | --------------------- | ---------------------- |
+| `*italic*`  | `<em>italic</em>`     | accent words in titles |
+| `**bold**`  | `<b>bold</b>`         | emphasis in body text  |
+| `\n`        | `<br />`              | hard line break        |
+
+Plus a `{key}` placeholder syntax that substitutes against `CONTENT.site`:
+
+```js
+"I'm **{fullName}** — 7+ years…"            // → "I'm Md. Maniruzzaman Akash — …"
+"linkedin.com/in/maniruzzamanakash"         // unchanged
+"{email}"                                   // → "manirujjamanakash@gmail.com"
+```
+
+This keeps copy synced when you change `site.fullName` or `site.email` once.
+
+### Action helper
+
+Link items in `CONTENT.*` use `action: '<name>'` instead of hardcoded URLs.
+Supported actions (resolve via `resolveAction()` in `src/lib.jsx`):
+
+| action            | Renders link to                       |
+| ----------------- | ------------------------------------- |
+| `mail`            | `mailto:{email}`                      |
+| `calendly`        | Opens Calendly popup modal            |
+| `github`          | `site.socials.github`                 |
+| `linkedin`        | `site.socials.linkedin`               |
+| `youtube`         | `site.socials.youtube`                |
+| `stackoverflow`   | `site.socials.stackoverflow`          |
 
 ---
 
@@ -254,20 +336,22 @@ The defaults are wrapped in `EDITMODE-BEGIN`/`EDITMODE-END` markers in
 
 ## Common changes — where to look
 
-| What you want to do                    | File(s) to edit                                    |
-| -------------------------------------- | -------------------------------------------------- |
-| Update name/email/socials              | `src/data.js` → `SITE`                             |
-| Add/remove a project                   | `src/data.js` → `PROJECTS`                         |
-| Update job history                     | `src/data.js` → `EXPERIENCE`                       |
-| Tweak skills list                      | `src/data.js` → `SKILLS`                           |
-| Change nav links                       | `src/data.js` → `NAV_LINKS` + `src/App.jsx` route  |
-| Edit a hero/about copy block           | `src/pages/Home.jsx`                               |
-| Add a new article                      | `articles/<slug>.md` + `articles/index.json`       |
-| Change article typography              | `styles/article.css`                               |
-| Change colors / accent                 | `styles/tokens.css` (or live via Tweaks panel)     |
-| Change fonts                           | `styles/tokens.css` → `--font-sans` / `--font-serif` |
-| Add a new icon                         | `src/lib.jsx` → `I`                                |
-| Add a new page                         | `src/pages/`, register in `index.html` + `App.jsx` |
+| What you want to do                    | File(s) to edit                                                 |
+| -------------------------------------- | --------------------------------------------------------------- |
+| Update name/email/socials              | `src/data.js` → `CONTENT.site`                                  |
+| Add/remove a project                   | `src/data.js` → `CONTENT.projects`                              |
+| Update job history                     | `src/data.js` → `CONTENT.experience`                            |
+| Tweak skills list                      | `src/data.js` → `CONTENT.skills`                                |
+| Change testimonials                    | `src/data.js` → `CONTENT.testimonials`                          |
+| Change nav links                       | `src/data.js` → `CONTENT.navigation` + `src/App.jsx` route      |
+| Edit hero / about / section copy       | `src/data.js` → `CONTENT.home` / `.resume` / `.blog` / `.contact` |
+| Edit footer                            | `src/data.js` → `CONTENT.footer`                                |
+| Add a new article                      | `articles/<slug>.md` + `articles/index.json`                    |
+| Change article typography              | `styles/article.css`                                            |
+| Change colors / accent                 | `styles/tokens.css` (or live via Tweaks panel)                  |
+| Change fonts                           | `styles/tokens.css` → `--font-sans` / `--font-serif`            |
+| Add a new icon                         | `src/lib.jsx` → `I`                                             |
+| Add a new page                         | `src/pages/`, register in `index.html` + `App.jsx`              |
 
 ---
 
