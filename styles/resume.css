@@ -202,6 +202,269 @@
   height: 12px;
 }
 
+/* ============================================================
+   AI / LLM section — same visual rhythm as the open-source list,
+   but card-shaped so each item reads as a distinct shipped surface.
+   ============================================================ */
+.ai-list,
+.case-list,
+.talk-list,
+.mentor-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ai-item {
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper-2);
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.ai-item:hover {
+  border-color: color-mix(in srgb, var(--primary) 50%, var(--line));
+  transform: translateY(-1px);
+}
+.ai-title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.ai-desc {
+  margin: 0 0 12px;
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.ai-tags,
+.case-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ai-tags span,
+.case-tags span {
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.ai-links {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.ai-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--ink-2);
+  transition: all 0.2s;
+}
+.ai-link:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.ai-link svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ============================================================
+   Case studies — wider hit area, metric pulled out for skim.
+   ============================================================ */
+.case-item {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper-2);
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.case-item:hover {
+  border-color: color-mix(in srgb, var(--primary) 50%, var(--line));
+  transform: translateY(-1px);
+}
+.case-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  padding: 22px 24px;
+  align-items: start;
+}
+.case-body {
+  min-width: 0;
+}
+.case-title {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.case-outcome {
+  margin: 0 0 10px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+}
+.case-summary {
+  margin: 0 0 12px;
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.case-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.case-metric {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  white-space: nowrap;
+}
+.case-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--ink-2);
+  transition: all 0.2s;
+}
+.case-item:hover .case-arrow {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.case-arrow svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ============================================================
+   Talks / podcasts / channels — three-column row, scannable.
+   ============================================================ */
+.talk-item {
+  border-bottom: 1px solid var(--line);
+}
+.talk-item:last-child {
+  border-bottom: 0;
+}
+.talk-row {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  gap: 16px;
+  padding: 14px 0;
+  align-items: baseline;
+}
+.talk-kind {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.talk-title {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.talk-venue {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.talk-date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Mentorship / leadership — quotable cards.
+   ============================================================ */
+.mentor-item {
+  padding: 18px 22px;
+  border-left: 2px solid var(--primary);
+  background: var(--paper-2);
+  border-radius: 0 12px 12px 0;
+}
+.mentor-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.mentor-desc {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.mentor-source {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+}
+
+/* ============================================================
+   How I work — definition-list style, narrow label / wide value.
+   ============================================================ */
+.how-list {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.how-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 24px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--line);
+}
+.how-row:last-child {
+  border-bottom: 0;
+}
+.how-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.how-value {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
 @media (max-width: 900px) {
   .resume-grid {
     grid-template-columns: 1fr;
@@ -214,5 +477,22 @@
   .tl-item {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+  .case-row {
+    grid-template-columns: 1fr;
+  }
+  .case-meta {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .talk-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 14px 0;
+  }
+  .how-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 }

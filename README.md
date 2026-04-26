@@ -1,87 +1,128 @@
 # Maniruzzaman Akash — Portfolio
 
-A static, build-step-free personal portfolio with a file-based markdown blog,
-hash routing, syntax highlighting, and a Calendly booking modal.
+A personal portfolio + markdown blog for **Md. Maniruzzaman Akash**, built
+with **Next.js 14 (App Router) + TypeScript** and statically exported. The
+production site is served from GitHub Pages at **[maniruzzaman.me](https://maniruzzaman.me)**.
 
-> **Live:** _(deploy URL)_
-> **Source:** this repo
+> **Live:** <https://maniruzzaman.me>
+> **Source:** this repository
 > **Author guide:** see [CLAUDE.md](./CLAUDE.md) — file map, conventions,
 > where-to-edit table, and the article-publishing workflow.
 
 ---
 
+## Screenshots
+
+| Dark | Light |
+| :---: | :---: |
+| ![Home – dark](./public/screenshots/home-dark.png) | ![Home – light](./public/screenshots/home-light.png) |
+| _Home_ | _Home_ |
+| ![Resume – dark](./public/screenshots/resume-dark.png) | ![Resume – light](./public/screenshots/resume-light.png) |
+| _Resume_ | _Resume_ |
+| ![Blog – dark](./public/screenshots/blog-dark.png) | ![Blog – light](./public/screenshots/blog-light.png) |
+| _Blog_ | _Blog_ |
+| ![Article – dark](./public/screenshots/article-dark.png) | ![Article – light](./public/screenshots/article-light.png) |
+| _Article_ | _Article_ |
+| ![Contact – dark](./public/screenshots/contact-dark.png) | ![Contact – light](./public/screenshots/contact-light.png) |
+| _Contact_ | _Contact_ |
+
+> Captured against the dev server at 1440 px wide. Re-generate with the
+> command in [`Regenerating screenshots`](#regenerating-screenshots).
+
+---
+
 ## How it works
 
-There is **no build step** and **no framework runtime**. The site is plain
-HTML, CSS, and JSX served as static files:
-
-- **React 18** + **Babel-standalone** load from a CDN at runtime. Babel
-  transpiles each `<script type="text/babel">` in the browser before mounting.
-- **Hash-based routing** (`#/route` or `#/route/param`) — no server-side
-  rewrite needed. Works on any static host.
-- **Articles** are plain `.md` files in `articles/`, with YAML frontmatter at
-  the top of each file. A small index file (`articles/index.json`) lists which
-  files exist (browsers can't list directory contents over HTTP).
-- **Markdown** is rendered with [marked](https://github.com/markedjs/marked).
-- **Syntax highlighting** uses [Prism](https://prismjs.com/) with a custom
-  token theme that respects light + dark mode.
-- **Calendly** popup loads via Calendly's public widget script.
-
-The trade-off: every visitor pays a one-time Babel transform cost on first
-load (~150ms on a fast connection). Worth it for the editing speed — change
-a file, reload, see the result. No bundler, no `npm install`, no waiting.
+- **Next.js 14 App Router.** Every page under `app/` is a server component
+  by default. Components marked `'use client'` are bundled separately and
+  hydrate on the client (nav, hero magnet, theme toggle, contact form,
+  testimonial carousel).
+- **Static export.** `next.config.mjs` sets `output: 'export'` in
+  production. `npm run build` pre-renders every public route — including
+  each article — into static HTML under `out/`. No Node runtime is needed
+  at deploy time.
+- **Articles** live in `articles/<slug>.md` with YAML frontmatter. At
+  build time, `lib/markdown.ts` reads them via `gray-matter` + `remark`
+  + `rehype-prism-plus` and emits one static `index.html` per slug under
+  `out/article/<slug>/`. `generateStaticParams` enumerates the slugs.
+- **SEO baked in.** `lib/seo.ts` generates per-route `Metadata` (title,
+  description, canonical, OG/Twitter Card) plus JSON-LD graphs (Person,
+  WebSite, ProfilePage, BlogPosting, FAQPage, BreadcrumbList) from the
+  typed `CONTENT` object in `lib/content.ts`.
+- **Sitemap + robots** are auto-generated from the same content/articles
+  source and emitted at `/sitemap.xml` and `/robots.txt`.
+- **Trailing slashes.** `trailingSlash: true` makes every URL end with
+  `/` — `/blog/`, `/article/welcome-to-my-blog/` — for friendlier
+  static-host routing.
 
 ---
 
 ## Run locally
 
-The articles fetch over HTTP, so `file://` won't work. Serve the directory
-with any static server:
-
 ```bash
-# Python (built-in)
-python3 -m http.server 8000
-
-# Node (one-off, no install)
-npx serve .
-
-# Or any other static server you like
+npm install
+npm run dev          # → http://localhost:3000
 ```
 
-Open http://localhost:8000.
+Build + verify the static export:
 
-There is **no `npm install`** to run, no watcher, no dev script. Edit any
-file in `src/`, `styles/`, or `articles/` and reload the page.
+```bash
+npm run build        # writes out/
+npx serve out        # smoke-test the export locally
+```
+
+| Script              | What it does                                          |
+| ------------------- | ----------------------------------------------------- |
+| `npm run dev`       | Next.js dev server with hot reload                    |
+| `npm run build`     | Static export to `out/`                               |
+| `npm run start`     | Serve a production build (rarely needed — exports are static) |
+| `npm run lint`      | `next lint`                                           |
+| `npm run typecheck` | `tsc --noEmit` — strict TypeScript check              |
+| `npm run screenshots` | Regenerate README screenshots — needs `npm run dev` running |
+
+Requires **Node ≥ 18.18**.
 
 ---
 
-## Project structure (short)
+## Project structure
 
 ```
 .
-├── index.html              # entry, loads scripts in dependency order
-├── styles.css              # root — only @imports per-section files
-├── tweaks-panel.jsx        # prebuilt host-aware tweaks UI (don't edit)
-├── articles/               # blog content
-│   ├── index.json          # which .md files to load
-│   └── *.md                # one file per post, YAML frontmatter inside
-├── src/
-│   ├── App.jsx             # root component + routing
-│   ├── lib.jsx             # routing, theme, motion primitives, icons
-│   ├── data.js             # SITE, PROJECTS, EXPERIENCE, SKILLS, ...
-│   ├── markdown.js         # frontmatter parser + article loader
-│   ├── components.jsx      # Nav, Footer, ContactCTA, ContribGrid, ...
-│   └── pages/              # one file per route
-│       ├── Home.jsx
-│       ├── Resume.jsx
-│       ├── Blog.jsx
-│       ├── Article.jsx
-│       └── Contact.jsx
-└── styles/                 # per-section CSS, all imported by styles.css
-    ├── tokens.css          # design tokens, fonts, reset
-    ├── nav.css   hero.css   about.css   projects.css   skills.css
-    ├── testimonials.css    contrib.css   blog.css   article.css
-    └── resume.css   contact.css   footer.css
+├── app/                      # App Router routes
+│   ├── layout.tsx            # root <html>, global CSS, baseline JSON-LD
+│   ├── globals.css           # @imports styles/*.css
+│   ├── page.tsx              # /
+│   ├── resume/page.tsx       # /resume/
+│   ├── blog/page.tsx         # /blog/
+│   ├── blog/category/[category]/page.tsx  # /blog/category/<slug>/
+│   ├── contact/page.tsx      # /contact/
+│   ├── article/[slug]/page.tsx          # /article/<slug>/
+│   ├── article/[slug]/opengraph-image.tsx  # per-article OG image
+│   ├── sitemap.ts            # /sitemap.xml
+│   ├── robots.ts             # /robots.txt
+│   └── not-found.tsx         # 404
+├── articles/                 # markdown blog content
+│   ├── index.json            # ordered list of articles + metadata
+│   └── *.md                  # one file per post (YAML frontmatter)
+├── components/               # shared components (server + client)
+├── lib/
+│   ├── content.ts            # CONTENT — single source of truth for copy
+│   ├── seo.ts                # buildMetadata + JSON-LD generators
+│   ├── markdown.ts           # server-only article reader + categories
+│   ├── tmpl.ts               # {token} substitution
+│   ├── routing.ts            # pathFor()
+│   ├── actions.ts            # action → href resolver
+│   ├── calendly.ts           # client-only openCalendly()
+│   └── theme.ts              # client useTheme() hook
+├── styles/                   # tokens + per-section CSS, imported by globals.css
+├── public/
+│   ├── assets/               # favicon, OG image, avatar, manifest icons
+│   ├── screenshots/          # README screenshots
+│   └── manifest.json
+├── .github/workflows/deploy.yml  # GitHub Pages CI
+├── next.config.mjs           # static export, trailingSlash, etc.
+├── CLAUDE.md                 # canonical author guide
+└── README.md                 # you are here
 ```
 
 For the long version (load order, conventions, common-changes table, and
@@ -89,14 +130,33 @@ the article workflow), read [CLAUDE.md](./CLAUDE.md).
 
 ---
 
+## Routing
+
+| URL                              | File                                       |
+| -------------------------------- | ------------------------------------------ |
+| `/`                              | `app/page.tsx`                             |
+| `/resume/`                       | `app/resume/page.tsx`                      |
+| `/blog/`                         | `app/blog/page.tsx`                        |
+| `/blog/category/<slug>/`         | `app/blog/category/[category]/page.tsx`    |
+| `/article/<slug>/`               | `app/article/[slug]/page.tsx`              |
+| `/contact/`                      | `app/contact/page.tsx`                     |
+| `/sitemap.xml`                   | `app/sitemap.ts`                           |
+| `/robots.txt`                    | `app/robots.ts`                            |
+
+Add a new top-level route by creating its page file under `app/<route>/page.tsx`,
+then adding the entry to `CONTENT.navigation` and `CONTENT.seo.routes` in
+`lib/content.ts`. The sitemap, breadcrumbs, and nav pick it up automatically.
+
+---
+
 ## Make this site yours (rebrand in 5 minutes)
 
-This template is set up so a non-developer can swap out the entire portfolio
-by editing one file. Here's the canonical workflow:
+Everything visible on the site flows from `lib/content.ts`. To rebrand,
+edit one file — no JSX, no CSS, no component changes.
 
-### 1. Edit `src/data.js` → `CONTENT.site`
+### 1. Update `CONTENT.site`
 
-```js
+```ts
 site: {
   name:     'Jane Doe',
   fullName: 'Jane M. Doe',
@@ -112,6 +172,7 @@ site: {
     linkedin:      'https://linkedin.com/in/janedoe',
     youtube:       'https://www.youtube.com/@janedoe',
     stackoverflow: 'https://stackoverflow.com/users/123456/jane-doe',
+    twitter:       'https://twitter.com/janedoe',
   },
   contributionsLastYear: 1234,
 },
@@ -125,23 +186,23 @@ contact links — all auto-update.
 
 Each list is an array of plain objects. Empty an array to hide its section.
 
-```js
-projects:    [...]   // replace with your work
+```ts
+projects:    [...]   // your work
 experience:  [...]   // your job history
 skills:      [...]   // your tech clusters
-testimonials:[...]   // your LinkedIn recommendations
-openSource:  [...]   // your repos / contributions
-stats:       [...]   // your headline numbers
+testimonials:[...]   // recommendations
+openSource:  [...]   // repos / contributions
+stats:       [...]   // headline numbers
 marqueeWords:[...]   // tags scrolling across the hero
 ```
 
-Field shapes are documented in [CLAUDE.md](./CLAUDE.md#editing-the-site-content).
+Field shapes are documented in [CLAUDE.md](./CLAUDE.md#editing-content).
 
 ### 3. Rewrite the prose
 
-Five blocks under `CONTENT.*` hold every word of editable copy:
+Six blocks under `CONTENT.*` hold every word of editable copy:
 
-```js
+```ts
 home:    { hero, about, sections, contactCta }
 resume:  { hero, aside, sections }
 blog:    { hero, loading, feedEnd, empty, error }
@@ -150,55 +211,26 @@ contact: { hero, summary, links, form }
 footer:  { copyright, links }
 ```
 
-Use `*italic*` for accent words and `**bold**` for emphasis. The hero title
-splits on `\n` for line breaks and animates each word in sequence.
+Use `*italic*` for accent words, `**bold**` for emphasis, `\n` for line
+breaks, and `{key}` to interpolate `CONTENT.site` fields.
 
-### 4. Swap the colors / fonts (optional)
+### 4. Swap colors / fonts (optional)
 
-Open [`styles/tokens.css`](./styles/tokens.css):
-
-```css
-:root {
-  --primary: #8345dd;     /* accent color (italic words, links, CTAs) */
-  --secondary: #ff5b04;   /* secondary blob in hero */
-  --font-sans:  "Inter",            ...;
-  --font-serif: "Instrument Serif", ...;
-  --font-mono:  "JetBrains Mono",   ...;
-}
-
-[data-theme="dark"] { ... }
-```
-
-Or use the live Tweaks panel (handed to a host iframe) to adjust accent and
-display serif at runtime — no edit required.
+`styles/tokens.css` holds every design token — accent, paper, ink,
+spacing, radius, fonts. Don't hardcode colors in component styles; always
+go through CSS variables.
 
 ### 5. Replace the articles
 
 Delete the markdown files in `articles/` and write your own. Update
-`articles/index.json` with the new filenames. The blog list and article
-view auto-render from there.
-
-### Hide a section entirely
-
-Easiest: empty the array.
-
-```js
-testimonials: [],   // testimonials carousel hides itself
-projects: [],       // projects list shows nothing
-```
-
-For full removal of a section, comment out its component call in the
-relevant page file under `src/pages/`. The site is built so each section is
-a small named component (`<HomeAbout />`, `<HomeProjects />`, etc.) — rip
-out the line and rebuild your home page in any order you like.
+`articles/index.json` with the new entries. The blog list, category
+pages, sitemap, and per-article metadata auto-render from there.
 
 ---
 
 ## Adding a new article
 
-Three steps, no rebuild:
-
-1. Create `articles/<slug>.md`:
+1. **Create `articles/<slug>.md`** with frontmatter:
 
    ```markdown
    ---
@@ -211,169 +243,122 @@ Three steps, no rebuild:
    tags: [wordpress, php]
    ---
 
-   Body in plain markdown. GFM features (lists, code blocks, tables, links)
-   all work.
+   Body in plain markdown — GFM works, code blocks get syntax-highlighted
+   via rehype-prism-plus.
    ```
 
-2. Add the filename to `articles/index.json`:
+2. **Register it in `articles/index.json`**:
 
    ```json
-   { "articles": ["my-new-article.md", "..."] }
+   {
+     "articles": [
+       {
+         "file":     "my-new-article.md",
+         "slug":     "my-new-article",
+         "title":    "My new article",
+         "date":     "2026-04-30",
+         "category": "Engineering",
+         "excerpt":  "One-sentence summary that shows up in the blog list."
+       }
+     ]
+   }
    ```
 
-3. Reload. The article appears at `#/blog` and is reachable at
-   `#/article/my-new-article`.
-
-Frontmatter fields and how each is used are documented in
-[CLAUDE.md](./CLAUDE.md#adding-a-new-article).
+3. Run `npm run build`. The new article gets:
+   - A static page at `/article/<slug>/`
+   - An entry in `/sitemap.xml`
+   - An entry on the `/blog/` listing
+   - An auto-derived category page if the category is new
+   - A dynamic OG image at `/article/<slug>/opengraph-image`
+   - Per-page metadata + Article JSON-LD with `datePublished`,
+     `articleSection`, `keywords`
 
 ---
 
-## Editing site content
+## SEO surface
 
-**Everything visible on the site lives in one file: [`src/data.js`](./src/data.js)**.
-There's a single `CONTENT` object that holds every piece of editable text,
-every URL, every list. To rebrand for someone else, you only edit this
-file — no JSX, no CSS, no component changes.
+Every page produces:
 
-```js
-const CONTENT = {
-  site:        { name, email, socials, calendly, … },
-  navigation:  [...],
-  projects:    [...],
-  experience:  [...],
-  skills:      [...],
-  testimonials:[...],
-  openSource:  [...],
-  stats:       [...],
-  marqueeWords:[...],
+- `<title>` + `<meta description>` from `CONTENT.seo.routes[<route>]`
+- `<link rel="canonical">` (with trailing slash)
+- Open Graph + Twitter Card tags (image, locale, type)
+- For `/article/<slug>/`: `og:type=article`, `article:published_time`,
+  `article:section`, `article:tag`, plus a per-article OG image
+- JSON-LD: Person + WebSite from `app/layout.tsx`, plus per-route schemas:
+  - `/`: ProfilePage, FAQPage, BreadcrumbList
+  - `/resume/`: ProfilePage, BreadcrumbList
+  - `/blog/`: Blog (with all posts), BreadcrumbList
+  - `/article/<slug>/`: BlogPosting, BreadcrumbList
+  - `/contact/`: FAQPage, BreadcrumbList
+- `/robots.txt` (allows all major crawlers including AI bots)
+- `/sitemap.xml` (auto-generated from articles + routes)
 
-  // All page prose — strings flow through the <Rich /> helper:
-  home:        { hero, about, sections, contactCta },
-  resume:      { hero, aside, sections },
-  blog:        { hero, loading, feedEnd, empty, error },
-  article:     { backLabel, replyLabel, notFoundHead },
-  contact:     { hero, summary, links, form },
-  footer:      { copyright, links },
-};
-```
-
-### Inline formatting cheat sheet
-
-Strings in `CONTENT.*` are passed through a tiny markdown-lite parser:
-
-| You write                         | Renders as            | Used for         |
-| --------------------------------- | --------------------- | ---------------- |
-| `*plugin*`                        | `<em>plugin</em>`     | accent words     |
-| `**Md. Maniruzzaman Akash**`      | `<b>…</b>`            | bold emphasis    |
-| `Got a *plugin* idea?\nLet's…`    | line break before "Let's" | hard newline |
-| `I'm **{fullName}** — 7+ years…`  | substitutes `{fullName}` from `CONTENT.site` | keeps copy in sync |
-
-### Action helper
-
-Link items use `action: '<name>'` instead of hardcoded URLs. The
-[`resolveAction()`](./src/lib.jsx) helper centralizes the contract.
-
-| `action`         | Resolves to                          |
-| ---------------- | ------------------------------------ |
-| `mail`           | `mailto:{email}`                     |
-| `calendly`       | Opens Calendly popup modal           |
-| `github`         | `site.socials.github`                |
-| `linkedin`       | `site.socials.linkedin`              |
-| `youtube`        | `site.socials.youtube`               |
-| `stackoverflow`  | `site.socials.stackoverflow`         |
-
-### Design tokens
-
-Colors, spacing, fonts, and both light + dark themes live in
-[`styles/tokens.css`](./styles/tokens.css). Always go through CSS variables
-— don't hardcode colors in component styles.
+Verify after a build: open any HTML file in `out/` and grep for `og:`,
+`application/ld+json`, `<title>`, `<link rel="canonical">`.
 
 ---
 
 ## Deploy to production
 
-Because everything is static, any static host works. Pick one:
+### GitHub Pages (current setup)
 
-### GitHub Pages
+The repo ships with [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml).
+On every push to `main` it:
 
-The simplest option. Push to GitHub, then in repo Settings → Pages, set
-source to your default branch (`main`) and root folder. Done in under a
-minute.
+1. Installs deps with `npm ci`
+2. Runs `npm run build` (which writes `out/`)
+3. Adds `.nojekyll` and a `CNAME` file (`maniruzzaman.me`)
+4. Uploads `out/` as a Pages artifact and deploys it to the
+   `github-pages` environment
 
-```bash
-git add -A
-git commit -m "Update site"
-git push origin main
-```
-
-Site appears at `https://<username>.github.io/<repo-name>/`.
-For a custom domain, add a `CNAME` file with your domain.
-
-### Netlify
-
-```bash
-npm i -g netlify-cli
-netlify deploy --prod --dir .
-```
-
-Or drag-and-drop the project folder onto https://app.netlify.com/drop.
-Connect a git repo for auto-deploy on push.
-
-No `netlify.toml` is required — there is nothing to build.
+To use this for your own fork, change the domain in
+[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) (or remove
+the `CNAME` step entirely to use the default `<user>.github.io/<repo>` URL),
+then push to `main`. The first run auto-enables Pages via
+`actions/configure-pages@v5`.
 
 ### Vercel
 
-```bash
-npm i -g vercel
-vercel --prod
-```
+Push to GitHub, import the repo on Vercel — Next.js + the static export
+config are auto-detected. No extra configuration needed.
 
-Accept the defaults — Vercel detects this as a static site automatically.
+### Cloudflare Pages / Netlify / S3
 
-### Cloudflare Pages
+Run `npm run build` locally (or in CI) and deploy the `out/` directory.
 
-Connect the GitHub repo in the Cloudflare Pages dashboard. Settings:
-
-- **Build command:** _(leave blank)_
-- **Build output directory:** `/` (project root)
-- **Framework preset:** None
-
-### Plain Nginx / Apache / S3
-
-Upload the entire project folder as-is. Make sure `.md` and `.json` files
-under `articles/` are accessible (no auth, correct MIME types). Recommended
-nginx snippet:
-
-```nginx
-location / {
-  try_files $uri $uri/ /index.html;
-}
-location ~* \.(md|json)$ {
-  add_header Cache-Control "no-cache";
-}
-```
-
-The `try_files` rule handles deep links so `/#/article/...` works on full
-page loads.
+- **Cloudflare Pages:** build command `npm run build`, output dir `out`
+- **Netlify:** same — build command `npm run build`, publish dir `out`
+- **S3 + CloudFront:** upload `out/` to the bucket; with
+  `trailingSlash: true` the index lookups Just Work
 
 ---
 
-## Production hardening (optional)
+## Regenerating screenshots
 
-The defaults work fine for a personal portfolio, but if you care about
-shaving the first-paint:
+The `public/screenshots/*.png` files in this README are produced by
+[`scripts/screenshots.mjs`](./scripts/screenshots.mjs) (Puppeteer +
+headless Chrome). To regenerate:
 
-- **Pre-compile JSX.** Use `npx babel src/ --out-dir dist/src/` and update
-  `index.html` to load the compiled `.js` files. Drops Babel-standalone
-  entirely (~280 KB).
-- **Pin CDN URLs.** Replace `unpkg`/`cdn.jsdelivr.net` URLs with vendored
-  local copies in a `vendor/` folder for offline resilience.
-- **Service worker.** Cache `articles/*.md` and JSX files for offline reads.
-- **Add a sitemap.** Generate `sitemap.xml` from `articles/index.json` at
-  publish time (a 10-line script).
+```bash
+# in one terminal
+npm run dev
 
-None of this is needed to deploy.
+# in another, with the dev server live on :3000
+npm run screenshots
+```
+
+This captures every public route in both themes at 1440 px wide,
+full-page, and writes to `public/screenshots/<route>-<theme>.png`.
+
+Override the defaults with env vars when needed:
+
+```bash
+SCREENSHOT_ORIGIN=http://localhost:3001 npm run screenshots
+CHROME_PATH=/path/to/chrome              npm run screenshots
+```
+
+The script uses `puppeteer-core` (a devDependency), which doesn't bundle
+Chromium — it drives the system Chrome at `CHROME_PATH` instead.
 
 ---
 
@@ -381,15 +366,31 @@ None of this is needed to deploy.
 
 | Area              | Choice                                              |
 | ----------------- | --------------------------------------------------- |
-| UI                | React 18 (CDN, dev build)                           |
-| JSX transform     | Babel-standalone (in-browser)                       |
-| Routing           | Hash-based, custom (`src/lib.jsx`)                  |
-| Markdown          | marked 13                                           |
-| Syntax highlight  | Prism 1.29 (PHP, JS, TS, JSX, Bash, JSON loaded)    |
+| Framework         | Next.js 14 (App Router)                             |
+| Language          | TypeScript (strict)                                 |
+| UI                | React 18 server + client components                 |
+| Markdown          | unified + remark-parse + remark-gfm + remark-rehype |
+| Code highlighting | rehype-prism-plus                                   |
+| Frontmatter       | gray-matter                                         |
+| Styling           | Plain CSS with CSS custom properties (no preprocessor) |
 | Booking           | Calendly widget                                     |
 | Fonts             | Inter (sans), Instrument Serif (display), JetBrains Mono (code) |
-| Build             | None                                                |
-| Bundler           | None                                                |
+| Build             | `next build` → static export to `out/`              |
+| Hosting           | GitHub Pages (custom domain via `CNAME`)            |
+| CI                | GitHub Actions (`.github/workflows/deploy.yml`)     |
+
+---
+
+## Known limitations
+
+- The contact form is **UI-only** — wire it up to Formspree, Resend, or a
+  serverless function when you need real backend handling.
+- The contributions grid uses `Math.random()` so the rendered activity
+  doesn't reflect real GitHub data. Swap in the GitHub GraphQL API for
+  live contributions.
+- Next.js's image optimizer is disabled (`images.unoptimized = true`)
+  because the static export has no Node runtime. Provide pre-sized images
+  in `public/` instead of relying on `<Image>` resizing.
 
 ---
 

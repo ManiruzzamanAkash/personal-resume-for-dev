@@ -55,6 +55,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="mask-icon" href="/assets/favicon.svg" color={CONTENT.seo.themeColor} />
         <link rel="manifest" href="/manifest.json" />
 
+        {/* RSS feed discovery — feed readers and AI agents look for this. */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`Writing — ${CONTENT.site.fullName}`}
+          href="/feed.xml"
+        />
+
         {/* Calendly widget styles. The script is loaded with next/script
             below so it doesn't block rendering. */}
         <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />

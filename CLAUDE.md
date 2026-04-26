@@ -1,9 +1,12 @@
 # CLAUDE.md — Project guide
 
 A static personal portfolio for **Md. Maniruzzaman Akash**, built with
-**Next.js 14 (App Router) + TypeScript** and statically exported. Deploy
-target is **Vercel** (auto-detected) but the `out/` directory works on
-any static host — Cloudflare Pages, Netlify, GitHub Pages, S3 + CloudFront.
+**Next.js 14 (App Router) + TypeScript** and statically exported. The
+production site is deployed to **GitHub Pages** at
+[`maniruzzaman.me`](https://maniruzzaman.me) via the workflow in
+[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml). The
+`out/` directory works on any static host (Vercel, Cloudflare Pages,
+Netlify, S3 + CloudFront) — see the **Deploy** section below.
 
 This file is the canonical map of the project. Read it before editing.
 
@@ -39,53 +42,67 @@ portfolio-main/
 ├── tsconfig.json
 ├── next.config.mjs           ← static export, trailingSlash, etc.
 ├── next-env.d.ts
+├── .github/workflows/
+│   └── deploy.yml            ← GitHub Pages CI (build + publish out/)
 ├── articles/                 ← markdown blog content
-│   ├── index.json            ← list of articles + metadata
+│   ├── index.json            ← ordered list of articles + metadata
 │   └── *.md                  ← one file per post
 ├── public/                   ← served from / (favicon, og image, manifest)
 │   ├── assets/
 │   │   ├── favicon.svg
-│   │   └── og-default.svg
+│   │   ├── og-default.svg
+│   │   ├── apple-touch-icon.png
+│   │   ├── akash-avatar.jpg
+│   │   └── akash-about.jpg
+│   ├── screenshots/          ← README screenshots (dark + light)
 │   └── manifest.json
 ├── styles/                   ← per-section CSS, imported via app/globals.css
-│   ├── tokens.css
-│   ├── nav.css
-│   └── …
+│   ├── tokens.css            ← design tokens, fonts, both themes
+│   ├── nav.css   hero.css   about.css   projects.css   skills.css
+│   ├── testimonials.css   contrib.css   blog.css   article.css
+│   ├── breadcrumb.css   route-progress.css
+│   └── resume.css   contact.css   footer.css
 ├── lib/                      ← server-safe helpers + data
 │   ├── content.ts            ← CONTENT (typed) — single source of truth
 │   ├── seo.ts                ← buildMetadata + JSON-LD generators
-│   ├── markdown.ts           ← server-only article reader (gray-matter + remark)
+│   ├── markdown.ts           ← server-only article reader + categories
 │   ├── tmpl.ts               ← {token} substitution
 │   ├── routing.ts            ← pathFor()
 │   ├── actions.ts            ← server-safe link resolver
 │   ├── calendly.ts           ← client-only openCalendly()
 │   └── theme.ts              ← client useTheme() hook
 ├── components/               ← shared components (server + client)
-│   ├── Nav.tsx               (client — needs router state)
-│   ├── Footer.tsx
+│   ├── Nav.tsx               (client — route-aware active link, theme toggle)
+│   ├── Footer.tsx            (server)
+│   ├── Breadcrumb.tsx        (server — emits visible crumbs + JSON-LD)
 │   ├── ContactCTA.tsx        (client)
-│   ├── ContactClient.tsx     (client form)
+│   ├── ContactClient.tsx     (client form — UI only)
 │   ├── HomeHero.tsx          (client — magnetic + calendly)
 │   ├── HomeProjects.tsx      (client — hover preview)
 │   ├── HomeSections.tsx      (client — Marquee/Stats/About/Skills/Testimonials/Contributions)
 │   ├── TestimonialCarousel.tsx (client)
 │   ├── ContribGrid.tsx       (client)
-│   ├── Cursor.tsx            (client)
+│   ├── ArticleProse.tsx      (server — wraps rendered HTML with prose styles)
+│   ├── Cursor.tsx            (client — custom cursor)
+│   ├── RouteProgress.tsx     (client — top bar on route transitions)
 │   ├── Magnetic.tsx          (client)
-│   ├── Reveal.tsx            (client)
-│   ├── Counter.tsx           (client)
-│   ├── Rich.tsx              (server-safe renderer)
-│   ├── icons.tsx             (server-safe icons)
+│   ├── Reveal.tsx            (client — IntersectionObserver fade-in)
+│   ├── Counter.tsx           (client — animated stats)
+│   ├── Rich.tsx              (server-safe markdown-lite renderer)
+│   ├── icons.tsx             (server-safe SVG icons)
 │   └── JsonLd.tsx            (server emits <script type="application/ld+json">)
 └── app/                      ← App Router routes
-    ├── layout.tsx            ← root <html>, global CSS, baseline JSON-LD
+    ├── layout.tsx            ← root <html>, global CSS, baseline JSON-LD,
+    │                           inline theme bootstrap, RouteProgress, Cursor
     ├── globals.css           ← imports styles/*.css
     ├── page.tsx              ← /
-    ├── resume/page.tsx       ← /resume
-    ├── blog/page.tsx         ← /blog
-    ├── contact/page.tsx      ← /contact
-    ├── article/[slug]/page.tsx ← /article/<slug>
-    ├── sitemap.ts            ← /sitemap.xml (auto from articles)
+    ├── resume/page.tsx       ← /resume/
+    ├── blog/page.tsx         ← /blog/
+    ├── blog/category/[category]/page.tsx ← /blog/category/<slug>/
+    ├── contact/page.tsx      ← /contact/
+    ├── article/[slug]/page.tsx          ← /article/<slug>/
+    ├── article/[slug]/opengraph-image.tsx ← per-article OG image
+    ├── sitemap.ts            ← /sitemap.xml (auto from articles + routes)
     ├── robots.ts             ← /robots.txt
     └── not-found.tsx         ← 404 page
 ```
@@ -115,17 +132,23 @@ portfolio-main/
 
 ## Routing
 
-| URL                              | File                          |
-| -------------------------------- | ----------------------------- |
-| `/`                              | `app/page.tsx`                |
-| `/resume/`                       | `app/resume/page.tsx`         |
-| `/blog/`                         | `app/blog/page.tsx`           |
-| `/contact/`                      | `app/contact/page.tsx`        |
-| `/article/<slug>/`               | `app/article/[slug]/page.tsx` |
+| URL                              | File                                       |
+| -------------------------------- | ------------------------------------------ |
+| `/`                              | `app/page.tsx`                             |
+| `/resume/`                       | `app/resume/page.tsx`                      |
+| `/blog/`                         | `app/blog/page.tsx`                        |
+| `/blog/category/<slug>/`         | `app/blog/category/[category]/page.tsx`    |
+| `/contact/`                      | `app/contact/page.tsx`                     |
+| `/article/<slug>/`               | `app/article/[slug]/page.tsx`              |
+| `/article/<slug>/opengraph-image`| `app/article/[slug]/opengraph-image.tsx`   |
+| `/sitemap.xml`                   | `app/sitemap.ts`                           |
+| `/robots.txt`                    | `app/robots.ts`                            |
 
-Add a route by creating its page file under `app/` and adding the entry
-to `CONTENT.navigation` in `lib/content.ts`. The sitemap, breadcrumbs, and
-nav pick it up automatically.
+Add a route by creating its page file under `app/<route>/page.tsx`, then
+adding entries to `CONTENT.navigation` and `CONTENT.seo.routes` in
+`lib/content.ts`. The sitemap, breadcrumbs, and nav pick it up
+automatically. Category pages are derived from article frontmatter at
+build time — they don't need a navigation entry.
 
 ---
 
@@ -150,20 +173,35 @@ nav pick it up automatically.
    via rehype-prism-plus.
    ```
 
-2. **Register it in `articles/index.json`**:
+2. **Register it in `articles/index.json`** (object form, kept in
+   reverse-chronological order):
 
    ```json
    {
      "articles": [
-       { "file": "my-new-article.md", "slug": "my-new-article", "title": "My new article", "date": "2026-04-30", "category": "Engineering", "excerpt": "..." }
+       {
+         "file":     "my-new-article.md",
+         "slug":     "my-new-article",
+         "title":    "My new article",
+         "date":     "2026-04-30",
+         "category": "Engineering",
+         "excerpt":  "One-sentence summary that shows up in the blog list."
+       }
      ]
    }
    ```
+
+   Plain-string entries (`"my-new-article.md"`) are still accepted for
+   back-compat — `lib/markdown.ts` falls back to parsing the file's
+   frontmatter — but the object form lets the SEO engine and sitemap
+   reflect content without touching every `.md` at build time.
 
 3. Run `npm run build`. The new article gets:
    - A static page at `/article/<slug>/`
    - An entry in `/sitemap.xml`
    - An entry on the `/blog/` listing
+   - An auto-derived `/blog/category/<slug>/` page if the category is new
+   - A dynamic OG image at `/article/<slug>/opengraph-image`
    - Per-page metadata + Article JSON-LD with `datePublished`, `articleSection`, `keywords`
 
 ---
@@ -208,6 +246,9 @@ popup behavior, client components attach `openCalendly` from
 | `youtube`         | `site.socials.youtube`          |
 | `stackoverflow`   | `site.socials.stackoverflow`    |
 
+The full action set is defined as `ActionName` in `lib/content.ts`; add a
+new value there + a case in `lib/actions.ts` to extend it.
+
 ---
 
 ## SEO surface
@@ -218,12 +259,14 @@ Every page produces:
 - `<link rel="canonical">` (with trailing slash)
 - Open Graph + Twitter Card tags including image, locale, type
 - For `/article/<slug>/`: `og:type=article`, `article:published_time`,
-  `article:section`, `article:tag`
+  `article:section`, `article:tag`, plus a per-article OG image emitted
+  by `app/article/[slug]/opengraph-image.tsx`
 - JSON-LD: Person + WebSite (always, from `app/layout.tsx`), plus
   per-route schemas:
   - `/`: ProfilePage, FAQPage, BreadcrumbList
   - `/resume/`: ProfilePage, BreadcrumbList
   - `/blog/`: Blog (with all posts), BreadcrumbList
+  - `/blog/category/<slug>/`: Blog (filtered), BreadcrumbList
   - `/article/<slug>/`: BlogPosting, BreadcrumbList
   - `/contact/`: FAQPage, BreadcrumbList
 - `/robots.txt` (allows all major crawlers including AI bots)
@@ -279,19 +322,34 @@ Fonts:
 | Add a new icon                         | `components/icons.tsx`                |
 | Add a new page                         | `app/<route>/page.tsx`                |
 | Update per-route SEO                   | `lib/content.ts` → `CONTENT.seo.routes` |
+| Tweak per-article OG image             | `app/article/[slug]/opengraph-image.tsx` |
+| Change deploy domain                   | `.github/workflows/deploy.yml` (`CNAME` line) |
+| Regenerate README screenshots          | See **Screenshots** in [README.md](./README.md) |
 
 ---
 
 ## Deploy
 
-**Vercel** — push to GitHub, import the repo on Vercel, done. No config
-needed; Vercel auto-detects Next.js + the static export config.
+**GitHub Pages (current setup).** Pushing to `main` triggers
+[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml), which:
+
+1. Runs `npm ci` then `npm run build` (writes `out/`)
+2. Adds `.nojekyll` and `CNAME` (`maniruzzaman.me`) to the export
+3. Calls `actions/configure-pages@v5` (auto-enables Pages on first run)
+4. Uploads `out/` and deploys to the `github-pages` environment
+
+To use the workflow on a fork: change the `CNAME` line in
+`.github/workflows/deploy.yml` to your domain (or remove that line to
+publish at `<user>.github.io/<repo>`), then push to `main`.
+
+**Vercel** — push to GitHub, import the repo on Vercel. Next.js + static
+export are auto-detected; no extra config needed.
 
 **Anywhere else** — run `npm run build` and deploy the `out/` directory.
 - Cloudflare Pages: build command `npm run build`, output dir `out`
-- Netlify: same
-- GitHub Pages: push the `out/` directory contents to a `gh-pages` branch
-- S3 + CloudFront: upload `out/` to the bucket
+- Netlify: same — build command `npm run build`, publish dir `out`
+- S3 + CloudFront: upload `out/` to the bucket (trailing slash routing
+  Just Works because of `trailingSlash: true`)
 
 ---
 

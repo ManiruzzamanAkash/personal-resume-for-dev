@@ -38,7 +38,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
     ? new Date(date).toLocaleDateString('en-US', {
         year: 'numeric', month: 'short', day: 'numeric',
       })
-    : 'maniruzzamanakash.com';
+    : 'maniruzzaman.me';
 
   return new ImageResponse(
     (

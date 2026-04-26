@@ -61,6 +61,23 @@ const renderMarkdown = async (md: string): Promise<string> => {
    visual duplicate. Drop it so authors can write either way. */
 const stripLeadingH1 = (md: string): string => md.replace(/^\s*#\s+[^\n]+\n+/, '');
 
+/* YAML parses unquoted ISO dates (e.g. `date: 2026-04-26`) as JS Date
+   objects. `String(date)` then emits the platform `toString()` form
+   ("Sun Apr 26 2026 06:00:00 GMT+0600 …") which (a) is not valid for
+   schema.org `datePublished`, and (b) breaks lexicographic sort, putting
+   the feed and blog list in arbitrary order. Normalise to ISO `YYYY-MM-DD`
+   on read so every consumer downstream sees the same shape. */
+const toIsoDate = (raw: unknown): string => {
+  if (!raw) return '';
+  if (raw instanceof Date) {
+    return isNaN(raw.getTime()) ? '' : raw.toISOString().slice(0, 10);
+  }
+  const s = String(raw).trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? s : d.toISOString().slice(0, 10);
+};
+
 interface IndexEntry {
   file: string;
   slug?: string;
@@ -105,7 +122,7 @@ const readArticleFile = async (slug: string, file?: string): Promise<Article | n
   const meta: ArticleMeta = {
     slug:     (data.slug as string) || slug,
     title:    String(data.title ?? slug),
-    date:     String(data.date ?? ''),
+    date:     toIsoDate(data.date),
     category: data.category != null ? String(data.category) : undefined,
     excerpt:  data.excerpt  != null ? String(data.excerpt)  : undefined,
     readTime: data.readTime != null ? String(data.readTime) : undefined,

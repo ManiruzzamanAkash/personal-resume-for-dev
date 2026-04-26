@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file":     "woocommerce-shopify-surecart-ai-era-custom-builds.md",
+      "slug":     "woocommerce-shopify-surecart-ai-era-custom-builds",
+      "title":    "WooCommerce vs Shopify vs SureCart: custom builds in the AI era",
+      "date":     "2026-04-26",
+      "category": "Ecommerce",
+      "excerpt":  "Three platforms, three different deals. Where each one wins, where each loses, and why AI-assisted Gutenberg / Elementor / Bricks template work compounds harder on SureCart than on the other two."
+    },
+    {
       "file":     "hiring-a-freelance-wordpress-plugin-developer.md",
       "slug":     "hiring-a-freelance-wordpress-plugin-developer",
       "title":    "Hiring a freelance WordPress plugin developer: a practical guide",

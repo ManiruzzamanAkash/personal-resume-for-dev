@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "screenshots": "node scripts/screenshots.mjs"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -26,6 +27,7 @@
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
+    "puppeteer-core": "^23.11.1",
     "typescript": "^5.6.3"
   },
   "engines": {
