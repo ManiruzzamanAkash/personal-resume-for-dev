@@ -34,7 +34,7 @@ jobs:
       - name: Prepare static output
         run: |
           touch out/.nojekyll
-          echo 'manirruzzaman.me' > out/CNAME
+          echo 'maniruzzaman.me' > out/CNAME
 
       - uses: actions/configure-pages@v5
         with:
