@@ -100,14 +100,20 @@
   font-style: italic;
   color: var(--primary);
 }
-.hero-title .word {
+/* Word-stagger reveal — used by <RichTitle> on every page heading.
+   Rules deliberately unprefixed so any h1/h2/etc. that contains
+   `.word > span` children gets the slide-up effect. Per-word
+   animation-delay is set inline by RichTitle so words ripple in
+   left-to-right. clip-path masks the bottom edge so descenders
+   never poke out during the slide. */
+.word {
   display: inline-block;
   vertical-align: top;
   padding: 0 0.04em;
   margin: 0 -0.04em;
   clip-path: inset(-0.2em -0.05em -0.05em -0.05em);
 }
-.hero-title .word > span {
+.word > span {
   display: inline-block;
   transform: translateY(110%);
   animation: wordIn 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
@@ -115,6 +121,13 @@
 @keyframes wordIn {
   to {
     transform: translateY(0);
+  }
+}
+/* Respect users who've asked the OS to dial down motion. */
+@media (prefers-reduced-motion: reduce) {
+  .word > span {
+    transform: none;
+    animation: none;
   }
 }
 

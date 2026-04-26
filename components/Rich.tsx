@@ -1,4 +1,7 @@
-import { Fragment, type HTMLAttributes, type ElementType, type ReactNode } from 'react';
+import {
+  Fragment, createElement,
+  type HTMLAttributes, type ElementType, type ReactNode,
+} from 'react';
 import { tmpl } from '@/lib/tmpl';
 
 const RICH_RE = /(\*\*[^*\n]+\*\*|\*[^*\n]+\*|\n)/g;
@@ -31,39 +34,68 @@ export const Rich = ({ text, as: Tag = 'span', ...rest }: RichProps) => {
   );
 };
 
-interface RichTitleProps {
+interface RichTitleProps extends HTMLAttributes<HTMLElement> {
   text: string;
   className?: string;
+  /** Heading level — defaults to <h1>. Pass `as="h2"` for sub-page headings
+   *  if you ever need a non-h1. */
+  as?: 'h1' | 'h2' | 'h3' | 'h4';
 }
 
 /**
- * Word-by-word stagger for hero titles. Each token gets a per-word
- * <span class="word"> with an animation-delay derived from index, so the
- * existing CSS animations can pick them up.
+ * Word-by-word stagger title. Each token gets a per-word
+ * `<span class="word">` with an inline animation-delay derived from
+ * its index, so the global `.word > span` keyframe in styles/hero.css
+ * picks it up automatically. Words flagged with single-asterisks
+ * (`*plugin*`) render as <em> for accent color.
+ *
+ * Forwards through any extra props (itemProp, id, aria-*, style…) so it
+ * can be a drop-in replacement for a hand-written <h1>.
  */
-export const RichTitle = ({ text, className }: RichTitleProps) => {
+export const RichTitle = ({
+  text,
+  className,
+  as = 'h1',
+  ...rest
+}: RichTitleProps) => {
   if (!text) return null;
   const lines = tmpl(text).split('\n');
   let wordIdx = 0;
-  return (
-    <h1 className={className}>
-      {lines.map((line, li) => (
-        <Fragment key={li}>
-          {li > 0 && <br />}
-          {line.split(/(\s+)/).map((tok, ti) => {
-            if (/^\s*$/.test(tok)) return tok || ' ';
-            const isItalic = tok.startsWith('*') && tok.endsWith('*');
-            const inner = isItalic ? tok.slice(1, -1) : tok;
-            const delay = `${0.05 + wordIdx++ * 0.1}s`;
-            const node: ReactNode = isItalic ? <em>{inner}</em> : inner;
-            return (
-              <span key={ti} className="word">
-                <span style={{ animationDelay: delay }}>{node}</span>
-              </span>
-            );
-          })}
-        </Fragment>
-      ))}
-    </h1>
-  );
+
+  /* Match `<lead>*<inner>*<trail>` where lead/trail are optional punctuation
+     that lives outside the italic span. This lets authors write either
+     style and get the same visual result:
+        "*architect.*"  → punctuation inside the italics
+        "*talk*."       → punctuation outside (period stays upright) */
+  const ITALIC_TOKEN = /^([^*]*)\*([^*]+)\*([^*]*)$/;
+
+  const children = lines.map((line, li) => (
+    <Fragment key={li}>
+      {li > 0 && <br />}
+      {line.split(/(\s+)/).map((tok, ti) => {
+        if (/^\s*$/.test(tok)) return tok || ' ';
+
+        const m = tok.match(ITALIC_TOKEN);
+        const delay = `${0.05 + wordIdx++ * 0.1}s`;
+
+        const content: ReactNode = m
+          ? (
+              <>
+                {m[1]}
+                <em>{m[2]}</em>
+                {m[3]}
+              </>
+            )
+          : tok;
+
+        return (
+          <span key={ti} className="word">
+            <span style={{ animationDelay: delay }}>{content}</span>
+          </span>
+        );
+      })}
+    </Fragment>
+  ));
+
+  return createElement(as, { className, ...rest }, children);
 };

@@ -6,7 +6,7 @@ import { getAllArticles, getAllCategories } from '@/lib/markdown';
 import { JsonLd } from '@/components/JsonLd';
 import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
-import { Rich } from '@/components/Rich';
+import { Rich, RichTitle } from '@/components/Rich';
 import { Reveal } from '@/components/Reveal';
 import { I } from '@/components/icons';
 
@@ -33,7 +33,7 @@ export default async function BlogPage() {
       <main id="main">
         <section className="subhero">
           <span className="eyebrow">{c.eyebrow}</span>
-          <Rich as="h1" text={c.heading} />
+          <RichTitle text={c.heading} />
           <Rich as="p" className="lede" text={c.lede} />
 
           {categories.length > 0 && (

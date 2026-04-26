@@ -10,6 +10,7 @@ import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { Reveal } from '@/components/Reveal';
+import { RichTitle } from '@/components/Rich';
 import { I } from '@/components/icons';
 
 interface Props {
@@ -114,9 +115,10 @@ export default async function CategoryPage({ params }: Props) {
             ]}
           />
           <span className="eyebrow">Category</span>
-          <h1>
-            <em style={{ fontStyle: 'italic', color: 'var(--primary)' }}>{name}</em>
-          </h1>
+          {/* `*name*` triggers Rich's italic-emphasis convention so the
+              category name renders in the accent color, matching how
+              other subhero headings highlight key words. */}
+          <RichTitle text={`*${name}*`} />
           <p className="lede">
             {articles.length === 1 ? '1 article' : `${articles.length} articles`} filed under <em>{name}</em>.
           </p>

@@ -8,6 +8,8 @@ import { JsonLd } from '@/components/JsonLd';
 import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 import { Breadcrumb } from '@/components/Breadcrumb';
+import { ArticleProse } from '@/components/ArticleProse';
+import { RichTitle } from '@/components/Rich';
 import { I } from '@/components/icons';
 
 interface Props {
@@ -80,15 +82,11 @@ export default async function ArticlePage({ params }: Props) {
             {meta.readTime && <span>{meta.readTime} read</span>}
           </div>
 
-          <h1 className="article-title" itemProp="headline">{meta.title}</h1>
+          <RichTitle className="article-title" text={meta.title} itemProp="headline" />
 
           {meta.excerpt && <p className="article-excerpt" itemProp="description">{meta.excerpt}</p>}
 
-          <div
-            className="prose"
-            itemProp="articleBody"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
+          <ArticleProse html={html} />
 
           <div className="article-footer">
             <Link className="btn btn-ghost" href="/blog" data-cursor="hover">
