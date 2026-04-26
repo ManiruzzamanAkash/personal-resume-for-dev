@@ -118,7 +118,11 @@ export const buildMetadata = ({ route, param, article }: BuildMetadataOpts): Met
             authors: [ORIGIN],
             tags: article.tags,
             section: article.category,
-            images: [{ url: ogImage, width: 1200, height: 630, alt: ogImageAlt }],
+            /* Skip explicit `images` for articles — the
+               app/article/[slug]/opengraph-image.tsx file convention
+               generates a per-article PNG at build time and Next.js
+               injects it automatically. Setting images here would
+               override the convention with the generic SVG fallback. */
           }
         : {
             title, description, url,
@@ -127,13 +131,21 @@ export const buildMetadata = ({ route, param, article }: BuildMetadataOpts): Met
             type: ogType as 'website' | 'profile',
             images: [{ url: ogImage, width: 1200, height: 630, alt: ogImageAlt }],
           },
-    twitter: {
-      card: 'summary_large_image',
-      title, description,
-      images: [ogImage],
-      site: site.twitterHandle ? `@${site.twitterHandle}` : undefined,
-      creator: site.twitterHandle ? `@${site.twitterHandle}` : undefined,
-    },
+    twitter:
+      route === 'article' && article
+        ? {
+            card: 'summary_large_image',
+            title, description,
+            site:    site.twitterHandle ? `@${site.twitterHandle}` : undefined,
+            creator: site.twitterHandle ? `@${site.twitterHandle}` : undefined,
+          }
+        : {
+            card: 'summary_large_image',
+            title, description,
+            images: [ogImage],
+            site:    site.twitterHandle ? `@${site.twitterHandle}` : undefined,
+            creator: site.twitterHandle ? `@${site.twitterHandle}` : undefined,
+          },
     other,
   };
 
@@ -145,6 +157,38 @@ export const buildMetadata = ({ route, param, article }: BuildMetadataOpts): Met
    inside each page's render. Search engines parse these regardless
    of whether JS executes.
    ============================================================ */
+
+/* Freelance service offerings — attached to the Person via `makesOffer`
+   so search engines (and AI agents) can extract "what this person sells"
+   when answering hiring-intent queries like "hire freelance WooCommerce
+   developer". Each entry maps to a schema.org Service nested in an Offer. */
+const FREELANCE_SERVICES: { name: string; description: string; serviceType: string }[] = [
+  {
+    name: 'Freelance WordPress Plugin Development',
+    serviceType: 'WordPress Plugin Development',
+    description: 'Custom WordPress plugin engineering — architecture, Gutenberg blocks, REST APIs, multisite, performance, and security hardening. Built to WordPress.org standards with PHPUnit + Jest coverage.',
+  },
+  {
+    name: 'Freelance WooCommerce Development',
+    serviceType: 'WooCommerce Development',
+    description: 'Custom WooCommerce stores, payment gateways, subscriptions, multivendor marketplaces, and headless storefronts. Past work used by 100K+ stores including Dokan Multivendor and the Paysera gateway (10K+ European merchants).',
+  },
+  {
+    name: 'Freelance Shopify App & Store Development',
+    serviceType: 'Shopify Development',
+    description: 'Custom Shopify apps, theme development, headless storefronts, and Shopify ↔ WordPress/WooCommerce migrations. Production experience from building Shopify integrations for Paysera payments.',
+  },
+  {
+    name: 'Freelance SureCart & Headless Commerce Engineering',
+    serviceType: 'Ecommerce Development',
+    description: 'SureCart-powered storefronts, custom checkout flows, subscription billing, and headless commerce frontends in React / Next.js. Currently engineering SureCart core (1K → 100K+ active installs).',
+  },
+  {
+    name: 'Software Architecture & Code Review Consulting',
+    serviceType: 'Software Architecture Consulting',
+    description: 'Architecture reviews, SOLID refactors, scaling plans, security audits, and senior engineering mentorship for WordPress, Laravel, Symfony, and React codebases.',
+  },
+];
 
 export const personSchema = () => {
   const site = CONTENT.site;
@@ -161,7 +205,7 @@ export const personSchema = () => {
     url:         ORIGIN,
     /* Use the real portrait so Google Knowledge Panel + rich results
        render an actual face. ogImage stays as the social-share card. */
-    image:       absoluteUrl('/assets/profile.png'),
+    image:       absoluteUrl('/assets/akash-about.png'),
     jobTitle:    site.jobTitle,
     description: site.tagline,
     email:       `mailto:${site.email}`,
@@ -179,6 +223,27 @@ export const personSchema = () => {
     },
     alumniOf: { '@type': 'CollegeOrUniversity', name: site.alumniOf },
     knowsAbout: CONTENT.skills.flatMap((s) => s.skills),
+    /* Surfaces freelance offerings to crawlers + AI search. Without this,
+       hiring-intent queries can't extract "what services this person sells"
+       from prose alone. */
+    makesOffer: FREELANCE_SERVICES.map((s) => ({
+      '@type': 'Offer',
+      availability: 'https://schema.org/InStock',
+      areaServed: 'Worldwide',
+      itemOffered: {
+        '@type':      'Service',
+        name:         s.name,
+        serviceType:  s.serviceType,
+        description:  s.description,
+        provider:     { '@id': `${ORIGIN}/#person` },
+        areaServed:   'Worldwide',
+        availableChannel: {
+          '@type':       'ServiceChannel',
+          serviceUrl:    `${ORIGIN}/contact/`,
+          servicePhone:  undefined,
+        },
+      },
+    })),
     sameAs,
   };
 };
@@ -279,6 +344,36 @@ export const blogListSchema = (articles: ArticleMeta[]) => ({
   })),
 });
 
+/* Wraps each CONTENT.testimonials entry in a schema.org Review pointing
+   at the Person. Crawlers and AI agents extract these as social-proof
+   signals when answering hiring-intent queries. We deliberately omit
+   `aggregateRating` and per-review `ratingValue` — Google's review
+   guidelines penalize self-collected star ratings. The reviewBody +
+   author + datePublished are enough to register as trust signals
+   without claiming rating data we can't third-party verify. */
+export const reviewsSchema = () => {
+  const author = (raw: string) => {
+    /* "Md Mostafizur Rahman" → name; "Fullstack Developer · Dec 2022"
+       → jobTitle (the Dec 2022 part is informational, not parseable). */
+    return { '@type': 'Person', name: raw };
+  };
+  return CONTENT.testimonials.map((t) => ({
+    '@context':   'https://schema.org',
+    '@type':      'Review',
+    itemReviewed: { '@id': `${ORIGIN}/#person` },
+    reviewBody:   t.quote,
+    author:       author(t.name),
+    publisher:    { '@id': `${ORIGIN}/#person` },
+    /* `creator` carries role + provenance text for crawlers without
+       polluting the author name field. */
+    creator: {
+      '@type': 'Person',
+      name:    t.name,
+      jobTitle: t.role,
+    },
+  }));
+};
+
 export const profilePageSchema = () => ({
   '@context': 'https://schema.org',
   '@type':    'ProfilePage',
@@ -311,13 +406,13 @@ export const collectStructuredData = (
 ) => {
   const out: any[] = [breadcrumbsSchema(route, param, article)];
   if (route === 'home') {
-    out.push(profilePageSchema(), faqSchema());
+    out.push(profilePageSchema(), faqSchema(), ...reviewsSchema());
   } else if (route === 'resume') {
-    out.push(profilePageSchema());
+    out.push(profilePageSchema(), ...reviewsSchema());
   } else if (route === 'blog') {
     if (articles?.length) out.push(blogListSchema(articles));
   } else if (route === 'contact') {
-    out.push(faqSchema());
+    out.push(faqSchema(), ...reviewsSchema());
   } else if (route === 'article' && article) {
     out.push(articleSchema(article));
   }

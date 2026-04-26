@@ -41,11 +41,11 @@ export const HomeAbout = () => {
         <div className="about-grid">
           <div className="about-photo">
             <img
-              src="/assets/profile.png"
+              src="/assets/akash-about.jpg"
               alt={`${CONTENT.site.fullName} — ${CONTENT.site.jobTitle}`}
               className="about-photo-img"
               width={800}
-              height={1000}
+              height={800}
               loading="lazy"
               decoding="async"
             />

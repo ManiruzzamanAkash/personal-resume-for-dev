@@ -57,7 +57,7 @@ export const Nav = () => {
       >
         <span className="nav-logo-avatar" aria-hidden="true">
           <img
-            src="/assets/profile.png"
+            src="/assets/akash-avatar.jpg"
             alt=""
             width={28}
             height={28}

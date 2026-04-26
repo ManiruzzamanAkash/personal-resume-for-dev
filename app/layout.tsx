@@ -51,7 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Site identity icons. The PNG variants are referenced from the
             manifest; the SVG handles modern browsers + print. */}
         <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
-        <link rel="apple-touch-icon" href="/assets/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
         <link rel="mask-icon" href="/assets/favicon.svg" color={CONTENT.seo.themeColor} />
         <link rel="manifest" href="/manifest.json" />
 
