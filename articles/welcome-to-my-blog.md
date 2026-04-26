@@ -14,20 +14,24 @@ I've been meaning to write more for years. Tweets, half-finished Notion docs, ab
 
 ## Why now
 
-After seven years of shipping WordPress plugins — from a thousand active installs to a hundred thousand — I've built up opinions. Some are sharp. Some are wrong. Most are worth writing down so I can either defend them or admit I was off.
+Seven years in, I've worked across more surfaces than the bullet-point version of my CV admits. WordPress plugins from a thousand active installs to a hundred thousand — yes, but also Symfony microservices behind a payment gateway used by 10K+ European merchants, Laravel SaaS and a TALL-stack CMS I founded, React and React Native apps for a 50K-employee group, the occasional .NET Core API, and lately a lot of AI-augmented engineering — MCP servers, RAG, agents, and the slow rewrite of how I actually work day-to-day.
+
+That spread is the point. Most of my opinions came from the boundaries between those worlds — what travels well, what doesn't, and where "best practice" in one ecosystem is plainly wrong in another. I want to write them down so I can either defend them or admit I was off.
 
 I want to write about:
 
-- **Plugin architecture** — what scales, what doesn't, and why most "best practices" don't survive contact with a real codebase.
-- **Engineering discipline** — testing, refactoring, and the boring habits that compound into senior judgement.
+- **Plugin & application architecture** — what scales across WordPress, Laravel, and Symfony, and why most "best practices" don't survive contact with a real codebase.
+- **Ecommerce engineering** — WooCommerce, Shopify, SureCart, payment gateways. Three platforms, three different deals, and the calls I make on real briefs.
+- **AI in the loop** — agents, MCP, RAG, eval discipline, and what changes when the LLM writes half the diff.
+- **Engineering judgment** — testing, refactoring, code review, and the boring habits that compound into the kind of taste an LLM can't fake.
 - **Career stuff** — the parts nobody tells you about going from "I can code" to "I can ship a thing that 100K people use."
 - **Small experiments** — half-built things I want feedback on.
 
 ## How this is built
 
-This blog is just markdown files in an `articles/` folder. Each file has a YAML frontmatter block at the top — title, date, category, excerpt — and the body is plain markdown. The site reads them at runtime and renders them.
+This blog is just markdown files in an `articles/` folder. Each file has a YAML frontmatter block at the top — title, date, category, excerpt — and the body is plain markdown. The site reads them at build time and pre-renders one static HTML page per post.
 
-No build step. No deploy pipeline. Add a file, commit, done.
+No CMS. No database. Add a file, commit, done.
 
 If you're a developer who wants this same setup, the source is on GitHub.
 

@@ -74,7 +74,7 @@ export default async function BlogPage() {
                     >
                       <time className="date" dateTime={a.meta.date}>{formatDate(a.meta.date)}</time>
                       <div>
-                        <div className="title">{a.meta.title}</div>
+                        <h2 className="title">{a.meta.title}</h2>
                         {a.meta.excerpt && <div className="excerpt">{a.meta.excerpt}</div>}
                       </div>
                       <span className="cat">{a.meta.category || ''}</span>

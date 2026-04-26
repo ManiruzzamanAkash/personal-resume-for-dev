@@ -31,8 +31,10 @@
   color: var(--ink-2);
 }
 .blog-row .title {
+  margin: 0;
   font-family: var(--font-serif);
   font-size: 28px;
+  font-weight: 400;
   line-height: 1.15;
   letter-spacing: -0.02em;
   transition: color 0.25s;
