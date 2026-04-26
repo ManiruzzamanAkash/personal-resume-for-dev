@@ -333,6 +333,75 @@ Run `npm run build` locally (or in CI) and deploy the `out/` directory.
 
 ---
 
+## Contact form setup
+
+The form on `/contact/` posts to **[Web3Forms](https://web3forms.com)** —
+no backend, no serverless function, no account creation. Free tier:
+**250 submissions/month** with built-in spam protection. Setup takes
+under two minutes.
+
+### 1. Get your access key
+
+Go to [web3forms.com](https://web3forms.com) and submit the email you
+want to receive form submissions at. They'll mail you an **access key**
+within seconds. There's no signup flow — the inbox itself is the
+verification.
+
+### 2. Configure locally
+
+Copy `.env.example` → `.env.local` and paste your key:
+
+```bash
+cp .env.example .env.local
+```
+
+```env
+# .env.local
+NEXT_PUBLIC_WEB3FORMS_KEY=your-key-here
+```
+
+Run `npm run dev`, fill in the form, hit submit — the message lands in
+your inbox.
+
+### 3. Configure for deploys
+
+`NEXT_PUBLIC_*` env vars are baked into the bundle at **build time**, so
+the key has to be present when `npm run build` runs in your deploy
+pipeline.
+
+| Host                         | Where to add `NEXT_PUBLIC_WEB3FORMS_KEY`                     |
+| ---------------------------- | ------------------------------------------------------------ |
+| **GitHub Pages** (this repo) | Repo Settings → Secrets → Actions, then expose it via `env:` in [`deploy.yml`](./.github/workflows/deploy.yml) |
+| **Vercel**                   | Project Settings → Environment Variables                     |
+| **Netlify**                  | Site configuration → Environment variables                   |
+| **Cloudflare Pages**         | Project → Settings → Environment variables                   |
+
+For GitHub Pages specifically, add to the build step in
+`.github/workflows/deploy.yml`:
+
+```yaml
+- run: npm run build
+  env:
+    NEXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.NEXT_PUBLIC_WEB3FORMS_KEY }}
+```
+
+### Without a key
+
+If `NEXT_PUBLIC_WEB3FORMS_KEY` isn't set, the form falls back to opening
+a prefilled `mailto:` draft in the user's mail client — so a freshly
+cloned repo still works, just less polished. A small hint appears under
+the submit button as a reminder to wire up the key.
+
+### Switching providers
+
+Prefer Formspree, Getform, Basin, Formsubmit, etc.? They all expose the
+same shape of HTTP form-relay. Edit
+[`components/ContactClient.tsx`](./components/ContactClient.tsx) — change
+`WEB3FORMS_ENDPOINT` and the hidden field names; the rest of the
+component is provider-agnostic.
+
+---
+
 ## Regenerating screenshots
 
 The `public/screenshots/*.png` files in this README are produced by
@@ -383,8 +452,10 @@ Chromium — it drives the system Chrome at `CHROME_PATH` instead.
 
 ## Known limitations
 
-- The contact form is **UI-only** — wire it up to Formspree, Resend, or a
-  serverless function when you need real backend handling.
+- The contact form posts to **[Web3Forms](https://web3forms.com)** when
+  `NEXT_PUBLIC_WEB3FORMS_KEY` is configured (see
+  [Contact form setup](#contact-form-setup) below). Without a key it
+  gracefully falls back to a `mailto:` draft.
 - The contributions grid uses `Math.random()` so the rendered activity
   doesn't reflect real GitHub data. Swap in the GitHub GraphQL API for
   live contributions.

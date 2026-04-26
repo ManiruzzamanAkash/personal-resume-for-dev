@@ -30,6 +30,7 @@ jobs:
       - run: npm run build
         env:
           NODE_ENV: production
+          NEXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.NEXT_PUBLIC_WEB3FORMS_KEY }}
 
       - name: Prepare static output
         run: |

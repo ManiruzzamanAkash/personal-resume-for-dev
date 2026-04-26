@@ -293,6 +293,77 @@ Fonts:
 
 ---
 
+## Contact form (Web3Forms)
+
+The contact form on `/contact/` posts to **[Web3Forms](https://web3forms.com)** — a
+free, no-backend email-relay service. Sign-up takes about a minute and the
+free tier covers 250 submissions/month with built-in spam protection. No
+Node runtime, serverless function, or third-party infra needed; submissions
+go straight from the browser to Web3Forms, which emails them to you.
+
+### One-time setup (per fork)
+
+1. Go to [web3forms.com](https://web3forms.com) and submit your email.
+   You'll receive an **access key** by return mail. (No account, no
+   credit card — they verify the inbox by sending the key there.)
+2. Copy `.env.example` → `.env.local` and paste the key:
+
+   ```bash
+   cp .env.example .env.local
+   # then edit .env.local:
+   # NEXT_PUBLIC_WEB3FORMS_KEY=your-key-here
+   ```
+
+3. Run `npm run dev` and submit the form. The first submission appears
+   in your inbox within seconds.
+
+### Deploying with the key
+
+`NEXT_PUBLIC_*` variables are inlined into the client bundle at **build
+time**, so the key must be present when `npm run build` runs.
+
+- **Local builds.** `.env.local` is read automatically — nothing else to do.
+- **GitHub Pages CI.** Add `NEXT_PUBLIC_WEB3FORMS_KEY` as a repository
+  secret (Settings → Secrets and variables → Actions → New secret), then
+  expose it to the build step in `.github/workflows/deploy.yml`:
+
+  ```yaml
+  - run: npm run build
+    env:
+      NEXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.NEXT_PUBLIC_WEB3FORMS_KEY }}
+  ```
+
+- **Vercel / Netlify / Cloudflare Pages.** Add the same name + value as
+  an environment variable in the project's dashboard. Redeploy once.
+
+### How it works
+
+- `components/ContactClient.tsx` reads `process.env.NEXT_PUBLIC_WEB3FORMS_KEY`
+  and POSTs the form (as JSON) to `https://api.web3forms.com/submit`.
+  Hidden fields supply the access key, a `from_name`, a `subject`, and a
+  honeypot (`botcheck`) for spam.
+- States: `idle → submitting → sent` on success, `error` with an inline
+  message on failure. The button is disabled while submitting.
+- **No key configured?** The form gracefully falls back to a `mailto:`
+  draft prefilled with the user's input — so a freshly cloned repo
+  still works without setup, just less polished.
+
+### Switching providers
+
+The same pattern works for any HTTP form-relay (Formspree, Getform,
+Formsubmit, Basin, etc.). Swap `WEB3FORMS_ENDPOINT` and the hidden
+field names at the top of `components/ContactClient.tsx`. The
+component stays unchanged.
+
+### Security note
+
+Web3Forms access keys are designed to be public — they're rate-limited
+per-key, the service applies hCaptcha-grade spam filtering, and the
+honeypot field catches naive bots. Don't treat the key as a secret;
+do rotate it from the dashboard if abuse spikes.
+
+---
+
 ## Conventions
 
 - **TypeScript everywhere** — strict mode, no `any` unless commented why.
@@ -324,6 +395,7 @@ Fonts:
 | Update per-route SEO                   | `lib/content.ts` → `CONTENT.seo.routes` |
 | Tweak per-article OG image             | `app/article/[slug]/opengraph-image.tsx` |
 | Change deploy domain                   | `.github/workflows/deploy.yml` (`CNAME` line) |
+| Enable / change contact-form delivery  | See **Contact form (Web3Forms)** above — set `NEXT_PUBLIC_WEB3FORMS_KEY` in `.env.local` (or the deploy env). To swap providers, edit `WEB3FORMS_ENDPOINT` in `components/ContactClient.tsx` |
 | Regenerate README screenshots          | See **Screenshots** in [README.md](./README.md) |
 
 ---
@@ -355,8 +427,10 @@ export are auto-detected; no extra config needed.
 
 ## Known limitations
 
-- The contact form is UI-only — wire it up to Formspree, Resend, or a
-  Vercel function in `app/api/` when you need backend handling.
+- The contact form delivers via **Web3Forms** when
+  `NEXT_PUBLIC_WEB3FORMS_KEY` is set; without a key it falls back to a
+  `mailto:` draft. See **Contact form (Web3Forms)** above for the
+  one-time setup.
 - The contributions grid uses `Math.random()` so the displayed activity
   doesn't reflect real GitHub data. Replace with the GitHub GraphQL API
   if you want live data.
