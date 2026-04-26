@@ -262,7 +262,7 @@ export const CONTENT: Content = {
   site: {
     name: 'Maniruzzaman Akash',
     fullName: 'Md. Maniruzzaman Akash',
-    short: 'Akash',
+    short: 'M. Akash',
     title: 'Senior WordPress Plugin Developer & Software Architect',
     tagline: 'Freelance Senior Software Engineer & Ecommerce Specialist — 7+ years building WordPress plugins, WooCommerce / Shopify / SureCart stores, and SaaS developer tools used by 100K+ users worldwide.',
     location: 'Dhaka, Bangladesh',
@@ -339,6 +339,7 @@ export const CONTENT: Content = {
       'Software Engineer Bangladesh',
       'WordPress Developer Bangladesh',
       'Freelance Developer Bangladesh',
+      "Akash",
       'Maniruzzaman Akash',
       'Md. Maniruzzaman Akash',
       'manirujjamanakash',
@@ -479,6 +480,8 @@ export const CONTENT: Content = {
     { id: 'wpreactkit', name: 'WP React Kit', year: '2021—', tags: ['WordPress', 'React', 'TypeScript'], desc: 'Open source WordPress + React plugin starter.', color: '#2563eb', initial: 'W' },
     { id: 'paysera', name: 'Paysera Gateway', year: '2020—2022', tags: ['Symfony', 'WooCommerce'], desc: 'Payment gateway used by 10K+ European merchants.', color: '#06b6d4', initial: 'P' },
     { id: 'devsenv', name: 'DevsEnv', year: '2017—', tags: ['WordPress', 'SEO', 'Content'], desc: 'Tutorial blog for web developers. Founded by me.', color: '#a855f7', initial: 'V' },
+    { id: 'dmwords', name: 'DMWords', year: '2017—2018', tags: ['Laravel', 'PHP', 'EdTech'], desc: 'Language-learning platform — ~1,000 essential words for immigrants, foreign workers, and government partners navigating a new environment.', color: '#14b8a6', initial: 'M' },
+    { id: 'ibos', name: 'iBOS', year: '2017—2018', tags: ['Laravel', 'React', 'Automation'], desc: "Business-automation suite — Laravel APIs + React apps automating HR, POS, and ERP across Akij Group's 50K employees.", color: '#6366f1', initial: 'i' },
   ],
 
   experience: [
@@ -513,16 +516,18 @@ export const CONTENT: Content = {
   ],
 
   skills: [
-    { num: '01', title: 'Languages', skills: ['PHP', 'JavaScript', 'TypeScript', 'SQL'] },
-    { num: '02', title: 'Frontend', skills: ['React', 'Next.js', 'Vue', 'Tailwind', 'SCSS'] },
-    { num: '03', title: 'Backend', skills: ['Laravel', 'Symfony', 'Node.js', 'REST', 'GraphQL'] },
-    { num: '04', title: 'WordPress', skills: ['Plugins', 'Gutenberg', 'WooCommerce', 'Elementor', 'Bricks'] },
-    { num: '05', title: 'Architecture', skills: ['SOLID', 'Clean Code', 'DDD', 'Microservices'] },
-    { num: '06', title: 'AI / LLM', skills: ['Prompt Engineering', 'Claude API', 'OpenAI API', 'RAG', 'AI agents', 'MCP'] },
-    { num: '07', title: 'Testing', skills: ['PHPUnit', 'Jest', 'Playwright', 'E2E'] },
-    { num: '08', title: 'Database', skills: ['MySQL', 'PostgreSQL', 'Redis'] },
-    { num: '09', title: 'DevOps', skills: ['Docker', 'Git', 'CI/CD', 'Vite'] },
-    { num: '10', title: 'SEO', skills: ['AIOSEO', 'RankMath', 'Schema', 'Core Web Vitals'] },
+    { num: '01', title: 'Languages',    skills: ['PHP', 'JavaScript', 'TypeScript', 'SQL'] },
+    { num: '02', title: 'Frontend',     skills: ['React', 'Next.js', 'Vue', 'Tailwind', 'SCSS', 'Bootstrap', 'shadcn/ui'] },
+    { num: '03', title: 'Backend',      skills: ['Laravel', 'Filament', 'Livewire', 'Symfony', 'Node.js', 'REST', 'GraphQL'] },
+    { num: '04', title: 'WordPress',    skills: ['Plugins', 'Custom Themes', 'FSE', 'Gutenberg', 'ACF', 'WooCommerce', 'Elementor', 'Bricks'] },
+    { num: '05', title: 'Architecture', skills: ['SOLID', 'DRY', 'KISS', 'Clean Code', 'DDD', 'Microservices'] },
+    { num: '06', title: 'AI / LLM',     skills: ['Prompt Engineering', 'Claude API', 'OpenAI API', 'RAG', 'AI agents', 'MCP'] },
+    { num: '07', title: 'Testing',      skills: ['PHPUnit', 'Jest', 'Playwright', 'TDD', 'E2E'] },
+    { num: '08', title: 'Database',     skills: ['MySQL', 'PostgreSQL', 'SQL Server', 'SQLite', 'Redis'] },
+    { num: '09', title: 'DevOps',       skills: ['Docker', 'Git', 'CI/CD', 'Vite'] },
+    { num: '10', title: 'SEO',          skills: ['AIOSEO', 'RankMath', 'Schema', 'Core Web Vitals'] },
+    { num: '11', title: 'Mobile',       skills: ['React Native', 'Expo', 'iOS', 'Android'] },
+    { num: '12', title: 'Payments',     skills: ['Stripe', 'PayPal', 'Mollie', 'Paystack', 'Razorpay'] },
   ],
 
   testimonials: [
@@ -549,11 +554,14 @@ export const CONTENT: Content = {
   ],
 
   openSource: [
-    { name: 'Lara Dashboard', desc: 'Founded — TALL-stack CMS for Laravel teams.', live: 'https://laradashboard.com', github: 'https://github.com/laradashboard/laradashboard' },
+    { name: 'Lara Dashboard', desc: 'Founded — TALL-stack CMS for Laravel teams (385★).', live: 'https://laradashboard.com', github: 'https://github.com/laradashboard/laradashboard' },
     { name: 'WP ERP', desc: 'Core contributor — open-source ERP for WordPress (690★).', live: 'https://wperp.com', github: 'https://github.com/wp-erp/wp-erp' },
     { name: 'Dokan Multivendor', desc: 'Core contributor — multivendor marketplace for WooCommerce (284★).', live: 'https://wedevs.com/dokan', github: 'https://github.com/getdokan/dokan' },
     { name: 'WP React Kit', desc: 'Open source WordPress + React plugin starter.', github: 'https://github.com/ManiruzzamanAkash/wp-react-kit' },
     { name: 'React-Redux Advanced CRUD', desc: 'Module-based React + Redux + JWT CRUD reference (15★).', github: 'https://github.com/ManiruzzamanAkash/React-Redux-Advance-CRUD' },
+    { name: 'Laravel Advanced API', desc: 'Laravel 11.x API architecture — JWT, repository + interface pattern, Swagger, PHPUnit (115★).', github: 'https://github.com/ManiruzzamanAkash/Laravel-Advanced-API' },
+    { name: 'Vue 3 Advance CRUD', desc: 'Vue 3 + Vuex + Vue Router + Bootstrap-Vue CRUD SPA reference (85★).', github: 'https://github.com/ManiruzzamanAkash/Vue-3-Advance-CRUD' },
+    { name: 'ERP API (.NET Core)', desc: '.NET Core ERP backend — CQRS + Mediator + repository patterns, Swagger (24★).', github: 'https://github.com/ManiruzzamanAkash/ERPAPI' },
     { name: 'DevsEnv', desc: 'Founded — tutorial blog for web developers.', live: 'https://devsenv.com' },
   ],
 
@@ -612,6 +620,27 @@ export const CONTENT: Content = {
       date: 'Ongoing',
       href: 'https://www.youtube.com/@Maniruzzaman',
     },
+    {
+      title: 'DEV Community — articles on WordPress, Laravel & React',
+      kind: 'Articles',
+      venue: '@maniruzzamanakash · 16 posts',
+      date: 'Ongoing',
+      href: 'https://dev.to/maniruzzamanakash',
+    },
+    {
+      title: 'Medium — long-form notes on engineering & AI',
+      kind: 'Articles',
+      venue: '@maniruzzamanakash',
+      date: 'Ongoing',
+      href: 'https://medium.com/@maniruzzamanakash',
+    },
+    {
+      title: 'Stack Overflow — answering on PHP, WordPress, Laravel & React',
+      kind: 'Q&A',
+      venue: 'maniruzzaman-akash',
+      date: 'Ongoing',
+      href: 'https://stackoverflow.com/users/5543577/maniruzzaman-akash',
+    },
   ],
 
   /* ----------------------------------------------------------------
@@ -660,9 +689,10 @@ export const CONTENT: Content = {
       now: {
         title: 'Currently',
         items: [
-          { icon: 'rocket', heading: 'Shipping SureCart 4.0', subtitle: 'Subscription redesign + new checkout architecture' },
-          { icon: 'pen', heading: 'Writing about plugin architecture', subtitle: 'A series on SOLID for WordPress engineers' },
-          { icon: 'book', heading: 'Reading *Domain-Driven Design*', subtitle: 'Re-reading Eric Evans, third pass' },
+          { icon: 'code',   heading: 'Living inside *agentic* workflows', subtitle: 'Claude Code agents, subagents, and skills — wiring them into one plugin-dev harness' },
+          { icon: 'rocket', heading: 'Studying *LLMs from the inside*',   subtitle: 'Tokenizers, attention, tool-use loops — under the abstraction, not on top of it' },
+          { icon: 'book',   heading: 'Re-reading *Domain-Driven Design*', subtitle: 'Eric Evans, fifth pass — bounded contexts when LLMs write half the code' },
+          { icon: 'pen',    heading: 'Sharpening *trusted judgment*',     subtitle: "Following the engineers whose calls still change rooms — taste the LLM can't fake" },
         ],
       },
     },
@@ -704,7 +734,7 @@ export const CONTENT: Content = {
       openSource: { eyebrow: '05 — Open Source', heading: "Open source I've *contributed* to.", lead: "Projects I've founded, maintained, or shipped meaningful work into — used by developers around the web." },
       speaking: { eyebrow: '06 — Speaking', heading: 'Talks, *writing*, teaching.', lead: 'Where I show up beyond this site — conferences, podcasts, courses, and longer-form writing.' },
       leadership: { eyebrow: '07 — Leadership', heading: 'Mentoring & *code review*.', lead: 'How I help engineers around me grow — and what people I\'ve worked with say about it.' },
-      howIWork: { eyebrow: '08 — How I work', heading: 'Engagement *model*.', lead: 'For freelance and contract enquiries — what an engagement with me looks like in practice.' },
+      howIWork: { eyebrow: '08 — How I work', heading: 'Engagement *model*.', lead: 'To avoid misalignment, I would like to be upfront about how I typically work with clients — and what I\'m looking for in consulting ...' },
     },
   },
 

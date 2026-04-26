@@ -98,7 +98,13 @@ export const HomeSkills = () => {
         <div className="skills-grid">
           {CONTENT.skills.map((s) => (
             <div key={s.num} className="skill-cell">
-              <h3><span className="num">{s.num}</span>{s.title}</h3>
+              {/* `num` lives outside the H3 so crawlers index the heading as
+                  "Languages", not "01Languages". aria-hidden keeps it out of
+                  the screen-reader tree too — sighted-only ornament. */}
+              <div className="skill-head">
+                <span className="num" aria-hidden="true">{s.num}</span>
+                <h3>{s.title}</h3>
+              </div>
               <div className="skills">
                 {s.skills.map((sk) => <span key={sk}>{sk}</span>)}
               </div>

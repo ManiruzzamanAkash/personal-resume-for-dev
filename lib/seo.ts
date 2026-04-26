@@ -64,8 +64,6 @@ export const buildMetadata = ({ route, param, article }: BuildMetadataOpts): Met
   const title       = fillArticle(cfg.title);
   const description = fillArticle(cfg.description);
   const url         = canonicalFor(route, param);
-  const ogImage     = absoluteUrl(seo.ogImage);
-  const ogImageAlt  = tmpl(seo.ogImageAlt);
   const ogType      = route === 'article' ? 'article' : (cfg.type === 'profile' ? 'profile' : 'website');
 
   const keywords = Array.from(new Set([
@@ -114,6 +112,12 @@ export const buildMetadata = ({ route, param, article }: BuildMetadataOpts): Met
         'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1,
       },
     },
+    /* No explicit `images` for any route — every route (home, resume, blog,
+       contact, article) ships an `opengraph-image.tsx` file convention
+       sibling, which Next.js auto-injects as both `og:image` and
+       `twitter:image`. Setting images here would override that with a
+       static fallback. The previous SVG fallback (`/assets/og-default.svg`)
+       was unrenderable on LinkedIn / X / Slack / iMessage anyway. */
     openGraph:
       route === 'article' && article
         ? {
@@ -126,34 +130,19 @@ export const buildMetadata = ({ route, param, article }: BuildMetadataOpts): Met
             authors: [ORIGIN],
             tags: article.tags,
             section: article.category,
-            /* Skip explicit `images` for articles — the
-               app/article/[slug]/opengraph-image.tsx file convention
-               generates a per-article PNG at build time and Next.js
-               injects it automatically. Setting images here would
-               override the convention with the generic SVG fallback. */
           }
         : {
             title, description, url,
             siteName: site.fullName,
             locale: seo.locale,
             type: ogType as 'website' | 'profile',
-            images: [{ url: ogImage, width: 1200, height: 630, alt: ogImageAlt }],
           },
-    twitter:
-      route === 'article' && article
-        ? {
-            card: 'summary_large_image',
-            title, description,
-            site:    site.twitterHandle ? `@${site.twitterHandle}` : undefined,
-            creator: site.twitterHandle ? `@${site.twitterHandle}` : undefined,
-          }
-        : {
-            card: 'summary_large_image',
-            title, description,
-            images: [ogImage],
-            site:    site.twitterHandle ? `@${site.twitterHandle}` : undefined,
-            creator: site.twitterHandle ? `@${site.twitterHandle}` : undefined,
-          },
+    twitter: {
+      card: 'summary_large_image',
+      title, description,
+      site:    site.twitterHandle ? `@${site.twitterHandle}` : undefined,
+      creator: site.twitterHandle ? `@${site.twitterHandle}` : undefined,
+    },
     other,
   };
 
