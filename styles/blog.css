@@ -162,3 +162,110 @@
     display: none;
   }
 }
+
+/* ============================================================
+   Homepage "Recent writing" — three curated essay cards. The
+   picks are senior-signaling (judgment, architecture, taste);
+   recency alone surfaces filler posts.
+   ============================================================ */
+.home-writing-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin: 12px 0 0;
+}
+.home-writing-heading em {
+  color: var(--primary);
+  font-style: italic;
+}
+
+.home-writing-grid {
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.home-writing-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--paper-2);
+  transition:
+    border-color 0.25s,
+    transform 0.25s,
+    box-shadow 0.25s;
+}
+.home-writing-card:hover {
+  border-color: color-mix(in srgb, var(--primary) 50%, var(--line));
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -20px
+    color-mix(in srgb, var(--primary) 45%, transparent);
+}
+.home-writing-link {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 22px 22px;
+  height: 100%;
+}
+.home-writing-cat {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.home-writing-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  transition: color 0.25s;
+}
+.home-writing-card:hover .home-writing-title {
+  color: var(--primary);
+}
+.home-writing-excerpt {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.home-writing-more {
+  margin-top: auto;
+  padding-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.home-writing-more svg {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.25s;
+}
+.home-writing-card:hover .home-writing-more {
+  color: var(--primary);
+}
+.home-writing-card:hover .home-writing-more svg {
+  transform: translate(2px, -2px);
+}
+
+@media (max-width: 900px) {
+  .home-writing-grid {
+    grid-template-columns: 1fr;
+  }
+}

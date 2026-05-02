@@ -6,6 +6,7 @@ import { Footer } from '@/components/Footer';
 import { ContactCTA } from '@/components/ContactCTA';
 import { HomeHero } from '@/components/HomeHero';
 import { HomeProjects } from '@/components/HomeProjects';
+import { HomeWriting } from '@/components/HomeWriting';
 import {
   HomeMarquee, HomeStats, HomeAbout, HomeSkills, HomeTestimonials, HomeContributions,
 } from '@/components/HomeSections';
@@ -25,6 +26,7 @@ export default function HomePage() {
         <HomeProjects />
         <HomeSkills />
         <HomeTestimonials />
+        <HomeWriting />
         <HomeContributions />
         <ContactCTA />
       </main>

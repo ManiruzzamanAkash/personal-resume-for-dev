@@ -1,0 +1,184 @@
+/* ============================================================
+   Print stylesheet — kicks in when the user hits ⌘P / Ctrl+P
+   (or clicks "Download PDF" on /resume/, which calls
+   window.print()). Goal: produce a clean, paginated PDF that
+   recruiters can forward, with no decorative chrome and no
+   wasted ink on dark backgrounds.
+   ============================================================ */
+
+@media print {
+  /* Force light theme regardless of system preference. The dark theme's
+     dark backgrounds eat ink and look broken on white paper. */
+  :root,
+  [data-theme="dark"] {
+    --paper: #ffffff !important;
+    --paper-2: #ffffff !important;
+    --ink: #111111 !important;
+    --ink-2: #444444 !important;
+    --line: #d0d0d0 !important;
+    --primary: #5a2bb5 !important; /* darker for print contrast */
+    --muted: #f4f4f4 !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 18mm 15mm;
+  }
+
+  /* Strip page chrome — the resume is the only thing that prints. */
+  nav,
+  .nav,
+  .nav-wrap,
+  footer,
+  .footer,
+  .breadcrumb,
+  .route-progress,
+  .cursor,
+  .resume-hero-cta,
+  .contact-block,
+  .contact-cta,
+  [data-print="hide"] {
+    display: none !important;
+  }
+
+  /* Subhero — keep heading + lede, drop the magnetic CTA buttons (already
+     handled above) and tighten spacing for paper. */
+  .subhero {
+    padding: 0 0 12mm !important;
+    margin: 0 !important;
+    text-align: left !important;
+  }
+  .subhero h1,
+  .subhero .hero-title {
+    font-size: 28pt !important;
+    line-height: 1.1 !important;
+    margin: 4mm 0 4mm !important;
+  }
+  .subhero .lede,
+  .subhero p {
+    font-size: 11pt !important;
+    line-height: 1.45 !important;
+    color: #333 !important;
+  }
+  .eyebrow {
+    font-size: 8pt !important;
+    letter-spacing: 0.12em !important;
+    color: #666 !important;
+  }
+
+  /* Resume grid — single column on paper, no sticky aside. */
+  .page,
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+  .resume-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  .resume-aside {
+    position: static !important;
+    top: auto !important;
+    margin-bottom: 8mm !important;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5mm;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+  }
+  .resume-aside h4 {
+    font-size: 8pt !important;
+    margin-bottom: 1mm !important;
+  }
+  .resume-aside ul li {
+    font-size: 9pt !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Resume sections — keep readable but tight. */
+  .resume-section {
+    margin-bottom: 8mm !important;
+    page-break-inside: avoid;
+  }
+  .resume-section h2 {
+    font-size: 18pt !important;
+    margin-bottom: 1mm !important;
+  }
+  .resume-section .lead {
+    font-size: 10pt !important;
+    margin-bottom: 4mm !important;
+  }
+
+  /* Timeline — narrower date column, prevent role splits across pages. */
+  .tl-item {
+    grid-template-columns: 38mm 1fr !important;
+    gap: 8mm !important;
+    padding: 4mm 0 !important;
+    page-break-inside: avoid;
+  }
+  .tl-date {
+    font-size: 9pt !important;
+    padding-top: 1mm !important;
+  }
+  .tl-role {
+    font-size: 14pt !important;
+    margin-bottom: 1mm !important;
+  }
+  .tl-company {
+    font-size: 10pt !important;
+    margin-bottom: 2mm !important;
+  }
+  .tl-desc {
+    font-size: 10pt !important;
+    line-height: 1.45 !important;
+  }
+  .tl-tags span,
+  .ai-tags span,
+  .case-tags span,
+  .skills span {
+    font-size: 8pt !important;
+    padding: 1px 6px !important;
+  }
+
+  /* Cards (AI / case studies / mentor) — keep them on-page where possible. */
+  .ai-item,
+  .case-item,
+  .mentor-item,
+  .talk-item {
+    page-break-inside: avoid;
+    background: #fafafa !important;
+  }
+
+  /* Links — show URL hint after the link text so PDFs are useful offline.
+     Skip for short anchors (mailto:, tel:) and for in-page nav. */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #666;
+    word-break: break-all;
+  }
+  a[href^="http"].btn::after,
+  a[href^="http"].icon-btn::after,
+  .footer a::after,
+  .nav a::after {
+    content: "" !important;
+  }
+
+  /* Hide all icons / arrows / buttons inside the resume body that only make
+     sense for hover / interaction. */
+  .arrow,
+  .arrow-go,
+  .oss-arrow,
+  .case-arrow,
+  .ai-link,
+  .oss-link {
+    display: none !important;
+  }
+}

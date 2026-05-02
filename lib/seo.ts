@@ -162,41 +162,29 @@ export const buildMetadata = ({ route, param, article }: BuildMetadataOpts): Met
    of whether JS executes.
    ============================================================ */
 
-/* Freelance service offerings — attached to the Person via `makesOffer`
-   so search engines (and AI agents) can extract "what this person sells"
-   when answering hiring-intent queries like "hire freelance WooCommerce
-   developer". Each entry maps to a schema.org Service nested in an Offer. */
-const FREELANCE_SERVICES: { name: string; description: string; serviceType: string }[] = [
-  {
-    name: 'Freelance WordPress Plugin Development',
-    serviceType: 'WordPress Plugin Development',
-    description: 'Custom WordPress plugin engineering — architecture, Gutenberg blocks, REST APIs, multisite, performance, and security hardening. Built to WordPress.org standards with PHPUnit + Jest coverage.',
-  },
-  {
-    name: 'Freelance WooCommerce Development',
-    serviceType: 'WooCommerce Development',
-    description: 'Custom WooCommerce stores, payment gateways, subscriptions, multivendor marketplaces, and headless storefronts. Past work used by 100K+ stores including Dokan Multivendor and the Paysera gateway (10K+ European merchants).',
-  },
-  {
-    name: 'Freelance Shopify App & Store Development',
-    serviceType: 'Shopify Development',
-    description: 'Custom Shopify apps, theme development, headless storefronts, and Shopify ↔ WordPress/WooCommerce migrations. Production experience from building Shopify integrations for Paysera payments.',
-  },
-  {
-    name: 'Freelance SureCart & Headless Commerce Engineering',
-    serviceType: 'Ecommerce Development',
-    description: 'SureCart-powered storefronts, custom checkout flows, subscription billing, and headless commerce frontends in React / Next.js. Currently engineering SureCart core (1K → 100K+ active installs).',
-  },
-  {
-    name: 'Software Architecture & Code Review Consulting',
-    serviceType: 'Software Architecture Consulting',
-    description: 'Architecture reviews, SOLID refactors, scaling plans, security audits, and senior engineering mentorship for WordPress, Laravel, Symfony, and React codebases.',
-  },
+/* Areas of expertise — exposed to crawlers + AI search via knowsAbout so
+   hiring-intent queries ("senior WordPress engineer", "ecommerce platform
+   engineer") can extract concrete domains. Pulled from CONTENT.skills with
+   a few outcome-oriented additions that don't fit the visible stack list. */
+const KNOWS_ABOUT = [
+  ...new Set([
+    ...CONTENT.skills.flatMap((s) => s.skills),
+    'WordPress plugin architecture',
+    'Laravel application architecture',
+    'TALL stack (Tailwind, Alpine, Laravel, Livewire)',
+    'Lara Dashboard (TALL-stack CMS)',
+    'WooCommerce platform engineering',
+    'SureCart core engineering',
+    'Payment gateway integration',
+    'Headless commerce',
+    'SaaS scaling',
+    'Open-source maintenance',
+    'Code review and mentorship',
+  ]),
 ];
 
 export const personSchema = () => {
   const site = CONTENT.site;
-  const seo  = CONTENT.seo;
   const sameAs = Object.values(site.socials).filter(Boolean);
   return {
     '@context': 'https://schema.org',
@@ -226,28 +214,16 @@ export const personSchema = () => {
       url:     site.worksFor.url,
     },
     alumniOf: { '@type': 'CollegeOrUniversity', name: site.alumniOf },
-    knowsAbout: CONTENT.skills.flatMap((s) => s.skills),
-    /* Surfaces freelance offerings to crawlers + AI search. Without this,
-       hiring-intent queries can't extract "what services this person sells"
-       from prose alone. */
-    makesOffer: FREELANCE_SERVICES.map((s) => ({
-      '@type': 'Offer',
-      availability: 'https://schema.org/InStock',
-      areaServed: 'Worldwide',
-      itemOffered: {
-        '@type':      'Service',
-        name:         s.name,
-        serviceType:  s.serviceType,
-        description:  s.description,
-        provider:     { '@id': `${ORIGIN}/#person` },
-        areaServed:   'Worldwide',
-        availableChannel: {
-          '@type':       'ServiceChannel',
-          serviceUrl:    `${ORIGIN}/contact/`,
-          servicePhone:  undefined,
-        },
-      },
-    })),
+    knowsAbout: KNOWS_ABOUT,
+    /* `seeks` advertises the kind of role the person is open to. Schema.org
+       has no first-class "open to roles" property — `seeks` is the canonical
+       way to surface intent without manufacturing freelance Service offers. */
+    seeks: {
+      '@type':       'Demand',
+      name:          'Senior or Staff Software Engineer (full-time)',
+      description:   'Senior / Staff engineering roles at product companies — WordPress, ecommerce, developer tools, AI-native SaaS, or distributed systems. Remote-first with EU/US/CA overlap; open to relocation for the right team.',
+      areaServed:    'Worldwide',
+    },
     sameAs,
   };
 };
