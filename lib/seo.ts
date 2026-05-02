@@ -112,6 +112,13 @@ export const buildMetadata = ({ route, param, article }: BuildMetadataOpts): Met
         'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1,
       },
     },
+    /* Search-engine ownership verification — emits
+       <meta name="google-site-verification" content="..."> when set.
+       Empty/undefined env vars are dropped by Next.js, so the tag only
+       appears when NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION is configured. */
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+    },
     /* No explicit `images` for any route — every route (home, resume, blog,
        contact, article) ships an `opengraph-image.tsx` file convention
        sibling, which Next.js auto-injects as both `og:image` and

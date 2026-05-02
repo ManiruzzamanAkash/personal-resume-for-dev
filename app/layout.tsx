@@ -8,6 +8,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { personSchema, websiteSchema } from '@/lib/seo';
 import { Cursor } from '@/components/Cursor';
 import { RouteProgress } from '@/components/RouteProgress';
+import { Analytics } from '@/components/Analytics';
 
 /**
  * Root metadata defaults — every page-level generateMetadata() inherits
@@ -80,6 +81,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="page-curtain" />
 
         <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
+
+        {/* Google Analytics 4 — no-op when NEXT_PUBLIC_GA_MEASUREMENT_ID is unset. */}
+        <Analytics />
       </body>
     </html>
   );

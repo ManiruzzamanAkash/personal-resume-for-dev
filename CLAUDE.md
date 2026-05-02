@@ -364,6 +364,64 @@ do rotate it from the dashboard if abuse spikes.
 
 ---
 
+## Analytics & Search Console
+
+Both integrations are **opt-in via env vars**. Leave them blank and the
+site ships with zero third-party tracking; set them and the relevant
+tags / scripts get injected at build time.
+
+| Env var                               | Purpose                                                 |
+| ------------------------------------- | ------------------------------------------------------- |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID`       | Google Analytics 4 measurement ID (`G-XXXXXXXXXX`)      |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`| Search Console HTML-tag verification token              |
+
+### Google Analytics 4
+
+1. Create a GA4 property at [analytics.google.com](https://analytics.google.com).
+2. **Admin → Data Streams → Web**, add your domain, copy the Measurement ID.
+3. Set `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX` in `.env.local` (or
+   the deploy env — see below).
+
+`components/Analytics.tsx` reads the env var and injects the gtag.js
+loader + init snippet via `next/script` (`afterInteractive`). When the
+var is unset the component returns `null`, so no requests are made.
+
+### Google Search Console
+
+1. Add your property at [search.google.com/search-console](https://search.google.com/search-console).
+2. Choose the **HTML tag** verification method. Google shows a snippet
+   like `<meta name="google-site-verification" content="ABC123…">`.
+   Copy only the `content` value.
+3. Set `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=ABC123…` in `.env.local`.
+4. Build + deploy. Open `out/index.html` and search for
+   `google-site-verification` to confirm the meta tag rendered, then
+   click **Verify** in Search Console.
+
+The tag is emitted from `lib/seo.ts` via the Next.js `Metadata.verification.google`
+field — that means it appears on every public route (home, blog,
+articles, etc.), so Google can verify on whichever URL it crawls first.
+
+### Deploying with the keys
+
+Same pattern as Web3Forms — `NEXT_PUBLIC_*` vars are inlined at build
+time, so they must be present when `npm run build` runs.
+
+- **GitHub Pages CI.** Add both as repository secrets (Settings →
+  Secrets and variables → Actions). The workflow at
+  [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml)
+  already wires them up:
+
+  ```yaml
+  env:
+    NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+    NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ secrets.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }}
+  ```
+
+- **Vercel / Netlify / Cloudflare Pages.** Add the same names + values
+  in the project's environment-variable dashboard. Redeploy once.
+
+---
+
 ## Conventions
 
 - **TypeScript everywhere** — strict mode, no `any` unless commented why.
