@@ -270,7 +270,7 @@ export const CONTENT: Content = {
     nationality: 'Bangladeshi',
     timezone: 'GMT+6',
     email: 'manirujjamanakash@gmail.com',
-    status: 'Open to senior / staff roles · remote, EU/US/CA/CA overlap',
+    status: 'Open to senior / staff roles · remote, EU/US/CA overlap',
     calendly: 'https://calendly.com/manirujjamanakash/new-meeting',
     alumniOf: 'Patuakhali Science & Technology University',
     jobTitle: 'Senior Software Engineer',
