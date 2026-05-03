@@ -328,35 +328,27 @@ export const blogListSchema = (articles: ArticleMeta[]) => ({
   })),
 });
 
-/* Wraps each CONTENT.testimonials entry in a schema.org Review pointing
-   at the Person. Crawlers and AI agents extract these as social-proof
-   signals when answering hiring-intent queries. We deliberately omit
-   `aggregateRating` and per-review `ratingValue` — Google's review
-   guidelines penalize self-collected star ratings. The reviewBody +
-   author + datePublished are enough to register as trust signals
-   without claiming rating data we can't third-party verify. */
-export const reviewsSchema = () => {
-  const author = (raw: string) => {
-    /* "Md Mostafizur Rahman" → name; "Fullstack Developer · Dec 2022"
-       → jobTitle (the Dec 2022 part is informational, not parseable). */
-    return { '@type': 'Person', name: raw };
-  };
-  return CONTENT.testimonials.map((t) => ({
-    '@context':   'https://schema.org',
-    '@type':      'Review',
-    itemReviewed: { '@id': `${ORIGIN}/#person` },
-    reviewBody:   t.quote,
-    author:       author(t.name),
-    publisher:    { '@id': `${ORIGIN}/#person` },
-    /* `creator` carries role + provenance text for crawlers without
-       polluting the author name field. */
-    creator: {
-      '@type': 'Person',
-      name:    t.name,
-      jobTitle: t.role,
-    },
-  }));
-};
+/* Wraps each CONTENT.testimonials entry in a schema.org Quotation
+   attributed to the testimonial author and `about` the Person. We use
+   `Quotation` instead of `Review` because Google's Review rich-result
+   spec rejects every itemReviewed type that fits an individual (Person,
+   Service, etc.) and additionally bans self-serving reviews on the same
+   site as the entity. `Quotation` isn't tied to any rich-result feature,
+   so Search Console doesn't validate it as a Review — but crawlers and
+   AI agents can still extract these as structured social-proof signals
+   attributed to a named person, about you. The `about` reference resolves
+   the testimonial back to the Person graph. */
+export const reviewsSchema = () => CONTENT.testimonials.map((t) => ({
+  '@context': 'https://schema.org',
+  '@type':    'Quotation',
+  text:       t.quote,
+  about:      { '@id': `${ORIGIN}/#person` },
+  creator: {
+    '@type':  'Person',
+    name:     t.name,
+    jobTitle: t.role,
+  },
+}));
 
 export const profilePageSchema = () => ({
   '@context': 'https://schema.org',
