@@ -2,76 +2,84 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
-      "file":     "what-you-must-never-forget-building-gutenberg-block.md",
-      "slug":     "what-you-must-never-forget-building-gutenberg-block",
-      "title":    "What you must never forget when building a Gutenberg block in WordPress",
-      "date":     "2026-08-23",
+      "file": "gutenberg-block-deprecations-without-breaking-editors.md",
+      "slug": "gutenberg-block-deprecations-without-breaking-editors",
+      "title": "Gutenberg block deprecations without breaking a hundred thousand editors",
+      "date": "2026-08-23",
       "category": "Architecture",
-      "excerpt":  "Most Gutenberg pain isn’t React — it’s choosing the wrong render model, skipping migrations, ignoring accessibility, or fighting the browser instead of using the Interactivity API. Here’s the checklist I wish every new block started with."
+      "excerpt": "Changing a block\u2019s save() output without a deprecation is how you turn a routine release into an editor outage. Here\u2019s the migration path I actually use when markup has to evolve."
     },
     {
-      "file":     "woocommerce-shopify-surecart-ai-era-custom-builds.md",
-      "slug":     "woocommerce-shopify-surecart-ai-era-custom-builds",
-      "title":    "WooCommerce vs Shopify vs SureCart: custom builds in the AI era",
-      "date":     "2026-04-26",
+      "file": "what-you-must-never-forget-building-gutenberg-block.md",
+      "slug": "what-you-must-never-forget-building-gutenberg-block",
+      "title": "What you must never forget when building a Gutenberg block in WordPress",
+      "date": "2026-08-23",
+      "category": "Architecture",
+      "excerpt": "Most Gutenberg pain isn\u2019t React \u2014 it\u2019s choosing the wrong render model, skipping migrations, ignoring accessibility, or fighting the browser instead of using the Interactivity API. Here\u2019s the checklist I wish every new block started with."
+    },
+    {
+      "file": "woocommerce-shopify-surecart-ai-era-custom-builds.md",
+      "slug": "woocommerce-shopify-surecart-ai-era-custom-builds",
+      "title": "WooCommerce vs Shopify vs SureCart: custom builds in the AI era",
+      "date": "2026-04-26",
       "category": "Ecommerce",
-      "excerpt":  "Three platforms, three different deals. Where each one wins, where each loses, and why AI-assisted Gutenberg / Elementor / Bricks template work compounds harder on SureCart than on the other two."
+      "excerpt": "Three platforms, three different deals. Where each one wins, where each loses, and why AI-assisted Gutenberg / Elementor / Bricks template work compounds harder on SureCart than on the other two."
     },
     {
-      "file":     "hiring-a-freelance-wordpress-plugin-developer.md",
-      "slug":     "hiring-a-freelance-wordpress-plugin-developer",
-      "title":    "Hiring a freelance WordPress plugin developer: a practical guide",
-      "date":     "2026-04-26",
+      "file": "hiring-a-freelance-wordpress-plugin-developer.md",
+      "slug": "hiring-a-freelance-wordpress-plugin-developer",
+      "title": "Hiring a freelance WordPress plugin developer: a practical guide",
+      "date": "2026-04-26",
       "category": "Hiring",
-      "excerpt":  "A senior engineer's checklist for hiring freelance WordPress and WooCommerce talent — what actually matters, what's a red flag, and how to write a brief that gets you good replies."
+      "excerpt": "A senior engineer's checklist for hiring freelance WordPress and WooCommerce talent \u2014 what actually matters, what's a red flag, and how to write a brief that gets you good replies."
     },
     {
-      "file":     "welcome-to-my-blog.md",
-      "slug":     "welcome-to-my-blog",
-      "title":    "Welcome to my blog",
-      "date":     "2026-04-25",
+      "file": "welcome-to-my-blog.md",
+      "slug": "welcome-to-my-blog",
+      "title": "Welcome to my blog",
+      "date": "2026-04-25",
       "category": "Meta",
-      "excerpt":  "A short note on why I'm starting to write here, what to expect, and how this little site is built."
+      "excerpt": "A short note on why I'm starting to write here, what to expect, and how this little site is built."
     },
     {
-      "file":     "trading-fast-hands-for-trusted-judgment.md",
-      "slug":     "trading-fast-hands-for-trusted-judgment",
-      "title":    "Trading fast hands for trusted judgment: notes from the AI-era reset",
-      "date":     "2026-04-24",
+      "file": "trading-fast-hands-for-trusted-judgment.md",
+      "slug": "trading-fast-hands-for-trusted-judgment",
+      "title": "Trading fast hands for trusted judgment: notes from the AI-era reset",
+      "date": "2026-04-24",
       "category": "Career",
-      "excerpt":  "For seven years I was valued for shipping fast. In 2026, that's becoming the cheap part. Here's the shift I'm making in how I work, why I'm making it, and what I think it means for the engineers around me."
+      "excerpt": "For seven years I was valued for shipping fast. In 2026, that's becoming the cheap part. Here's the shift I'm making in how I work, why I'm making it, and what I think it means for the engineers around me."
     },
     {
-      "file":     "the-slow-way-to-become-an-engineer-whose-opinion-changes-rooms.md",
-      "slug":     "the-slow-way-to-become-an-engineer-whose-opinion-changes-rooms",
-      "title":    "The slow way to become an engineer whose opinion changes rooms",
-      "date":     "2026-04-22",
+      "file": "the-slow-way-to-become-an-engineer-whose-opinion-changes-rooms.md",
+      "slug": "the-slow-way-to-become-an-engineer-whose-opinion-changes-rooms",
+      "title": "The slow way to become an engineer whose opinion changes rooms",
+      "date": "2026-04-22",
       "category": "Career",
-      "excerpt":  "A four-phase practice I'm using to grow from \"fast hands\" into \"trusted judgment\". No shortcuts, no productivity hacks — just the actual gradient, with the specific habits I'm running each week."
+      "excerpt": "A four-phase practice I'm using to grow from \"fast hands\" into \"trusted judgment\". No shortcuts, no productivity hacks \u2014 just the actual gradient, with the specific habits I'm running each week."
     },
     {
-      "file":     "woocommerce-vs-shopify-for-custom-builds.md",
-      "slug":     "woocommerce-vs-shopify-for-custom-builds",
-      "title":    "WooCommerce vs Shopify for custom ecommerce builds",
-      "date":     "2026-04-20",
+      "file": "woocommerce-vs-shopify-for-custom-builds.md",
+      "slug": "woocommerce-vs-shopify-for-custom-builds",
+      "title": "WooCommerce vs Shopify for custom ecommerce builds",
+      "date": "2026-04-20",
       "category": "Ecommerce",
-      "excerpt":  "I've shipped production work on both platforms — WooCommerce stores serving 100K+ shops, Shopify integrations handling 10K+ merchants. Here's how I actually decide which one fits a brief, with no platform tribalism."
+      "excerpt": "I've shipped production work on both platforms \u2014 WooCommerce stores serving 100K+ shops, Shopify integrations handling 10K+ merchants. Here's how I actually decide which one fits a brief, with no platform tribalism."
     },
     {
-      "file":     "building-paysera-payment-gateway-10k-merchants.md",
-      "slug":     "building-paysera-payment-gateway-10k-merchants",
-      "title":    "Building a payment gateway used by 10K+ European merchants",
-      "date":     "2026-04-14",
+      "file": "building-paysera-payment-gateway-10k-merchants.md",
+      "slug": "building-paysera-payment-gateway-10k-merchants",
+      "title": "Building a payment gateway used by 10K+ European merchants",
+      "date": "2026-04-14",
       "category": "Case Studies",
-      "excerpt":  "A retrospective on the Paysera payment gateway — Symfony microservices, WooCommerce / Shopify / Magento plugins, and the boring engineering decisions that kept 10K merchants from noticing us."
+      "excerpt": "A retrospective on the Paysera payment gateway \u2014 Symfony microservices, WooCommerce / Shopify / Magento plugins, and the boring engineering decisions that kept 10K merchants from noticing us."
     },
     {
-      "file":     "solid-principles-for-wordpress-plugins.md",
-      "slug":     "solid-principles-for-wordpress-plugins",
-      "title":    "SOLID principles for WordPress plugins (without the dogma)",
-      "date":     "2026-04-10",
+      "file": "solid-principles-for-wordpress-plugins.md",
+      "slug": "solid-principles-for-wordpress-plugins",
+      "title": "SOLID principles for WordPress plugins (without the dogma)",
+      "date": "2026-04-10",
       "category": "Architecture",
-      "excerpt":  "A practical, opinionated take on applying SOLID to real WordPress codebases — where it helps, where it hurts, and where it's just CS-class noise."
+      "excerpt": "A practical, opinionated take on applying SOLID to real WordPress codebases \u2014 where it helps, where it hurts, and where it's just CS-class noise."
     }
   ]
 }
