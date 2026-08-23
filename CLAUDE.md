@@ -9,6 +9,7 @@ production site is deployed to **GitHub Pages** at
 Netlify, S3 + CloudFront) — see the **Deploy** section below.
 
 This file is the canonical map of the project. Read it before editing.
+Also read [`AGENTS.md`](./AGENTS.md) for git authorship rules that apply to every coding agent.
 
 ---
 
@@ -37,6 +38,7 @@ is indexable without ever executing JavaScript.
 ```
 portfolio-main/
 ├── CLAUDE.md                 ← you are here
+├── AGENTS.md                 ← git authorship + agent rules
 ├── README.md
 ├── package.json              ← Next.js + React + remark + gray-matter
 ├── tsconfig.json
@@ -492,3 +494,13 @@ export are auto-detected; no extra config needed.
 - The contributions grid uses `Math.random()` so the displayed activity
   doesn't reflect real GitHub data. Replace with the GitHub GraphQL API
   if you want live data.
+
+---
+
+## Git authorship for agents
+
+See [`AGENTS.md`](./AGENTS.md). Summary:
+
+- Commits that land on `main` must be attributed to **ManiruzzamanAkash**, not bots (`cursoragent`, etc.).
+- Prefer PRs; **Squash and merge** when a cloud agent could only author as a bot.
+- Do not add bot co-author trailers unless explicitly requested.
