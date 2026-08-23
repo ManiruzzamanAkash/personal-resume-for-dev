@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file":     "what-you-must-never-forget-building-gutenberg-block.md",
+      "slug":     "what-you-must-never-forget-building-gutenberg-block",
+      "title":    "What you must never forget when building a Gutenberg block in WordPress",
+      "date":     "2026-08-23",
+      "category": "Architecture",
+      "excerpt":  "Most Gutenberg pain isn’t React — it’s choosing the wrong render model, skipping migrations, ignoring accessibility, or fighting the browser instead of using the Interactivity API. Here’s the checklist I wish every new block started with."
+    },
+    {
       "file":     "woocommerce-shopify-surecart-ai-era-custom-builds.md",
       "slug":     "woocommerce-shopify-surecart-ai-era-custom-builds",
       "title":    "WooCommerce vs Shopify vs SureCart: custom builds in the AI era",
