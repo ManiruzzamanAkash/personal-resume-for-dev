@@ -1,5 +1,5 @@
 ---
-title: Production debugging for WordPress plugins: what staging never teaches you
+title: "Production debugging for WordPress plugins: what staging never teaches you"
 slug: production-debugging-wordpress-plugins-staging-lies
 date: 2026-09-10
 category: Engineering

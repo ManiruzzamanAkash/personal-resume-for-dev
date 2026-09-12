@@ -1,5 +1,5 @@
 ---
-title: HPOS-ready WooCommerce plugins: stop treating orders like posts
+title: "HPOS-ready WooCommerce plugins: stop treating orders like posts"
 slug: hpos-ready-woocommerce-plugins-data-access
 date: 2026-09-12
 category: Engineering

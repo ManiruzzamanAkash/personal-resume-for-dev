@@ -11,7 +11,7 @@
 .section-head {
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
   border-bottom: 1px solid var(--line);
   padding-bottom: 24px;
   margin-bottom: 60px;

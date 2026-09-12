@@ -5,7 +5,8 @@
   "description": "Personal portfolio + blog for Md. Maniruzzaman Akash. Next.js (App Router) + TypeScript, statically rendered for Vercel.",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/validate-articles.mjs && next build",
+    "validate:articles": "node scripts/validate-articles.mjs",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
