@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "wordpress-plugin-dependency-injection-service-containers.md",
+      "slug": "wordpress-plugin-dependency-injection-service-containers",
+      "title": "WordPress plugin dependency injection: stop new-ing everything in plugins_loaded",
+      "date": "2026-09-14",
+      "category": "Engineering",
+      "excerpt": "Most WordPress plugins are a tangle of singletons and global functions. Here is how I introduce a small service container so features stay testable, swappable, and honest about their dependencies."
+    },
+    {
       "file": "react-wordpress-admin-ui-patterns.md",
       "slug": "react-wordpress-admin-ui-patterns",
       "title": "React in the WordPress admin: stop fighting PHP pages",
