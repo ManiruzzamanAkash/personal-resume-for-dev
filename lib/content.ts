@@ -26,7 +26,7 @@ export type IconName =
   | 'download' | 'code' | 'rocket' | 'pen' | 'book'
   | 'chevronLeft' | 'chevronRight' | 'menu' | 'close';
 
-export type RouteId = 'home' | 'resume' | 'blog' | 'article' | 'contact';
+export type RouteId = 'home' | 'resume' | 'projects' | 'blog' | 'article' | 'contact';
 
 export interface SocialMap {
   github: string;
@@ -90,6 +90,19 @@ export interface Project {
   desc: string;
   color: string;
   initial: string;
+  /** Outbound product / platform URL when available. */
+  href?: string;
+}
+
+/** Client / product work shown on /projects/ — image + outbound link. */
+export interface ProductWorkItem {
+  id: string;
+  name: string;
+  desc: string;
+  tags: string[];
+  href: string;
+  image: string;
+  year?: string;
 }
 
 export interface Experience {
@@ -192,6 +205,8 @@ export interface Content {
   marqueeWords: string[];
   stats: Stat[];
   projects: Project[];
+  /* Squartup / client product work for the /projects/ page (image cards). */
+  productWork: ProductWorkItem[];
   experience: Experience[];
   skills: SkillGroup[];
   testimonials: Testimonial[];
@@ -232,6 +247,11 @@ export interface Content {
       leadership: { eyebrow: string; heading: string; lead: string };
       howIWork: { eyebrow: string; heading: string; lead: string };
     };
+  };
+  projectsPage: {
+    hero: { eyebrow: string; heading: string; lede: string };
+    products: { eyebrow: string; heading: string; lead: string };
+    platforms: { eyebrow: string; heading: string; lead: string };
   };
   blog: {
     hero: { eyebrow: string; heading: string; lede: string };
@@ -377,6 +397,23 @@ export const CONTENT: Content = {
         priority: 0.9,
         changefreq: 'monthly',
       },
+      projects: {
+        path: '/projects',
+        title: 'Projects · {fullName} — Product work, platforms & open source',
+        description: 'Selected product work and platforms shipped by {fullName} — SureCart, Lara Dashboard, Paysera, Dokan, WP ERP, and client products across WordPress, Laravel, React, and ecommerce.',
+        keywords: [
+          'Software Engineer Portfolio',
+          'WordPress Projects',
+          'Laravel Projects',
+          'Ecommerce Platforms',
+          'SureCart',
+          'Lara Dashboard',
+          'Open Source Projects',
+        ],
+        type: 'website',
+        priority: 0.9,
+        changefreq: 'monthly',
+      },
       blog: {
         path: '/blog',
         title: 'Writing · {fullName} — Notes on WordPress, architecture & engineering',
@@ -448,6 +485,7 @@ export const CONTENT: Content = {
   navigation: [
     { id: 'home', label: 'Work' },
     { id: 'resume', label: 'Resume' },
+    { id: 'projects', label: 'Projects' },
     { id: 'blog', label: 'Writing' },
     { id: 'contact', label: 'Contact' },
   ],
@@ -465,16 +503,121 @@ export const CONTENT: Content = {
   ],
 
   projects: [
-    { id: 'surecart', name: 'SureCart', year: '2022—', tags: ['WordPress', 'React', 'TypeScript'], desc: 'Ecommerce platform for WordPress. Owned core engineering as it scaled 1K → 100K+ active installs — payments, subscriptions, 100+ Gutenberg blocks.', color: '#8345dd', initial: 'S' },
-    { id: 'paysera', name: 'Paysera Gateway', year: '2020—2022', tags: ['Symfony', 'WooCommerce', 'Shopify'], desc: 'Payment gateway used by 10K+ EU merchants. Sustained 99.9% uptime through PSD2 / SCA rollout; shipped WooCommerce, Shopify, and Magento integrations.', color: '#06b6d4', initial: 'P' },
-    { id: 'dokan', name: 'Dokan Multivendor', year: '2018—2020', tags: ['WooCommerce', 'React'], desc: 'Multivendor marketplace platform for WooCommerce powering 100K+ stores. Architected core checkout + vendor-payout modules.', color: '#10b981', initial: 'D' },
-    { id: 'wperp', name: 'WP ERP', year: '2018—2020', tags: ['PHP', 'Vue', 'React'], desc: 'Open-source ERP for WordPress (HR / CRM / Accounting). Core contributor — 690★ on GitHub, used by SMEs across 30+ countries.', color: '#f59e0b', initial: 'E' },
-    { id: 'laradashboard', name: 'Lara Dashboard', year: '2024—', tags: ['Laravel', 'Livewire', 'Tailwind'], desc: 'Founded — TALL-stack CMS for Laravel teams. 385★ on GitHub, growing community of contributors.', color: '#fb923c', initial: 'L' },
+    { id: 'surecart', name: 'SureCart', year: '2022—', tags: ['WordPress', 'React', 'TypeScript'], desc: 'Ecommerce platform for WordPress. Owned core engineering as it scaled 1K → 100K+ active installs — payments, subscriptions, 100+ Gutenberg blocks.', color: '#8345dd', initial: 'S', href: 'https://surecart.com/' },
+    { id: 'paysera', name: 'Paysera Gateway', year: '2020—2022', tags: ['Symfony', 'WooCommerce', 'Shopify'], desc: 'Payment gateway used by 10K+ EU merchants. Sustained 99.9% uptime through PSD2 / SCA rollout; shipped WooCommerce, Shopify, and Magento integrations.', color: '#06b6d4', initial: 'P', href: 'https://www.paysera.com/' },
+    { id: 'dokan', name: 'Dokan Multivendor', year: '2018—2020', tags: ['WooCommerce', 'React'], desc: 'Multivendor marketplace platform for WooCommerce powering 100K+ stores. Architected core checkout + vendor-payout modules.', color: '#10b981', initial: 'D', href: 'https://wedevs.com/dokan' },
+    { id: 'wperp', name: 'WP ERP', year: '2018—2020', tags: ['PHP', 'Vue', 'React'], desc: 'Open-source ERP for WordPress (HR / CRM / Accounting). Core contributor — 690★ on GitHub, used by SMEs across 30+ countries.', color: '#f59e0b', initial: 'E', href: 'https://wperp.com' },
+    { id: 'laradashboard', name: 'Lara Dashboard', year: '2024—', tags: ['Laravel', 'Livewire', 'Tailwind'], desc: 'Founded — TALL-stack CMS for Laravel teams. 385★ on GitHub, growing community of contributors.', color: '#fb923c', initial: 'L', href: 'https://laradashboard.com/' },
     { id: 'cartpulse', name: 'CartPulse', year: '2023', tags: ['WooCommerce', 'Gutenberg'], desc: 'Abandoned-cart recovery for WooCommerce — automated email sequences, discount triggers, conversion analytics.', color: '#ef4444', initial: 'C' },
-    { id: 'wpreactkit', name: 'WP React Kit', year: '2021—', tags: ['WordPress', 'React', 'TypeScript'], desc: 'Open-source WordPress + React + TypeScript plugin starter. Battle-tested boilerplate that ships with build pipeline, REST scaffolding, and i18n.', color: '#2563eb', initial: 'W' },
+    { id: 'wpreactkit', name: 'WP React Kit', year: '2021—', tags: ['WordPress', 'React', 'TypeScript'], desc: 'Open-source WordPress + React + TypeScript plugin starter. Battle-tested boilerplate that ships with build pipeline, REST scaffolding, and i18n.', color: '#2563eb', initial: 'W', href: 'https://github.com/ManiruzzamanAkash/wp-react-kit' },
     { id: 'ibos', name: 'iBOS', year: '2017—2018', tags: ['Laravel', 'React', 'Automation'], desc: "Internal business-automation suite — Laravel APIs + React apps powering HR, POS, and ERP across Akij Group's 50K employees.", color: '#6366f1', initial: 'i' },
-    { id: 'devsenv', name: 'DevsEnv', year: '2017—', tags: ['WordPress', 'SEO', 'Content'], desc: 'Founded — tutorial blog for web developers covering PHP, WordPress, Laravel, and React.', color: '#a855f7', initial: 'V' },
+    { id: 'devsenv', name: 'DevsEnv', year: '2017—', tags: ['WordPress', 'SEO', 'Content'], desc: 'Founded — tutorial blog for web developers covering PHP, WordPress, Laravel, and React.', color: '#a855f7', initial: 'V', href: 'https://devsenv.com/' },
     { id: 'dmwords', name: 'DMWords', year: '2017—2018', tags: ['Laravel', 'PHP', 'EdTech'], desc: 'Language-learning platform — ~1,000 essential words for immigrants, foreign workers, and government partners settling into a new environment.', color: '#14b8a6', initial: 'M' },
+  ],
+
+  /* Selected product / client work (images) for /projects/.
+     Lara Dashboard + DevsEnv live here as the primary card (also appear
+     briefly in `projects` for the homepage list — the Projects page
+     dedupes them into this group only). */
+  productWork: [
+    {
+      id: 'partner-finder',
+      name: 'Partner Finder',
+      href: 'https://squartup.com/products/partner-finder',
+      image: 'https://squartup.com/storage/product-images/6a918d52db2bf.jpg',
+      tags: ['Web Development', 'Matrimony'],
+      desc: 'Matrimony application and website — partner-matching product work.',
+    },
+    {
+      id: 'educare',
+      name: 'Educare',
+      href: 'https://squartup.com/products/educare',
+      image: 'https://squartup.com/storage/product-images/6a918d52e1b23.jpg',
+      tags: ['Online Learning'],
+      desc: 'Online learning platform for courses and student experiences.',
+    },
+    {
+      id: 'laradashboard',
+      name: 'Lara Dashboard',
+      href: 'https://laradashboard.com/',
+      image: 'https://squartup.com/storage/product-images/6a918d5583a01.png',
+      tags: ['Laravel', 'Livewire', 'Tailwind', 'AI'],
+      year: '2024—',
+      desc: 'Founded — AI-powered Laravel admin / CMS for SaaS teams (TALL stack). 385★ on GitHub.',
+    },
+    {
+      id: 'automattic-crm',
+      name: 'Automattic CRM',
+      href: 'https://automatticcrm.com/',
+      image: 'https://squartup.com/storage/product-images/6a918d5b5c204.png',
+      tags: ['CRM'],
+      desc: 'All-in-one CRM platform.',
+    },
+    {
+      id: 'eclipse-auto-parts',
+      name: 'Eclipse Auto Parts',
+      href: 'https://eclipseautoparts.com/',
+      image: 'https://eclipseautoparts.com/uploads/img/slider/product_banner.png',
+      tags: ['Ecommerce', 'Auto Parts'],
+      desc: 'Auto parts ecommerce storefront.',
+    },
+    {
+      id: 'youdonate',
+      name: 'YouDonate Foundation',
+      href: 'https://youdonatefoundation.org/',
+      image: 'https://squartup.com/storage/product-images/6a918d6a6a875.jpg',
+      tags: ['WordPress', 'React', 'Gutenberg'],
+      desc: 'Charity platform built with WordPress, React, and Gutenberg.',
+    },
+    {
+      id: 'kado-gioielli',
+      name: 'Kado Gioielli',
+      href: 'https://www.kadogioielli.com/',
+      image: 'https://squartup.com/storage/product-images/6a918d6a6e0e2.jpg',
+      tags: ['WordPress', 'React', 'Gutenberg'],
+      desc: 'Jewelry ecommerce storefront — WordPress, React, and Gutenberg.',
+    },
+    {
+      id: 'newcar',
+      name: 'NewCar',
+      href: 'https://newcarstaurianova.com/',
+      image: 'https://squartup.com/storage/product-images/6a918d6a70b96.jpg',
+      tags: ['WordPress', 'Elementor'],
+      desc: 'Auto sales and rental site — WordPress and Elementor.',
+    },
+    {
+      id: 'devsenv',
+      name: 'DevsEnv',
+      href: 'https://devsenv.com/',
+      image: 'https://squartup.com/storage/product-images/6a918d6a735ae.jpg',
+      tags: ['Laravel', 'React', 'TypeScript'],
+      year: '2017—',
+      desc: 'Founded — tutorial blog and developer learning platform covering PHP, WordPress, Laravel, and React.',
+    },
+    {
+      id: 'life-coach-hub',
+      name: 'Life Coach Hub',
+      href: 'https://lifecoachhub.com/',
+      image: 'https://squartup.com/storage/product-images/6a918d6a75884.jpg',
+      tags: ['Laravel', 'React', 'TypeScript', 'Tailwind'],
+      desc: 'Life coaching platform built with Laravel, React, TypeScript, and Tailwind.',
+    },
+    {
+      id: 'arcuri',
+      name: 'Arcuri',
+      href: 'https://arcuri.fidiak.com/',
+      image: 'https://squartup.com/storage/product-images/jpg-6a9d42e8e28110.12605424.jpg',
+      tags: ['WordPress', 'WooCommerce', '3D', 'Elementor'],
+      desc: 'WordPress + WooCommerce storefront with 3D and Elementor.',
+    },
+    {
+      id: 'gjiganti',
+      name: 'Gjiganti',
+      href: 'https://gjiganti.com/',
+      image: 'https://squartup.com/storage/product-images/jpg-6a9d42e8e34e68.30912883.jpg',
+      tags: ['Laravel', 'WordPress', 'Multi-language'],
+      desc: 'Multi-language product built with Laravel and WordPress.',
+    },
   ],
 
   experience: [
@@ -734,6 +877,24 @@ export const CONTENT: Content = {
       speaking: { eyebrow: '06 — Writing & community', heading: 'Writing, *teaching*, Q&A.', lead: 'Where I show up beyond this site — long-form articles, tutorials, and answering questions for the developer community.' },
       leadership: { eyebrow: '07 — Leadership', heading: 'Mentoring & *code review*.', lead: 'How I help engineers around me grow — and what reviewing software at scale has taught me.' },
       howIWork: { eyebrow: '08 — What I want next', heading: 'Roles I\'m *open* to.', lead: 'A short, honest read on the kind of full-time engineering role I\'m looking for next — so recruiters and hiring managers can decide in five seconds whether we\'re a fit.' },
+    },
+  },
+
+  projectsPage: {
+    hero: {
+      eyebrow: 'Projects',
+      heading: "Things I've *shipped* — products, platforms, open source.",
+      lede: 'A curated look at client product work and the platforms I helped scale — WordPress, Laravel, React, ecommerce, and beyond.',
+    },
+    products: {
+      eyebrow: '01 — Selected product work',
+      heading: 'Products built for *real* businesses.',
+      lead: 'Client and product engagements — matrimony, learning, CRM, charity, ecommerce, and more — with live links where available.',
+    },
+    platforms: {
+      eyebrow: '02 — Platforms & open source',
+      heading: 'Platforms used by *100K+* businesses.',
+      lead: 'Career platforms and open-source work — SureCart, Paysera, Dokan, WP ERP, and the kits I maintain. Lara Dashboard and DevsEnv are featured above with product cards.',
     },
   },
 
