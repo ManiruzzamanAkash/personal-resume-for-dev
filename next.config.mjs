@@ -18,7 +18,15 @@ const nextConfig = {
 
   /* Static export disables Next's image optimizer, which needs a server.
      Our images are small SVGs / PNGs already; no optimizer needed. */
-  images: { unoptimized: true },
+  images: {
+    unoptimized: true,
+    /* Remote product screenshots on /projects/ (static export skips the
+       optimizer; remotePatterns still required for next/image src). */
+    remotePatterns: [
+      { protocol: 'https', hostname: 'squartup.com', pathname: '/storage/**' },
+      { protocol: 'https', hostname: 'eclipseautoparts.com', pathname: '/uploads/**' },
+    ],
+  },
 
   /* `trailingSlash: true` makes every route a directory: /blog/index.html
      instead of /blog.html. Plays nicest with file-based static hosts and

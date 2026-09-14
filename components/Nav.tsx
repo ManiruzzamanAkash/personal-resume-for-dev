@@ -13,9 +13,10 @@ import type { RouteId } from '@/lib/content';
    active-link styling matches the URL. */
 const activeRouteFor = (pathname: string | null): RouteId => {
   if (!pathname || pathname === '/') return 'home';
-  if (pathname.startsWith('/resume'))  return 'resume';
-  if (pathname.startsWith('/blog'))    return 'blog';
-  if (pathname.startsWith('/contact')) return 'contact';
+  if (pathname.startsWith('/resume'))   return 'resume';
+  if (pathname.startsWith('/projects')) return 'projects';
+  if (pathname.startsWith('/blog'))     return 'blog';
+  if (pathname.startsWith('/contact'))  return 'contact';
   if (pathname.startsWith('/article')) return 'blog';
   return 'home';
 };

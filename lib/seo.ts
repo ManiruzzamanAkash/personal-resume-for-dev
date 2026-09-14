@@ -250,9 +250,10 @@ export const websiteSchema = () => {
 
 export const breadcrumbsSchema = (route: RouteId, param?: string, article?: ArticleMeta) => {
   const items: { name: string; url: string }[] = [{ name: 'Home', url: `${ORIGIN}/` }];
-  if (route === 'resume')  items.push({ name: 'Resume',  url: `${ORIGIN}/resume/`  });
-  if (route === 'blog')    items.push({ name: 'Writing', url: `${ORIGIN}/blog/`    });
-  if (route === 'contact') items.push({ name: 'Contact', url: `${ORIGIN}/contact/` });
+  if (route === 'resume')   items.push({ name: 'Resume',   url: `${ORIGIN}/resume/`   });
+  if (route === 'projects') items.push({ name: 'Projects', url: `${ORIGIN}/projects/` });
+  if (route === 'blog')     items.push({ name: 'Writing',  url: `${ORIGIN}/blog/`    });
+  if (route === 'contact')  items.push({ name: 'Contact',  url: `${ORIGIN}/contact/` });
   if (route === 'article') {
     items.push({ name: 'Writing', url: `${ORIGIN}/blog/` });
     /* Slot the article's category between the section and the title so
@@ -371,6 +372,43 @@ export const faqSchema = () => ({
   })),
 });
 
+/** CollectionPage + ItemList for /projects/ — product work + platforms. */
+export const projectsCollectionSchema = () => {
+  const productIds = new Set(CONTENT.productWork.map((p) => p.id));
+  const platforms = CONTENT.projects.filter((p) => !productIds.has(p.id));
+  const items = [
+    ...CONTENT.productWork.map((p) => ({
+      '@type': 'ListItem' as const,
+      name: p.name,
+      url: p.href,
+      description: p.desc,
+    })),
+    ...platforms.map((p) => ({
+      '@type': 'ListItem' as const,
+      name: p.name,
+      url: p.href || `${ORIGIN}/projects/`,
+      description: p.desc,
+    })),
+  ].map((it, i) => ({ ...it, position: i + 1 }));
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${ORIGIN}/projects/#collection`,
+    url: `${ORIGIN}/projects/`,
+    name: 'Projects — ' + CONTENT.site.fullName,
+    description: CONTENT.projectsPage.hero.lede.replace(/\*/g, ''),
+    inLanguage: CONTENT.seo.language,
+    isPartOf: { '@id': `${ORIGIN}/#website` },
+    about: { '@id': `${ORIGIN}/#person` },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: items.length,
+      itemListElement: items,
+    },
+  };
+};
+
 /** Bundle the per-route JSON-LD payloads — Person + WebSite are emitted
    once at the layout level, so this function only returns route-specific
    graphs (BreadcrumbList, Article, Blog, ProfilePage, FAQPage). */
@@ -385,6 +423,8 @@ export const collectStructuredData = (
     out.push(profilePageSchema(), faqSchema(), ...reviewsSchema());
   } else if (route === 'resume') {
     out.push(profilePageSchema(), ...reviewsSchema());
+  } else if (route === 'projects') {
+    out.push(projectsCollectionSchema());
   } else if (route === 'blog') {
     if (articles?.length) out.push(blogListSchema(articles));
   } else if (route === 'contact') {

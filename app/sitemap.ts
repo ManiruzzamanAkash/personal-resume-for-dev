@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
      links emitted by the framework. */
   const withSlash = (path: string) => path === '/' ? '/' : `${path.replace(/\/+$/, '')}/`;
 
-  const routeKeys: (keyof typeof CONTENT.seo.routes)[] = ['home', 'resume', 'blog', 'contact'];
+  const routeKeys: (keyof typeof CONTENT.seo.routes)[] = ['home', 'resume', 'projects', 'blog', 'contact'];
   const routeEntries: MetadataRoute.Sitemap = routeKeys.map((key) => {
     const r = CONTENT.seo.routes[key];
     const url = key === 'home' ? `${ORIGIN}/` : `${ORIGIN}${withSlash(r.path)}`;
