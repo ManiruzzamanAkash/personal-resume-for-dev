@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "laravel-queues-beside-wordpress-woocommerce.md",
+      "slug": "laravel-queues-beside-wordpress-woocommerce",
+      "title": "Laravel queues beside WordPress: keep WooCommerce plugins out of long jobs",
+      "date": "2026-09-15",
+      "category": "Engineering",
+      "excerpt": "When a WooCommerce plugin should not own webhooks, reconciliation, or report exports, I put that work on a Laravel queue service and keep WordPress thin — REST callbacks and Action Scheduler only as a bridge."
+    },
+    {
       "file": "wordpress-plugin-dependency-injection-service-containers.md",
       "slug": "wordpress-plugin-dependency-injection-service-containers",
       "title": "WordPress plugin dependency injection: stop new-ing everything in plugins_loaded",
