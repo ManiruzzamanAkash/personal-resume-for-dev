@@ -404,6 +404,133 @@
   color: var(--ink-2);
 }
 
+
+/* Read aloud / Listen — Web Speech API controls */
+.article-listen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px 16px;
+  margin: -16px 0 40px;
+  padding: 12px 0 0;
+}
+
+.article-listen-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.article-listen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: var(--muted);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.article-listen-btn:hover {
+  background: var(--paper);
+  border-color: var(--ink-2);
+}
+
+.article-listen-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.article-listen-btn svg {
+  flex-shrink: 0;
+}
+
+.article-listen-btn--ghost {
+  background: transparent;
+}
+
+.article-listen.is-active .article-listen-btn:first-child {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.article-listen-rates {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+}
+
+.article-listen-rate {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.article-listen-rate:hover {
+  color: var(--ink);
+}
+
+.article-listen-rate.is-selected {
+  background: var(--muted);
+  color: var(--ink);
+}
+
+.article-listen-rate:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+.article-listen-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  min-height: 1em;
+}
+
+.article-listen--unsupported .article-listen-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+
+@media (max-width: 560px) {
+  .article-listen {
+    margin-top: -8px;
+  }
+}
+
 /* Article footer (back link + share) */
 .article-footer {
   margin-top: 80px;
