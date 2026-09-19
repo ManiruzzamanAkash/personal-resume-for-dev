@@ -11,6 +11,7 @@ import { Breadcrumb } from '@/components/Breadcrumb';
 import { ArticleProse } from '@/components/ArticleProse';
 import { ArticleListen } from '@/components/ArticleListen';
 import { LlmServingViz } from '@/components/LlmServingViz';
+import { Php86FeatureViz } from '@/components/Php86FeatureViz';
 import { RichTitle } from '@/components/Rich';
 import { I } from '@/components/icons';
 
@@ -91,6 +92,7 @@ export default async function ArticlePage({ params }: Props) {
           <ArticleListen html={html} title={meta.title} />
 
           {meta.slug === 'serving-llms-gpus-vllm-kv-cache' && <LlmServingViz />}
+          {meta.slug === 'php-86-partial-application-deprecations' && <Php86FeatureViz />}
 
           <ArticleProse html={html} />
 
