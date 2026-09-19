@@ -7,7 +7,7 @@
       "title": "Serving LLMs: GPUs, model servers, and the cache that makes chat fast",
       "date": "2026-09-19",
       "category": "Engineering",
-      "excerpt": "What actually runs behind a chat box: GPU memory, model servers, tokens, KV-cache, batching, and why sticky routing matters more than fancy load balancers."
+      "excerpt": "What actually runs behind a chat box: GPU memory, model servers, tokens, KV-cache, batching, and sticky routing \u2014 walked with a request-path diagram and mini console."
     },
     {
       "file": "gutenberg-wordpress-data-store-patterns.md",

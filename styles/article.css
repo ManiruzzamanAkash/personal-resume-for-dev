@@ -561,3 +561,516 @@
     padding: 100px 20px 60px;
   }
 }
+
+
+/* ============================================================
+   LLM serving article — flow diagram + mini console visual
+   ============================================================ */
+
+.llm-viz {
+  margin: 0 0 48px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--paper-2);
+  box-shadow: var(--shadow-sm);
+}
+
+.llm-viz-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.llm-viz-eyebrow {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.llm-viz-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 3.5vw, 28px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.llm-viz-lede {
+  margin: 4px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 42em;
+}
+
+/* Main request path */
+.llm-viz-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.llm-viz-lane--main {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 4px;
+}
+
+.llm-viz-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.llm-viz-node-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  transition:
+    background 0.35s,
+    border-color 0.35s,
+    color 0.35s,
+    box-shadow 0.35s;
+}
+
+.llm-viz-node.is-active .llm-viz-node-label {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--line));
+  background: color-mix(in srgb, var(--primary) 12%, var(--paper));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.llm-viz-node--cache.is-active .llm-viz-node-label {
+  border-color: color-mix(in srgb, var(--secondary) 50%, var(--line));
+  background: color-mix(in srgb, var(--secondary) 12%, var(--paper));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--secondary) 12%, transparent);
+}
+
+.llm-viz-arrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+  opacity: 0.55;
+  padding: 0 2px;
+}
+
+/* Side lane: batching / routing */
+.llm-viz-lane--side {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+}
+
+.llm-viz-side-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.llm-viz-side-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 4px;
+}
+
+.llm-viz-chip {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--muted-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  transition:
+    background 0.35s,
+    border-color 0.35s,
+    color 0.35s;
+}
+
+.llm-viz-chip--accent {
+  color: var(--ink);
+}
+
+.llm-viz-chip--hot.is-active {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--secondary) 50%, var(--line));
+  background: color-mix(in srgb, var(--secondary) 14%, var(--paper));
+}
+
+/* Mini console */
+.llm-viz-console {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.llm-viz-console-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--muted);
+}
+
+.llm-viz-console-dots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.llm-viz-console-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+  display: block;
+}
+
+.llm-viz-console-title {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.llm-viz-console-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.llm-viz-btn {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.llm-viz-btn:hover {
+  border-color: var(--ink-2);
+}
+
+.llm-viz-btn:focus-visible,
+.llm-viz-step:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.llm-viz-btn[aria-pressed='true'] {
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--line));
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.llm-viz-steps {
+  list-style: none;
+  margin: 0;
+  padding: 10px 12px 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.llm-viz-step {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink-2);
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    color 0.25s;
+}
+
+.llm-viz-step:hover {
+  background: var(--muted);
+  color: var(--ink);
+}
+
+.llm-viz-step.is-current {
+  background: color-mix(in srgb, var(--primary) 10%, var(--paper));
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--line));
+  color: var(--ink);
+}
+
+.llm-viz-step-index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.llm-viz-step-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.llm-viz-panel {
+  padding: 12px 14px 16px;
+}
+
+.llm-viz-status {
+  margin: 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.llm-viz-status-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.llm-viz-status-detail {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.llm-viz-term {
+  min-height: 7.5em;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.llm-viz-line {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 4px;
+}
+
+.llm-viz-line:last-child {
+  margin-bottom: 0;
+}
+
+.llm-viz-line-tag {
+  flex-shrink: 0;
+  width: 1em;
+  color: var(--ink-2);
+  opacity: 0.7;
+}
+
+.llm-viz-line--in {
+  color: var(--ink);
+}
+
+.llm-viz-line--sys {
+  color: var(--ink-2);
+}
+
+.llm-viz-line--ok {
+  color: var(--success);
+}
+
+.llm-viz-line--out {
+  color: var(--ink);
+}
+
+.llm-viz-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--primary);
+  animation: llm-viz-blink 1s steps(1) infinite;
+}
+
+@keyframes llm-viz-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.llm-viz-footnote {
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  .llm-viz {
+    padding: 18px 14px;
+  }
+
+  .llm-viz-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .llm-viz-console-bar {
+    flex-wrap: wrap;
+  }
+
+  .llm-viz-console-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .llm-viz-node-label,
+  .llm-viz-chip,
+  .llm-viz-step {
+    transition: none;
+  }
+
+  .llm-viz-caret {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
+/* Inline teaching figures embedded in article markdown */
+.prose .llm-inline-flow {
+  margin: 1.2em 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-2);
+}
+
+.prose .llm-inline-flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 6px;
+}
+
+.prose .llm-inline-flow-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.prose .llm-inline-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.prose .llm-inline-pill--pause {
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--line));
+  background: color-mix(in srgb, var(--primary) 10%, var(--paper));
+}
+
+.prose .llm-inline-pill--stream {
+  border-color: color-mix(in srgb, var(--secondary) 45%, var(--line));
+  background: color-mix(in srgb, var(--secondary) 10%, var(--paper));
+}
+
+.prose .llm-inline-pill--cache,
+.prose .llm-inline-pill--hot {
+  border-color: color-mix(in srgb, var(--secondary) 45%, var(--line));
+  background: color-mix(in srgb, var(--secondary) 12%, var(--paper));
+}
+
+.prose .llm-inline-pill--accent {
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--line));
+  background: color-mix(in srgb, var(--primary) 10%, var(--paper));
+}
+
+.prose .llm-inline-arrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  opacity: 0.65;
+}
+
+.prose .llm-inline-arrow--down {
+  align-self: center;
+}
+
+.prose .llm-inline-stack {
+  margin: 12px 0 0;
+  padding-left: 1.2em;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.prose .llm-inline-stack li {
+  margin: 0.25em 0;
+}
+
+.prose .llm-inline-flow figcaption {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  line-height: 1.45;
+}

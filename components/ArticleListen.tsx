@@ -19,7 +19,7 @@ const RATES: { value: RateOption; label: string }[] = [
   { value: 1.25, label: 'Faster' },
 ];
 
-const SKIP_SELECTOR = 'pre, code, nav, script, style, .code-block, .code-lang, .code-copy';
+const SKIP_SELECTOR = 'pre, code, nav, script, style, .code-block, .code-lang, .code-copy, .llm-inline-flow, .llm-viz';
 
 /**
  * Extract speakable prose from article HTML. Strips code blocks, inline

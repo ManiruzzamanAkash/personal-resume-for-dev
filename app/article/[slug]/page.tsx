@@ -10,6 +10,7 @@ import { Footer } from '@/components/Footer';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { ArticleProse } from '@/components/ArticleProse';
 import { ArticleListen } from '@/components/ArticleListen';
+import { LlmServingViz } from '@/components/LlmServingViz';
 import { RichTitle } from '@/components/Rich';
 import { I } from '@/components/icons';
 
@@ -88,6 +89,8 @@ export default async function ArticlePage({ params }: Props) {
           {meta.excerpt && <p className="article-excerpt" itemProp="description">{meta.excerpt}</p>}
 
           <ArticleListen html={html} title={meta.title} />
+
+          {meta.slug === 'serving-llms-gpus-vllm-kv-cache' && <LlmServingViz />}
 
           <ArticleProse html={html} />
 
