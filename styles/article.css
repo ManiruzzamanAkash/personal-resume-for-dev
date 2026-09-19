@@ -1074,3 +1074,421 @@
   color: var(--ink-2);
   line-height: 1.45;
 }
+
+/* ---------- PHP 8.6 article viz + inline figures ---------- */
+.php86-viz {
+  margin: 0 0 48px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--paper-2);
+  box-shadow: var(--shadow-sm);
+}
+
+.php86-viz-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.php86-viz-eyebrow {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.php86-viz-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 3.5vw, 28px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.php86-viz-lede {
+  margin: 4px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 42em;
+}
+
+.php86-viz-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.php86-viz-tab {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    color 0.25s;
+}
+
+.php86-viz-tab:hover {
+  color: var(--ink);
+  border-color: var(--ink-2);
+}
+
+.php86-viz-tab.is-active {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--line));
+  background: color-mix(in srgb, var(--primary) 12%, var(--paper));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.php86-viz-tab:focus-visible,
+.php86-viz-btn:focus-visible,
+.php86-viz-step:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.php86-viz-panel-tab {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.php86-viz-tab-blurb {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.php86-viz-bullets {
+  margin: 0;
+  padding-left: 1.2em;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.php86-viz-bullets li {
+  margin: 0.3em 0;
+}
+
+.php86-viz-console {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.php86-viz-console-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--muted);
+}
+
+.php86-viz-console-dots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.php86-viz-console-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+  display: block;
+}
+
+.php86-viz-console-title {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.php86-viz-console-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.php86-viz-btn {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.php86-viz-btn:hover {
+  border-color: var(--ink-2);
+}
+
+.php86-viz-btn[aria-pressed='true'] {
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--line));
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.php86-viz-steps {
+  list-style: none;
+  margin: 0;
+  padding: 10px 12px 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.php86-viz-step {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink-2);
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    color 0.25s;
+}
+
+.php86-viz-step:hover {
+  background: var(--muted);
+  color: var(--ink);
+}
+
+.php86-viz-step.is-current {
+  background: color-mix(in srgb, var(--primary) 10%, var(--paper));
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--line));
+  color: var(--ink);
+}
+
+.php86-viz-step-index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.php86-viz-step-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.php86-viz-stage {
+  padding: 12px 14px 16px;
+}
+
+.php86-viz-status {
+  margin: 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.php86-viz-status-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.php86-viz-status-detail {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.php86-viz-code {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.php86-viz-session {
+  margin-top: 4px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.php86-viz-session-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.php86-viz-chip {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--muted-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink);
+}
+
+.php86-viz-chip--warn {
+  border-color: color-mix(in srgb, var(--secondary) 50%, var(--line));
+  background: color-mix(in srgb, var(--secondary) 12%, var(--paper));
+}
+
+.php86-viz-session-note {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.php86-viz-footnote {
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  .php86-viz {
+    padding: 18px 14px;
+  }
+
+  .php86-viz-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .php86-viz-console-bar {
+    flex-wrap: wrap;
+  }
+
+  .php86-viz-console-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .php86-viz-tab,
+  .php86-viz-btn,
+  .php86-viz-step {
+    transition: none;
+  }
+}
+
+/* Inline teaching figures in PHP 8.6 article markdown */
+.prose .php86-inline-flow {
+  margin: 1.2em 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-2);
+}
+
+.prose .php86-inline-flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 6px;
+}
+
+.prose .php86-inline-flow-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.prose .php86-inline-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.prose .php86-inline-pill--accent {
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--line));
+  background: color-mix(in srgb, var(--primary) 10%, var(--paper));
+}
+
+.prose .php86-inline-pill--warn {
+  border-color: color-mix(in srgb, var(--secondary) 45%, var(--line));
+  background: color-mix(in srgb, var(--secondary) 12%, var(--paper));
+}
+
+.prose .php86-inline-arrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  opacity: 0.65;
+}
+
+.prose .php86-inline-arrow--down {
+  align-self: center;
+}
+
+.prose .php86-inline-flow figcaption {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
