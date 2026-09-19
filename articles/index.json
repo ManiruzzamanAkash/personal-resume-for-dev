@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "serving-llms-gpus-vllm-kv-cache.md",
+      "slug": "serving-llms-gpus-vllm-kv-cache",
+      "title": "Serving LLMs: GPUs, model servers, and the cache that makes chat fast",
+      "date": "2026-09-19",
+      "category": "Engineering",
+      "excerpt": "What actually runs behind a chat box: GPU memory, model servers, tokens, KV-cache, batching, and why sticky routing matters more than fancy load balancers."
+    },
+    {
       "file": "gutenberg-wordpress-data-store-patterns.md",
       "slug": "gutenberg-wordpress-data-store-patterns",
       "title": "Gutenberg @wordpress/data: store patterns that keep editors honest",
