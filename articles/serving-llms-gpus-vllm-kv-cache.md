@@ -3,8 +3,8 @@ title: "Serving LLMs: GPUs, model servers, and the cache that makes chat fast"
 slug: serving-llms-gpus-vllm-kv-cache
 date: 2026-09-19
 category: Engineering
-excerpt: "What actually runs behind a chat box: GPU memory, model servers, tokens, KV-cache, batching, and why sticky routing matters more than fancy load balancers."
-readTime: 14 min
+excerpt: "What actually runs behind a chat box: GPU memory, model servers, tokens, KV-cache, batching, and sticky routing — walked with a request-path diagram and mini console."
+readTime: 15 min
 tags: [ai-infrastructure, llm-serving, gpus, vllm, kv-cache, kubernetes, batching, devops]
 ---
 
@@ -13,6 +13,8 @@ tags: [ai-infrastructure, llm-serving, gpus, vllm, kv-cache, kubernetes, batchin
 I spend most of my week in WordPress plugins, Laravel services, and React admin UIs. Chat boxes look like a different planet until you peel the UI off. Underneath, serving a large language model is still **servers, memory, caching, and routing** — the same instincts that keep a WooCommerce checkout fast and a Laravel queue honest.
 
 This is the mental model I use when someone asks, “what actually runs behind that chat box?” No ML math. Just the path from “user hits Send” to “tokens stream back,” and why GPU RAM, the KV-cache, and sticky sessions decide whether the product feels snappy or expensive.
+
+The **flow diagram and mini console above** walk that same path in one pass — prompt in, prefill pause, tokens out, then a follow-up that reuses the cache-hot pod. The sections below unpack each stop.
 
 ## 1. A model is mostly weights that must live in GPU VRAM
 
@@ -89,20 +91,20 @@ Two phases matter more than the marketing slides:
 
 **Decode** — generate the answer one token at a time. This is the streaming phase. Each new token depends on what came before, so it feels more sequential.
 
-Diagram in words:
+Same shape as the diagram at the top of this article, zoomed into the two phases that decide how the chat *feels*:
 
-```
-[ user sends message ]
-        |
-        v
-   PREFILL (pause)  ----> build state from full prompt
-        |
-        v
-   DECODE (stream)  ----> token, token, token, ...
-        |
-        v
-   [ done / stop ]
-```
+<figure class="llm-inline-flow" role="img" aria-label="Prefill builds state from the full prompt, then decode streams tokens until stop.">
+  <div class="llm-inline-flow-row">
+    <span class="llm-inline-pill">User sends message</span>
+    <span class="llm-inline-arrow" aria-hidden="true">→</span>
+    <span class="llm-inline-pill llm-inline-pill--pause">Prefill (pause)</span>
+    <span class="llm-inline-arrow" aria-hidden="true">→</span>
+    <span class="llm-inline-pill llm-inline-pill--stream">Decode (stream)</span>
+    <span class="llm-inline-arrow" aria-hidden="true">→</span>
+    <span class="llm-inline-pill">Done / stop</span>
+  </div>
+  <figcaption>Prefill builds KV state from the full prompt; decode emits tokens one at a time.</figcaption>
+</figure>
 
 If prefills are huge (long docs pasted into chat), time-to-first-token climbs even when “tokens per second” later looks fine. If decode is slow, the answer crawls after it starts. Product feel is the mix of both.
 
@@ -128,17 +130,22 @@ A GPU is expensive if it serves one user at a time. Model servers **batch**: whi
 
 Batching raises **throughput** (tokens per second across everyone). It also raises **memory use**, because each active conversation wants its own KV scratchpad. Hit the ceiling and the server queues, rejects, or evicts.
 
-Ops picture:
+Ops picture — one GPU packing many chats under a hard VRAM ceiling:
 
-```
-          +------------------+
-  users ->|  model server    |-> GPU VRAM
-          |  - weights       |   (fixed-ish)
-          |  - KV for chat1  |   (grows with length)
-          |  - KV for chat2  |
-          |  - KV for chatN  |
-          +------------------+
-```
+<figure class="llm-inline-flow" role="img" aria-label="Many users batch into one model server; GPU VRAM holds weights plus per-chat KV scratchpads.">
+  <div class="llm-inline-flow-row">
+    <span class="llm-inline-pill">Users A, B, N</span>
+    <span class="llm-inline-arrow" aria-hidden="true">→</span>
+    <span class="llm-inline-pill">Model server (batch)</span>
+    <span class="llm-inline-arrow" aria-hidden="true">→</span>
+    <span class="llm-inline-pill llm-inline-pill--cache">GPU VRAM</span>
+  </div>
+  <ul class="llm-inline-stack">
+    <li><strong>Weights</strong> — mostly fixed once loaded</li>
+    <li><strong>KV chat 1…N</strong> — grows with history and concurrency</li>
+  </ul>
+  <figcaption>Batching raises throughput; each active chat still needs its own scratchpad.</figcaption>
+</figure>
 
 This is capacity planning, not mysticism: how many concurrent chats, how long the histories, what precision, what batch size. The failure mode looks familiar — like MySQL connections or PHP-FPM workers exhausting under a sale traffic spike.
 
@@ -186,18 +193,23 @@ What “smarter” looks like in practice:
 
 **Optional split of prompt-reading vs answer-writing.** Some stacks specialize machines for prefill (ingest long prompts) and others for decode (stream tokens). You pay networking and scheduling complexity to keep each GPU doing the shape of work it is good at. You do not need this on day one; you need it when profiles show prefills blocking interactive decode.
 
-**Kubernetes pods.** Typical shape:
+**Kubernetes pods.** Typical shape — and the reason the mini console’s last step lights “cache-hot pod”:
 
-```
-Ingress / API gateway
-        |
-        v
-  router (conversation-aware)
-        |
-   +----+----+----+
-   |    |    |    |
-  pod  pod  pod  pod   <- each: model server + GPU (+ local KV)
-```
+<figure class="llm-inline-flow" role="img" aria-label="Ingress to conversation-aware router to multiple GPU pods holding local KV-cache.">
+  <div class="llm-inline-flow-col">
+    <span class="llm-inline-pill">Ingress / API gateway</span>
+    <span class="llm-inline-arrow llm-inline-arrow--down" aria-hidden="true">↓</span>
+    <span class="llm-inline-pill llm-inline-pill--accent">Router (conversation-aware)</span>
+    <span class="llm-inline-arrow llm-inline-arrow--down" aria-hidden="true">↓</span>
+    <div class="llm-inline-flow-row">
+      <span class="llm-inline-pill">Pod A + KV</span>
+      <span class="llm-inline-pill llm-inline-pill--hot">Pod B + KV (hot)</span>
+      <span class="llm-inline-pill">Pod C + KV</span>
+      <span class="llm-inline-pill">Pod D + KV</span>
+    </div>
+  </div>
+  <figcaption>Follow-ups should stick to the pod that already holds that conversation’s KV-cache.</figcaption>
+</figure>
 
 Each pod is a replica (or a shard member) with a GPU resource request. You still do the boring things: readiness probes that mean “weights loaded,” disruption budgets so you do not evict every cache at once, horizontal scaling when queue depth climbs, and alerts on VRAM saturation — not only CPU.
 
