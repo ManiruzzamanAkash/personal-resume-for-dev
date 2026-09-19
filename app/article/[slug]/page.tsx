@@ -9,6 +9,7 @@ import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { ArticleProse } from '@/components/ArticleProse';
+import { ArticleListen } from '@/components/ArticleListen';
 import { RichTitle } from '@/components/Rich';
 import { I } from '@/components/icons';
 
@@ -85,6 +86,8 @@ export default async function ArticlePage({ params }: Props) {
           <RichTitle className="article-title" text={meta.title} itemProp="headline" />
 
           {meta.excerpt && <p className="article-excerpt" itemProp="description">{meta.excerpt}</p>}
+
+          <ArticleListen html={html} title={meta.title} />
 
           <ArticleProse html={html} />
 

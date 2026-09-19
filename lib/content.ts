@@ -259,7 +259,21 @@ export interface Content {
     hero: { eyebrow: string; heading: string; lede: string };
     loading: string; feedEnd: string; empty: string; error: string;
   };
-  article: { backLabel: string; replyLabel: string; notFoundHead: string };
+  article: {
+    backLabel: string;
+    replyLabel: string;
+    notFoundHead: string;
+    listen: {
+      listen: string;
+      pause: string;
+      resume: string;
+      stop: string;
+      reading: string;
+      paused: string;
+      unsupported: string;
+      rateGroup: string;
+    };
+  };
   contact: {
     hero: { eyebrow: string; heading: string; lede: string };
     summary: string;
@@ -987,6 +1001,16 @@ export const CONTENT: Content = {
     backLabel: 'All articles',
     replyLabel: 'Reply by email',
     notFoundHead: 'Article not found',
+    listen: {
+      listen: 'Listen',
+      pause: 'Pause',
+      resume: 'Resume',
+      stop: 'Stop',
+      reading: 'Reading…',
+      paused: 'Paused',
+      unsupported: 'Read aloud isn’t supported in this browser.',
+      rateGroup: 'Reading speed',
+    },
   },
 
   contact: {
