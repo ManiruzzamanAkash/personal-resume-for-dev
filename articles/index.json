@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "wordpress-rest-api-routes-i-trust-in-production.md",
+      "slug": "wordpress-rest-api-routes-i-trust-in-production",
+      "title": "WordPress REST API routes I trust in production",
+      "date": "2026-09-21",
+      "category": "Engineering",
+      "excerpt": "Most plugin REST bugs are permission, schema, or side-effect bugs — not routing bugs. Here is how I design WordPress REST routes so admin UIs, storefront clients, and webhooks stay honest under real traffic."
+    },
+    {
       "file": "woocommerce-object-cache-patterns-under-load.md",
       "slug": "woocommerce-object-cache-patterns-under-load",
       "title": "Object cache patterns that keep WooCommerce plugins honest under load",
