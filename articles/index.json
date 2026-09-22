@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "docker-multi-stage-builds-php-node-apps.md",
+      "slug": "docker-multi-stage-builds-php-node-apps",
+      "title": "Docker multi-stage builds I trust for PHP and Node apps",
+      "date": "2026-09-22",
+      "category": "Engineering",
+      "excerpt": "Fat images hide secrets, stretch cold starts, and make local and prod drift. Here is how I design multi-stage Dockerfiles for PHP-FPM and Node so build tools stay out of runtime and healthchecks stay honest."
+    },
+    {
       "file": "wordpress-rest-api-routes-i-trust-in-production.md",
       "slug": "wordpress-rest-api-routes-i-trust-in-production",
       "title": "WordPress REST API routes I trust in production",
