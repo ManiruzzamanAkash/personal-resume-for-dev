@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "react-form-state-typescript-validation-i-trust-in-admin-uis.md",
+      "slug": "react-form-state-typescript-validation-i-trust-in-admin-uis",
+      "title": "React form state and TypeScript validation I trust in admin UIs",
+      "date": "2026-10-09",
+      "category": "Engineering",
+      "excerpt": "Admin forms are where React apps quietly rot. Here is how I shape form state, schema validation, server errors, and dirty tracking with TypeScript so settings screens stay honest as they grow."
+    },
+    {
       "file": "laravel-policies-gates-form-requests-i-trust-before-secret-ifs.md",
       "slug": "laravel-policies-gates-form-requests-i-trust-before-secret-ifs",
       "title": "Laravel policies, gates, and Form Requests I trust before controllers grow secret ifs",
