@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "zero-downtime-laravel-deploys-small-vps-atomic-releases.md",
+      "slug": "zero-downtime-laravel-deploys-small-vps-atomic-releases",
+      "title": "Zero-downtime Laravel deploys on a small VPS: atomic releases I trust",
+      "date": "2026-10-10",
+      "category": "Engineering",
+      "excerpt": "A git pull on a live server is not a deploy strategy. Here is how I ship Laravel to a single VPS with atomic release folders, a symlink switch, safe migrations, graceful PHP-FPM and queue reloads, and a rollback I can run half asleep."
+    },
+    {
       "file": "react-form-state-typescript-validation-i-trust-in-admin-uis.md",
       "slug": "react-form-state-typescript-validation-i-trust-in-admin-uis",
       "title": "React form state and TypeScript validation I trust in admin UIs",
