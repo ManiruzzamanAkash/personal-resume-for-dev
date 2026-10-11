@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "redis-caching-laravel-stampedes-invalidation-i-trust.md",
+      "slug": "redis-caching-laravel-stampedes-invalidation-i-trust",
+      "title": "Redis caching in Laravel: stampedes, invalidation, and the keys I trust",
+      "date": "2026-10-11",
+      "category": "Engineering",
+      "excerpt": "Adding Cache::remember everywhere feels like a performance win until a key expires under load and fifty workers rebuild it at once. Here is how I design Redis cache keys, invalidation, locks, and fallbacks in Laravel so caching stays a feature, not a source of mystery bugs."
+    },
+    {
       "file": "zero-downtime-laravel-deploys-small-vps-atomic-releases.md",
       "slug": "zero-downtime-laravel-deploys-small-vps-atomic-releases",
       "title": "Zero-downtime Laravel deploys on a small VPS: atomic releases I trust",
