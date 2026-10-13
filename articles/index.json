@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "php-value-objects-enums-money-ids-i-trust.md",
+      "slug": "php-value-objects-enums-money-ids-i-trust",
+      "title": "PHP value objects and enums: the money, status, and ID types I trust",
+      "date": "2026-10-13",
+      "category": "Engineering",
+      "excerpt": "Most production bugs I have chased in PHP were not clever. They were a float pretending to be money, a string pretending to be a status, or an int that was the wrong kind of ID. Here is how I use readonly value objects and backed enums to make those bugs hard to write in the first place."
+    },
+    {
       "file": "redis-caching-laravel-stampedes-invalidation-i-trust.md",
       "slug": "redis-caching-laravel-stampedes-invalidation-i-trust",
       "title": "Redis caching in Laravel: stampedes, invalidation, and the keys I trust",
