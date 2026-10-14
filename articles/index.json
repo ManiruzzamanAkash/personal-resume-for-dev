@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "docker-images-ci-buildkit-cache-immutable-tags-scan-gate.md",
+      "slug": "docker-images-ci-buildkit-cache-immutable-tags-scan-gate",
+      "title": "Docker images in CI: BuildKit cache, immutable tags, and the scan gate I trust",
+      "date": "2026-10-14",
+      "category": "Engineering",
+      "excerpt": "A clean Dockerfile is only half the story. The other half is the pipeline that builds it: cache that actually hits, tags that never move under you, a vulnerability gate people do not learn to ignore, and a deploy that pins a digest instead of hoping latest is the right latest."
+    },
+    {
       "file": "php-value-objects-enums-money-ids-i-trust.md",
       "slug": "php-value-objects-enums-money-ids-i-trust",
       "title": "PHP value objects and enums: the money, status, and ID types I trust",
