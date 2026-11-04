@@ -263,6 +263,15 @@ export interface Content {
     backLabel: string;
     replyLabel: string;
     notFoundHead: string;
+    /** "Who wrote this" card under every article — the hiring hook for
+        readers who skimmed the post. Copy uses {token} substitution. */
+    authorCard: {
+      eyebrow: string;
+      heading: string;
+      body: string;
+      ctaPrimary: string;
+      ctaSecondary: string;
+    };
     listen: {
       listen: string;
       pause: string;
@@ -1001,6 +1010,13 @@ export const CONTENT: Content = {
     backLabel: 'All articles',
     replyLabel: 'Reply by email',
     notFoundHead: 'Article not found',
+    authorCard: {
+      eyebrow: 'Written by',
+      heading: '{fullName}',
+      body: 'Senior software engineer with 7+ years building **WordPress, WooCommerce, Laravel and React** platforms used by 100K+ businesses — currently scaling SureCart at Brainstorm Force, previously Paysera, weDevs and Akij Group. If your team is hiring a senior / staff engineer, or you need this kind of problem solved in your product, I would like to hear about it.',
+      ctaPrimary: 'Book a 30-min call',
+      ctaSecondary: 'See my resume',
+    },
     listen: {
       listen: 'Listen',
       pause: 'Pause',
