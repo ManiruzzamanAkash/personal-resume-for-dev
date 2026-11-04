@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] Why your WooCommerce checkout slows down after 50K orders — problem audit — WooCommerce — store owners
 - [ ] Hiring a senior WordPress engineer vs an agency: what each is good at — decision guide — Career — founders
 - [ ] Structuring a Laravel SaaS codebase for its first three engineers — architecture teardown — Laravel — hiring managers
 - [ ] Headless WooCommerce: when it's worth it and when it's a trap — decision guide — WooCommerce — agencies
@@ -46,3 +45,5 @@ Format: `- [ ] Working title — format — category — main reader`
 ## Done
 
 <!-- The daily task moves ticked items here: - [x] Title → /article/<slug>/ (YYYY-MM-DD) -->
+
+- [x] Why your WooCommerce checkout slows down after 50K orders → /article/why-woocommerce-checkout-slows-down-after-50k-orders/ (2026-11-04)

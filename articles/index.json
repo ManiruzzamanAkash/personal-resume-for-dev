@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "why-woocommerce-checkout-slows-down-after-50k-orders.md",
+      "slug": "why-woocommerce-checkout-slows-down-after-50k-orders",
+      "title": "Why your WooCommerce checkout slows down after 50K orders",
+      "date": "2026-11-04",
+      "category": "WooCommerce",
+      "excerpt": "A WooCommerce checkout that was fast at launch often crawls once the store has years of orders. The cause is rarely traffic. It is data that grew, work that runs inside the checkout request, and tables nobody cleans."
+    },
+    {
       "file": "docker-images-ci-buildkit-cache-immutable-tags-scan-gate.md",
       "slug": "docker-images-ci-buildkit-cache-immutable-tags-scan-gate",
       "title": "Docker images in CI: BuildKit cache, immutable tags, and the scan gate I trust",
