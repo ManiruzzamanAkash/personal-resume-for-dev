@@ -9,6 +9,7 @@ import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { ArticleProse } from '@/components/ArticleProse';
+import { ArticleAuthorCard } from '@/components/ArticleAuthorCard';
 import { ArticleListen } from '@/components/ArticleListen';
 import { LlmServingViz } from '@/components/LlmServingViz';
 import { Php86FeatureViz } from '@/components/Php86FeatureViz';
@@ -95,6 +96,8 @@ export default async function ArticlePage({ params }: Props) {
           {meta.slug === 'php-86-partial-application-deprecations' && <Php86FeatureViz />}
 
           <ArticleProse html={html} />
+
+          <ArticleAuthorCard />
 
           <div className="article-footer">
             <Link className="btn btn-ghost" href="/blog" data-cursor="hover">

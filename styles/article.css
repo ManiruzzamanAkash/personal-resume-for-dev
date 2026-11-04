@@ -1492,3 +1492,52 @@
   color: var(--ink-2);
   line-height: 1.45;
 }
+
+/* ---------- Author card (under every article) ---------- */
+.article-author {
+  margin-top: 72px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-2);
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.article-author-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.article-author-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.article-author-name {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 400;
+  margin: 4px 0 12px;
+  color: var(--ink);
+}
+.article-author-text {
+  margin: 0 0 20px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.article-author-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.article-author + .article-footer {
+  margin-top: 40px;
+}
+@media (max-width: 640px) {
+  .article-author { flex-direction: column; padding: 20px; }
+}

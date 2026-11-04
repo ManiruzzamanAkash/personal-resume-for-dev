@@ -13,6 +13,7 @@ Rules for any coding agent (Cursor IDE/CLI, cloud agents, Claude, etc.) working 
 
 ## Content / site work
 
+- Write articles per `docs/article-playbook.md` (topic queue: `docs/article-backlog.md`).
 - Follow `CLAUDE.md` for article workflow, `lib/content.ts`, and deploy conventions.
 - Do not invent portfolio facts. Prefer edits the owner has reviewed in chat when copy is sensitive.
 - Never suggest or promote Awesome Motive hiring/content unless the owner asks.

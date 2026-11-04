@@ -46,6 +46,9 @@ portfolio-main/
 ├── next-env.d.ts
 ├── .github/workflows/
 │   └── deploy.yml            ← GitHub Pages CI (build + publish out/)
+├── docs/
+│   ├── article-playbook.md   ← how articles are written (audience, shape, honesty rules)
+│   └── article-backlog.md    ← topic queue for the daily writing task
 ├── articles/                 ← markdown blog content
 │   ├── index.json            ← ordered list of articles + metadata
 │   └── *.md                  ← one file per post
@@ -85,6 +88,7 @@ portfolio-main/
 │   ├── TestimonialCarousel.tsx (client)
 │   ├── ContribGrid.tsx       (client)
 │   ├── ArticleProse.tsx      (server — wraps rendered HTML with prose styles)
+│   ├── ArticleAuthorCard.tsx (server — author + hiring card under every article)
 │   ├── Cursor.tsx            (client — custom cursor)
 │   ├── RouteProgress.tsx     (client — top bar on route transitions)
 │   ├── Magnetic.tsx          (client)
@@ -155,6 +159,11 @@ build time — they don't need a navigation entry.
 ---
 
 ## Adding a new article
+
+> **What to write and how it should read** lives in
+> [`docs/article-playbook.md`](./docs/article-playbook.md); the topic queue is
+> [`docs/article-backlog.md`](./docs/article-backlog.md). Read both before
+> writing. The steps below are the mechanics.
 
 1. **Create `articles/<slug>.md`** with frontmatter:
 
