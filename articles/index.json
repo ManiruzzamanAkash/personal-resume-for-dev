@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "structuring-laravel-saas-codebase-first-three-engineers.md",
+      "slug": "structuring-laravel-saas-codebase-first-three-engineers",
+      "title": "Structuring a Laravel SaaS codebase for its first three engineers",
+      "date": "2026-11-06",
+      "category": "Laravel",
+      "excerpt": "A Laravel SaaS built by one founder usually breaks the week a second and third engineer join. Here is the structure I set up so three people can ship in parallel without stepping on each other or rewriting it a year later."
+    },
+    {
       "file": "senior-wordpress-engineer-vs-agency.md",
       "slug": "senior-wordpress-engineer-vs-agency",
       "title": "Hiring a senior WordPress engineer vs an agency: what each is good at",

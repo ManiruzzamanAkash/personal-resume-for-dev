@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] Structuring a Laravel SaaS codebase for its first three engineers — architecture teardown — Laravel — hiring managers
 - [ ] Headless WooCommerce: when it's worth it and when it's a trap — decision guide — WooCommerce — agencies
 - [ ] Writing a technical design doc a product manager can actually read — career/leadership — Career — hiring managers
 - [ ] Building an MCP server for a WordPress site, safely — deep-dive — AI Engineering — engineers
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 
 - [x] Why your WooCommerce checkout slows down after 50K orders → /article/why-woocommerce-checkout-slows-down-after-50k-orders/ (2026-11-04)
 - [x] Hiring a senior WordPress engineer vs an agency: what each is good at → /article/senior-wordpress-engineer-vs-agency/ (2026-11-05)
+- [x] Structuring a Laravel SaaS codebase for its first three engineers → /article/structuring-laravel-saas-codebase-first-three-engineers/ (2026-11-06)
