@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "headless-woocommerce-when-its-worth-it.md",
+      "slug": "headless-woocommerce-when-its-worth-it",
+      "title": "Headless WooCommerce: when it's worth it and when it's a trap",
+      "date": "2026-11-07",
+      "category": "WooCommerce",
+      "excerpt": "Headless WooCommerce promises a faster, more flexible storefront, then quietly turns one website into two systems. Here is how I decide when the split pays for itself and when a well-built classic store wins."
+    },
+    {
       "file": "structuring-laravel-saas-codebase-first-three-engineers.md",
       "slug": "structuring-laravel-saas-codebase-first-three-engineers",
       "title": "Structuring a Laravel SaaS codebase for its first three engineers",
