@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] Building an MCP server for a WordPress site, safely — deep-dive — AI Engineering — engineers
 - [ ] 9 signs your WordPress site needs a plugin audit, not another plugin — problem audit — WordPress — store owners
 - [ ] Laravel multi-tenancy: single database, schema-per-tenant, or database-per-tenant — decision guide — Laravel — founders
 - [ ] Code review comments that make a team faster instead of slower — career/leadership — Career — hiring managers
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] Structuring a Laravel SaaS codebase for its first three engineers → /article/structuring-laravel-saas-codebase-first-three-engineers/ (2026-11-06)
 - [x] Headless WooCommerce: when it's worth it and when it's a trap → /article/headless-woocommerce-when-its-worth-it/ (2026-11-07)
 - [x] Writing a technical design doc a product manager can actually read → /article/technical-design-doc-a-product-manager-can-read/ (2026-11-08)
+- [x] Building an MCP server for a WordPress site, safely → /article/building-mcp-server-wordpress-site-safely/ (2026-11-09)

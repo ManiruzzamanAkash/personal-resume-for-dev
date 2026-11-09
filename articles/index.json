@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "building-mcp-server-wordpress-site-safely.md",
+      "slug": "building-mcp-server-wordpress-site-safely",
+      "title": "Building an MCP server for a WordPress site, safely",
+      "date": "2026-11-09",
+      "category": "AI Engineering",
+      "excerpt": "An MCP server lets AI agents read and change your WordPress site, which makes it a new front door. Here is how I build one on the Abilities API: narrow tools, a dedicated user, and permission checks that hold when the model is wrong."
+    },
+    {
       "file": "technical-design-doc-a-product-manager-can-read.md",
       "slug": "technical-design-doc-a-product-manager-can-read",
       "title": "Writing a technical design doc a product manager can actually read",
