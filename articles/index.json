@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "wordpress-site-needs-plugin-audit-not-another-plugin.md",
+      "slug": "wordpress-site-needs-plugin-audit-not-another-plugin",
+      "title": "9 signs your WordPress site needs a plugin audit, not another plugin",
+      "date": "2026-11-10",
+      "category": "WordPress",
+      "excerpt": "When a WordPress site gets slow, fragile or scary to update, the usual fix is one more plugin. Here are nine signs the real fix is an audit, and the routine I use to decide what stays, what goes, and what gets replaced."
+    },
+    {
       "file": "building-mcp-server-wordpress-site-safely.md",
       "slug": "building-mcp-server-wordpress-site-safely",
       "title": "Building an MCP server for a WordPress site, safely",
