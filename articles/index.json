@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "laravel-multi-tenancy-single-database-schema-or-database-per-tenant.md",
+      "slug": "laravel-multi-tenancy-single-database-schema-or-database-per-tenant",
+      "title": "Laravel multi-tenancy: one database, schemas, or one per tenant?",
+      "date": "2026-11-11",
+      "category": "Laravel",
+      "excerpt": "How you separate customer data in a Laravel SaaS decides your hosting bill, your migrations and your worst-case data leak. Here is how I choose between one shared database, schema-per-tenant, and database-per-tenant."
+    },
+    {
       "file": "wordpress-site-needs-plugin-audit-not-another-plugin.md",
       "slug": "wordpress-site-needs-plugin-audit-not-another-plugin",
       "title": "9 signs your WordPress site needs a plugin audit, not another plugin",

@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] Laravel multi-tenancy: single database, schema-per-tenant, or database-per-tenant — decision guide — Laravel — founders
 - [ ] Code review comments that make a team faster instead of slower — career/leadership — Career — hiring managers
 - [ ] React admin dashboards: TanStack Query, optimistic updates and rollbacks — deep-dive — React & Frontend — engineers
 - [ ] Shopify app vs WooCommerce plugin vs SureCart: picking a platform to build commerce on — decision guide — WooCommerce — founders
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] Writing a technical design doc a product manager can actually read → /article/technical-design-doc-a-product-manager-can-read/ (2026-11-08)
 - [x] Building an MCP server for a WordPress site, safely → /article/building-mcp-server-wordpress-site-safely/ (2026-11-09)
 - [x] 9 signs your WordPress site needs a plugin audit, not another plugin → /article/wordpress-site-needs-plugin-audit-not-another-plugin/ (2026-11-10)
+- [x] Laravel multi-tenancy: one database, schemas, or one per tenant? → /article/laravel-multi-tenancy-single-database-schema-or-database-per-tenant/ (2026-11-11)
