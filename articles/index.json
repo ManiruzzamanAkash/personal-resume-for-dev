@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "code-review-comments-that-make-a-team-faster.md",
+      "slug": "code-review-comments-that-make-a-team-faster",
+      "title": "Code review comments that make a team faster, not slower",
+      "date": "2026-11-12",
+      "category": "Career",
+      "excerpt": "Most slow code reviews are not slow because of the code. They are slow because comments are vague, unranked, and late. Here is how I write review comments so a pull request gets better and merges in one or two rounds."
+    },
+    {
       "file": "laravel-multi-tenancy-single-database-schema-or-database-per-tenant.md",
       "slug": "laravel-multi-tenancy-single-database-schema-or-database-per-tenant",
       "title": "Laravel multi-tenancy: one database, schemas, or one per tenant?",
