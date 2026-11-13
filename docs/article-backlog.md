@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] React admin dashboards: TanStack Query, optimistic updates and rollbacks — deep-dive — React & Frontend — engineers
 - [ ] Shopify app vs WooCommerce plugin vs SureCart: picking a platform to build commerce on — decision guide — WooCommerce — founders
 - [ ] Adding AI features to a SaaS without a surprise API bill — architecture teardown — AI Engineering — founders
 - [ ] WordPress multisite in 2026: when it still makes sense — decision guide — WordPress — agencies
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] 9 signs your WordPress site needs a plugin audit, not another plugin → /article/wordpress-site-needs-plugin-audit-not-another-plugin/ (2026-11-10)
 - [x] Laravel multi-tenancy: one database, schemas, or one per tenant? → /article/laravel-multi-tenancy-single-database-schema-or-database-per-tenant/ (2026-11-11)
 - [x] Code review comments that make a team faster, not slower → /article/code-review-comments-that-make-a-team-faster/ (2026-11-12)
+- [x] React optimistic updates: when to fake it and how to roll back → /article/react-admin-optimistic-updates-tanstack-query-rollbacks/ (2026-11-13)

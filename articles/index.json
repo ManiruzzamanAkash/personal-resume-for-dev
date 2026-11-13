@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "react-admin-optimistic-updates-tanstack-query-rollbacks.md",
+      "slug": "react-admin-optimistic-updates-tanstack-query-rollbacks",
+      "title": "React optimistic updates: when to fake it and how to roll back",
+      "date": "2026-11-13",
+      "category": "React & Frontend",
+      "excerpt": "Optimistic updates make an admin feel instant, until a failed request leaves the screen showing something the server never saved. Here is how I decide which actions get them in TanStack Query, and how I make every rollback safe."
+    },
+    {
       "file": "code-review-comments-that-make-a-team-faster.md",
       "slug": "code-review-comments-that-make-a-team-faster",
       "title": "Code review comments that make a team faster, not slower",
