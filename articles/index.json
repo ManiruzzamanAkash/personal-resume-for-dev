@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "adding-ai-features-saas-without-surprise-api-bill.md",
+      "slug": "adding-ai-features-saas-without-surprise-api-bill",
+      "title": "Adding AI features to a SaaS without a surprise API bill",
+      "date": "2026-11-14",
+      "category": "AI Engineering",
+      "excerpt": "AI features are cheap in a demo and expensive at scale, because every click becomes a paid API call nobody priced. Here is the architecture I use to keep model costs measured, capped per customer, and built into the plan."
+    },
+    {
       "file": "react-admin-optimistic-updates-tanstack-query-rollbacks.md",
       "slug": "react-admin-optimistic-updates-tanstack-query-rollbacks",
       "title": "React optimistic updates: when to fake it and how to roll back",

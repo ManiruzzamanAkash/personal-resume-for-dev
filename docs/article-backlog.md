@@ -14,8 +14,7 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] Shopify app vs WooCommerce plugin vs SureCart: picking a platform to build commerce on — decision guide — WooCommerce — founders
-- [ ] Adding AI features to a SaaS without a surprise API bill — architecture teardown — AI Engineering — founders
+- [ ] Shopify app vs WooCommerce plugin vs SureCart: picking a platform to build commerce on — decision guide — WooCommerce — founders (overlaps /article/woocommerce-shopify-surecart-ai-era-custom-builds/; reframe around building and selling an app/plugin before writing)
 - [ ] WordPress multisite in 2026: when it still makes sense — decision guide — WordPress — agencies
 - [ ] Estimating engineering work honestly: ranges, risks and what I tell clients — career/leadership — Career — founders
 - [ ] Laravel Octane in production: what changes and what breaks — deep-dive — Laravel — engineers
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] Laravel multi-tenancy: one database, schemas, or one per tenant? → /article/laravel-multi-tenancy-single-database-schema-or-database-per-tenant/ (2026-11-11)
 - [x] Code review comments that make a team faster, not slower → /article/code-review-comments-that-make-a-team-faster/ (2026-11-12)
 - [x] React optimistic updates: when to fake it and how to roll back → /article/react-admin-optimistic-updates-tanstack-query-rollbacks/ (2026-11-13)
+- [x] Adding AI features to a SaaS without a surprise API bill → /article/adding-ai-features-saas-without-surprise-api-bill/ (2026-11-14)
