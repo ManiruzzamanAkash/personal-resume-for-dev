@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "shopify-app-vs-woocommerce-plugin-where-to-build-commerce-product.md",
+      "slug": "shopify-app-vs-woocommerce-plugin-where-to-build-commerce-product",
+      "title": "Shopify app or WooCommerce plugin: where to build a commerce product",
+      "date": "2026-11-15",
+      "category": "WooCommerce",
+      "excerpt": "Building a commerce product to sell to merchants means choosing who controls your billing, your updates and your support load. Here is how I decide between a Shopify app, a WooCommerce plugin, and selling it yourself with SureCart."
+    },
+    {
       "file": "adding-ai-features-saas-without-surprise-api-bill.md",
       "slug": "adding-ai-features-saas-without-surprise-api-bill",
       "title": "Adding AI features to a SaaS without a surprise API bill",
