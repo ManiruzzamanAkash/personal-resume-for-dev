@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "wordpress-multisite-when-it-still-makes-sense.md",
+      "slug": "wordpress-multisite-when-it-still-makes-sense",
+      "title": "WordPress multisite in 2026: when it still makes sense",
+      "date": "2026-11-16",
+      "category": "WordPress",
+      "excerpt": "Multisite turns many WordPress sites into one install with one codebase, one database and one point of failure. Here is how I decide whether a network will save an agency time or quietly lock every site into the same problems."
+    },
+    {
       "file": "shopify-app-vs-woocommerce-plugin-where-to-build-commerce-product.md",
       "slug": "shopify-app-vs-woocommerce-plugin-where-to-build-commerce-product",
       "title": "Shopify app or WooCommerce plugin: where to build a commerce product",
