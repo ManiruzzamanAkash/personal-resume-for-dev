@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "estimating-engineering-work-honestly-ranges-and-risks.md",
+      "slug": "estimating-engineering-work-honestly-ranges-and-risks",
+      "title": "Estimating engineering work honestly: ranges, risks and what I tell clients",
+      "date": "2026-11-17",
+      "category": "Career",
+      "excerpt": "A single-number estimate is a promise made before anyone knows the work. Here is how I give ranges, name the risks that drive them, and narrow the estimate as the project teaches us more, so founders can plan without being surprised."
+    },
+    {
       "file": "wordpress-multisite-when-it-still-makes-sense.md",
       "slug": "wordpress-multisite-when-it-still-makes-sense",
       "title": "WordPress multisite in 2026: when it still makes sense",

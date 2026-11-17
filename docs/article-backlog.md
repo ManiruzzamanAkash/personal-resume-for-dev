@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] Estimating engineering work honestly: ranges, risks and what I tell clients — career/leadership — Career — founders
 - [ ] Laravel Octane in production: what changes and what breaks — deep-dive — Laravel — engineers
 - [ ] Subscription billing edge cases: proration, failed renewals, dunning — deep-dive — WooCommerce — engineers
 - [ ] The first week on a legacy WordPress codebase: my audit routine — architecture teardown — WordPress — agencies
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] Adding AI features to a SaaS without a surprise API bill → /article/adding-ai-features-saas-without-surprise-api-bill/ (2026-11-14)
 - [x] Shopify app or WooCommerce plugin: where to build a commerce product → /article/shopify-app-vs-woocommerce-plugin-where-to-build-commerce-product/ (2026-11-15)
 - [x] WordPress multisite in 2026: when it still makes sense → /article/wordpress-multisite-when-it-still-makes-sense/ (2026-11-16)
+- [x] Estimating engineering work honestly: ranges, risks and what I tell clients → /article/estimating-engineering-work-honestly-ranges-and-risks/ (2026-11-17)
