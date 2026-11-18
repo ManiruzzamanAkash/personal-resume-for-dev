@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "laravel-octane-production-what-changes-what-breaks.md",
+      "slug": "laravel-octane-production-what-changes-what-breaks",
+      "title": "Laravel Octane in production: what changes and what breaks",
+      "date": "2026-11-18",
+      "category": "Laravel",
+      "excerpt": "Octane makes Laravel faster by keeping the app in memory between requests, which also means state from one user can leak into the next. Here is what changes in production, what tends to break, and how I roll it out safely."
+    },
+    {
       "file": "estimating-engineering-work-honestly-ranges-and-risks.md",
       "slug": "estimating-engineering-work-honestly-ranges-and-risks",
       "title": "Estimating engineering work honestly: ranges, risks and what I tell clients",
