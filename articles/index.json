@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "subscription-billing-edge-cases-proration-failed-renewals-dunning.md",
+      "slug": "subscription-billing-edge-cases-proration-failed-renewals-dunning",
+      "title": "Subscription billing edge cases: proration, failed renewals, dunning",
+      "date": "2026-11-19",
+      "category": "WooCommerce",
+      "excerpt": "Subscriptions rarely fail on the happy path. They fail on plan switches, declined renewals and the emails in between. Here is how I design proration, retries and dunning so recurring revenue doesn't leak or double-charge."
+    },
+    {
       "file": "laravel-octane-production-what-changes-what-breaks.md",
       "slug": "laravel-octane-production-what-changes-what-breaks",
       "title": "Laravel Octane in production: what changes and what breaks",
