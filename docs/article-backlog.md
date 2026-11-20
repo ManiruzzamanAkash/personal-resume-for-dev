@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] The first week on a legacy WordPress codebase: my audit routine — architecture teardown — WordPress — agencies
 - [ ] Kubernetes for a small PHP team: when a single VPS is the better call — decision guide — DevOps & Cloud — founders
 - [ ] Typed REST clients in TypeScript for WordPress and Laravel APIs — deep-dive — React & Frontend — engineers
 - [ ] RAG over your own docs: a small, honest architecture — architecture teardown — AI Engineering — engineers
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] Estimating engineering work honestly: ranges, risks and what I tell clients → /article/estimating-engineering-work-honestly-ranges-and-risks/ (2026-11-17)
 - [x] Laravel Octane in production: what changes and what breaks → /article/laravel-octane-production-what-changes-what-breaks/ (2026-11-18)
 - [x] Subscription billing edge cases: proration, failed renewals, dunning → /article/subscription-billing-edge-cases-proration-failed-renewals-dunning/ (2026-11-19)
+- [x] The first week on a legacy WordPress codebase: my audit routine → /article/first-week-legacy-wordpress-codebase-audit-routine/ (2026-11-20)

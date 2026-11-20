@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "first-week-legacy-wordpress-codebase-audit-routine.md",
+      "slug": "first-week-legacy-wordpress-codebase-audit-routine",
+      "title": "The first week on a legacy WordPress codebase: my audit routine",
+      "date": "2026-11-20",
+      "category": "WordPress",
+      "excerpt": "Inheriting a WordPress site nobody fully understands is risky in the first week, because every change is a guess. Here is the audit routine I run before touching code, so the first fix is safe and the plan is based on facts."
+    },
+    {
       "file": "subscription-billing-edge-cases-proration-failed-renewals-dunning.md",
       "slug": "subscription-billing-edge-cases-proration-failed-renewals-dunning",
       "title": "Subscription billing edge cases: proration, failed renewals, dunning",
