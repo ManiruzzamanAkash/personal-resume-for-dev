@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "kubernetes-small-php-team-when-single-vps-is-better.md",
+      "slug": "kubernetes-small-php-team-when-single-vps-is-better",
+      "title": "Kubernetes for a small PHP team: when a single VPS is the better call",
+      "date": "2026-11-21",
+      "category": "DevOps & Cloud",
+      "excerpt": "Kubernetes solves real problems, but a three-person PHP team often buys them a year early. Here is how I decide between one well-run VPS, a few boxes, and a cluster, and what has to be true before Kubernetes pays for itself."
+    },
+    {
       "file": "first-week-legacy-wordpress-codebase-audit-routine.md",
       "slug": "first-week-legacy-wordpress-codebase-audit-routine",
       "title": "The first week on a legacy WordPress codebase: my audit routine",

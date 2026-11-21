@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] Kubernetes for a small PHP team: when a single VPS is the better call — decision guide — DevOps & Cloud — founders
 - [ ] Typed REST clients in TypeScript for WordPress and Laravel APIs — deep-dive — React & Frontend — engineers
 - [ ] RAG over your own docs: a small, honest architecture — architecture teardown — AI Engineering — engineers
 - [ ] Migrating a large WooCommerce store without losing orders — problem audit — WooCommerce — store owners
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] Laravel Octane in production: what changes and what breaks → /article/laravel-octane-production-what-changes-what-breaks/ (2026-11-18)
 - [x] Subscription billing edge cases: proration, failed renewals, dunning → /article/subscription-billing-edge-cases-proration-failed-renewals-dunning/ (2026-11-19)
 - [x] The first week on a legacy WordPress codebase: my audit routine → /article/first-week-legacy-wordpress-codebase-audit-routine/ (2026-11-20)
+- [x] Kubernetes for a small PHP team: when a single VPS is the better call → /article/kubernetes-small-php-team-when-single-vps-is-better/ (2026-11-21)
