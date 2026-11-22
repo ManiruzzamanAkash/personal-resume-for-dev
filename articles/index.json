@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "typed-rest-clients-typescript-wordpress-laravel-apis.md",
+      "slug": "typed-rest-clients-typescript-wordpress-laravel-apis",
+      "title": "Typed REST clients in TypeScript for WordPress and Laravel APIs",
+      "date": "2026-11-22",
+      "category": "React & Frontend",
+      "excerpt": "When a React app talks to a WordPress or Laravel API through scattered fetch calls, a renamed field breaks screens silently. Here is how I build one typed client per API so drift fails loudly in development, not quietly in production."
+    },
+    {
       "file": "kubernetes-small-php-team-when-single-vps-is-better.md",
       "slug": "kubernetes-small-php-team-when-single-vps-is-better",
       "title": "Kubernetes for a small PHP team: when a single VPS is the better call",
