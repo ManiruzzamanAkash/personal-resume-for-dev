@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "rag-over-your-own-docs-small-honest-architecture.md",
+      "slug": "rag-over-your-own-docs-small-honest-architecture",
+      "title": "RAG over your own docs: a small, honest architecture",
+      "date": "2026-11-23",
+      "category": "AI Engineering",
+      "excerpt": "Most chat-with-your-docs projects fail on retrieval, not on the model: the right paragraph never reaches the prompt. Here is the small RAG architecture I build, with Postgres, citations, a refusal path and an eval set."
+    },
+    {
       "file": "typed-rest-clients-typescript-wordpress-laravel-apis.md",
       "slug": "typed-rest-clients-typescript-wordpress-laravel-apis",
       "title": "Typed REST clients in TypeScript for WordPress and Laravel APIs",

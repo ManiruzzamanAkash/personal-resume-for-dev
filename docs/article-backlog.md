@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] RAG over your own docs: a small, honest architecture — architecture teardown — AI Engineering — engineers
 - [ ] Migrating a large WooCommerce store without losing orders — problem audit — WooCommerce — store owners
 - [ ] Feature flags in WordPress plugins and Laravel apps without a vendor — deep-dive — Architecture — engineers
 - [ ] What a senior engineer actually owns (beyond writing code) — career/leadership — Career — hiring managers
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] The first week on a legacy WordPress codebase: my audit routine → /article/first-week-legacy-wordpress-codebase-audit-routine/ (2026-11-20)
 - [x] Kubernetes for a small PHP team: when a single VPS is the better call → /article/kubernetes-small-php-team-when-single-vps-is-better/ (2026-11-21)
 - [x] Typed REST clients in TypeScript for WordPress and Laravel APIs → /article/typed-rest-clients-typescript-wordpress-laravel-apis/ (2026-11-22)
+- [x] RAG over your own docs: a small, honest architecture → /article/rag-over-your-own-docs-small-honest-architecture/ (2026-11-23)
