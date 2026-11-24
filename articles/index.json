@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "migrating-large-woocommerce-store-without-losing-orders.md",
+      "slug": "migrating-large-woocommerce-store-without-losing-orders",
+      "title": "Migrating a large WooCommerce store without losing orders",
+      "date": "2026-11-24",
+      "category": "WooCommerce",
+      "excerpt": "Store migrations rarely lose the catalog. They lose the orders and payments that land while the old and new servers both look live. Here is the cutover plan and reconciliation I use so every order ends up in one place."
+    },
+    {
       "file": "rag-over-your-own-docs-small-honest-architecture.md",
       "slug": "rag-over-your-own-docs-small-honest-architecture",
       "title": "RAG over your own docs: a small, honest architecture",
