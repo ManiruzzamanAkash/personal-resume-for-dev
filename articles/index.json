@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "feature-flags-wordpress-plugins-laravel-apps-without-vendor.md",
+      "slug": "feature-flags-wordpress-plugins-laravel-apps-without-vendor",
+      "title": "Feature flags in WordPress plugins and Laravel apps without a vendor",
+      "date": "2026-11-25",
+      "category": "Architecture",
+      "excerpt": "Feature flags let you ship code before you ship the feature, but most teams either skip them or buy a platform they barely use. Here is how I build small, honest flags in WordPress plugins and Laravel apps, and how I keep them from rotting."
+    },
+    {
       "file": "migrating-large-woocommerce-store-without-losing-orders.md",
       "slug": "migrating-large-woocommerce-store-without-losing-orders",
       "title": "Migrating a large WooCommerce store without losing orders",
