@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] What a senior engineer actually owns (beyond writing code) — career/leadership — Career — hiring managers
 - [ ] Core Web Vitals on WordPress: the fixes that matter for sales — problem audit — WordPress — store owners
 - [ ] Event-driven Laravel: events, listeners and when they hurt — deep-dive — Laravel — engineers
 - [ ] Open-sourcing Lara Dashboard: decisions behind a Laravel admin CMS — architecture teardown — Laravel — hiring managers
@@ -47,3 +46,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] RAG over your own docs: a small, honest architecture → /article/rag-over-your-own-docs-small-honest-architecture/ (2026-11-23)
 - [x] Migrating a large WooCommerce store without losing orders → /article/migrating-large-woocommerce-store-without-losing-orders/ (2026-11-24)
 - [x] Feature flags in WordPress plugins and Laravel apps without a vendor → /article/feature-flags-wordpress-plugins-laravel-apps-without-vendor/ (2026-11-25)
+- [x] What a senior engineer actually owns, beyond writing code → /article/what-a-senior-engineer-owns-beyond-writing-code/ (2026-11-26)

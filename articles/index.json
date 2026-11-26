@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "what-a-senior-engineer-owns-beyond-writing-code.md",
+      "slug": "what-a-senior-engineer-owns-beyond-writing-code",
+      "title": "What a senior engineer actually owns, beyond writing code",
+      "date": "2026-11-26",
+      "category": "Career",
+      "excerpt": "Senior titles are often handed out for coding speed, then teams wonder why nothing gets finished. Here is what I think a senior engineer actually owns: outcomes, production, compatibility, risk, and the people around them."
+    },
+    {
       "file": "feature-flags-wordpress-plugins-laravel-apps-without-vendor.md",
       "slug": "feature-flags-wordpress-plugins-laravel-apps-without-vendor",
       "title": "Feature flags in WordPress plugins and Laravel apps without a vendor",
