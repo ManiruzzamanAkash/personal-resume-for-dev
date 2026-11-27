@@ -14,11 +14,15 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] Core Web Vitals on WordPress: the fixes that matter for sales — problem audit — WordPress — store owners
 - [ ] Event-driven Laravel: events, listeners and when they hurt — deep-dive — Laravel — engineers
 - [ ] Open-sourcing Lara Dashboard: decisions behind a Laravel admin CMS — architecture teardown — Laravel — hiring managers
 - [ ] AWS cost review for a small Laravel/WordPress setup — problem audit — DevOps & Cloud — founders
 - [ ] Testing WordPress plugins: what I unit test, integration test, and skip — deep-dive — WordPress — engineers
+- [ ] WooCommerce product search that scales past the default query — deep-dive — WooCommerce — engineers
+- [ ] Rescuing a stalled software project: the first 30 days — career / leadership — Career — hiring managers
+- [ ] Building vs buying an LMS or membership plugin for a WordPress business — decision guide — WordPress — founders
+- [ ] Background jobs in a React admin: progress, retries and honest UI states — deep-dive — React & Frontend — engineers
+- [ ] Guardrails for AI agents that can write to production data — architecture teardown — AI Engineering — hiring managers
 
 ## Done
 
@@ -47,3 +51,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] Migrating a large WooCommerce store without losing orders → /article/migrating-large-woocommerce-store-without-losing-orders/ (2026-11-24)
 - [x] Feature flags in WordPress plugins and Laravel apps without a vendor → /article/feature-flags-wordpress-plugins-laravel-apps-without-vendor/ (2026-11-25)
 - [x] What a senior engineer actually owns, beyond writing code → /article/what-a-senior-engineer-owns-beyond-writing-code/ (2026-11-26)
+- [x] Core Web Vitals on WordPress: the fixes that matter for sales → /article/core-web-vitals-wordpress-fixes-that-matter-for-sales/ (2026-11-27)

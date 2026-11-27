@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "core-web-vitals-wordpress-fixes-that-matter-for-sales.md",
+      "slug": "core-web-vitals-wordpress-fixes-that-matter-for-sales",
+      "title": "Core Web Vitals on WordPress: the fixes that matter for sales",
+      "date": "2026-11-27",
+      "category": "WordPress",
+      "excerpt": "Most WordPress speed work chases a Lighthouse score while real shoppers still wait on product pages. Here is how I audit Core Web Vitals from field data, and the handful of fixes that move the pages where money is made."
+    },
+    {
       "file": "what-a-senior-engineer-owns-beyond-writing-code.md",
       "slug": "what-a-senior-engineer-owns-beyond-writing-code",
       "title": "What a senior engineer actually owns, beyond writing code",
