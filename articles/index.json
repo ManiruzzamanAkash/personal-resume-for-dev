@@ -2,6 +2,14 @@
   "_comment": "Source of truth for the blog index. Each entry is { file, slug, title, date, category, excerpt } so the SEO engine and sitemap can reflect content without parsing every .md. Plain-string entries are still accepted for back-compat.",
   "articles": [
     {
+      "file": "event-driven-laravel-events-listeners-when-they-hurt.md",
+      "slug": "event-driven-laravel-events-listeners-when-they-hurt",
+      "title": "Event-driven Laravel: events, listeners and when they hurt",
+      "date": "2026-11-28",
+      "category": "Laravel",
+      "excerpt": "Laravel events make side effects easy to add and hard to follow: emails sent for rolled-back orders, listeners nobody can find, tests that pass for the wrong reason. Here is how I use events, and where I refuse to."
+    },
+    {
       "file": "core-web-vitals-wordpress-fixes-that-matter-for-sales.md",
       "slug": "core-web-vitals-wordpress-fixes-that-matter-for-sales",
       "title": "Core Web Vitals on WordPress: the fixes that matter for sales",

@@ -14,7 +14,6 @@ Format: `- [ ] Working title — format — category — main reader`
 
 ## Queue
 
-- [ ] Event-driven Laravel: events, listeners and when they hurt — deep-dive — Laravel — engineers
 - [ ] Open-sourcing Lara Dashboard: decisions behind a Laravel admin CMS — architecture teardown — Laravel — hiring managers
 - [ ] AWS cost review for a small Laravel/WordPress setup — problem audit — DevOps & Cloud — founders
 - [ ] Testing WordPress plugins: what I unit test, integration test, and skip — deep-dive — WordPress — engineers
@@ -52,3 +51,4 @@ Format: `- [ ] Working title — format — category — main reader`
 - [x] Feature flags in WordPress plugins and Laravel apps without a vendor → /article/feature-flags-wordpress-plugins-laravel-apps-without-vendor/ (2026-11-25)
 - [x] What a senior engineer actually owns, beyond writing code → /article/what-a-senior-engineer-owns-beyond-writing-code/ (2026-11-26)
 - [x] Core Web Vitals on WordPress: the fixes that matter for sales → /article/core-web-vitals-wordpress-fixes-that-matter-for-sales/ (2026-11-27)
+- [x] Event-driven Laravel: events, listeners and when they hurt → /article/event-driven-laravel-events-listeners-when-they-hurt/ (2026-11-28)
